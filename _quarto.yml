@@ -1,85 +1,79 @@
 project:
-
   type: website
   output-dir: docs
 
 website:
-
   title: "Data In The Wild"
-  favicon: images/bdsc-logo-hex.png
   search: false
-  
-  navbar: 
+
+  navbar:
     logo: images/bdsc-logo-hex.png
-        
+
   sidebar:
-      logo: images/bdsc-logo-hex.png
-      background: $blanched-almond
-      align: center 
-      style: docked
-      collapse-level: 1
-      
-      contents: 
-        - section: "Introduction"
-          contents: 
-            - index.qmd
-            - structure.qmd
-            - text: "Contact Us"
-              href: https://github.com/BiodiversityDataScienceCorp
-            
-        - section: "Module 1"
-          contents: 
-            - modules/module_1/module1_1.qmd
-            - modules/module_1/module1_2.qmd
-            - modules/module_1/module1_3.qmd
-            
-        - section: "Module 2"
-          contents: 
-            - modules/module_2/module2_1.qmd
-            - modules/module_2/module2_2.qmd
-            - modules/module_2/module2_3.qmd
-            - modules/module_2/module2_4.qmd
-            - modules/module_2/module2_5.qmd
-            - modules/module_2/module2_6.qmd
-            - modules/module_2/module2_7.qmd
-            
-        - section: "Module 3"
-          contents: 
-            - modules/module_3/module3_1.qmd
-            - modules/module_3/module3_2.qmd
-            - modules/module_3/module3_3.qmd
-            - modules/module_3/module3_4.qmd
-            - modules/module_3/module3_5.qmd
-            
-        - section: "Module 4"
-          contents: 
-            - modules/module_4/module4_1.qmd
-            - modules/module_4/module4_2.qmd
-            - modules/module_4/module4_3.qmd
-            
-        - section: "Resources"
-          contents: 
-            - resources.qmd
-        
-  page-footer: 
+    logo: images/bdsc-logo-hex.png
+    background: $blanched-almond
+    align: center
+    style: docked
+    collapse-level: 1
+
+    contents:
+      - section: "Introduction"
+        contents:
+          - index.qmd
+          - structure.qmd
+          - text: "Contact Us"
+            href: https://github.com/BiodiversityDataScienceCorp
+
+      - section: "Module 1"
+        contents:
+          - modules/module_1/module1_1.qmd
+          - modules/module_1/module1_2.qmd
+          - modules/module_1/module1_3.qmd
+
+      - section: "Module 2"
+        contents:
+          - modules/module_2/module2_1.qmd
+          - modules/module_2/module2_2.qmd
+          - modules/module_2/module2_3.qmd
+          - modules/module_2/module2_4.qmd
+          - modules/module_2/module2_5.qmd
+          - modules/module_2/module2_6.qmd
+          - modules/module_2/module2_7.qmd
+
+      - section: "Module 3"
+        contents:
+          - modules/module_3/module3_1.qmd
+          - modules/module_3/module3_2.qmd
+          - modules/module_3/module3_3.qmd
+          - modules/module_3/module3_4.qmd
+          - modules/module_3/module3_5.qmd
+
+      - section: "Module 4"
+        contents:
+          - modules/module_4/module4_1.qmd
+          - modules/module_4/module4_2.qmd
+          - modules/module_4/module4_3.qmd
+
+      - section: "Resources"
+        contents:
+          - resources.qmd
+
+  page-footer:
     background: $dark-blue
     foreground: $blanched-almond
-    left: "Copyright 2024, University of Arizona | Last modified: 12 June 2024"
-    right: 
+    left: "2026, University of Arizona & Lewis & Clark College"
+    right:
       - href: https://quarto.org/
         text: "Made with Quarto"
       - href: https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website
         icon: github
 
 format:
-
   html:
     theme:
       - styles.scss
     mainfont: "Raleway"
     toc: true
     page-layout: full
-  pdf: default
 
 editor: visual
-
