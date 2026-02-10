@@ -8,50 +8,38 @@ format:
 
 ![](images/penguins.jpg)
 
-Welcome! This course introduces students in the life sciences to data science through the application of quantitative reasoning and the R programming language to "real-world" problems. Below, you will find the overall narrative and material that will be covered. There are four modules that guide the student from their first steps on the Land of the Penguins, to building new roads for access to fishing sites. Each module will lead them through basic programming, data visualization, statistics, machine learning, and interpretation of quantitative concepts.
+*Data in the Wild* introduces students to data science through the R programming language, applied to real problems in ecology and conservation. The course is built around a narrative, a mission to establish a sustainable colony in Antarctica, in which each module presents a new crisis for students to investigate using data. No prior programming experience is required.
 
-## The Narrative
+The course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and Ellen Bledsoe with support from the NSF Harnessing the Data Revolution program, and is taught at the University of Arizona as part of the general education curriculum.
 
-### **⊳** Module 1: *Mission Antarctica!*
+## **The Narrative**
 
-A new effort to establish a permanent, sustainable colony in Antarctica is being launched. Students are introduced to the field of data science, the application (RStudio, RMarkdown, Jupyter Notebooks), and programming language (R, Python) used in the course.
+### **Module 1: Mission Antarctica!**
 
-### **⊳** Module 2: *Good Food Gone Bad*
+The team has arrived in Antarctica and needs to get to work. Students are introduced to RStudio, R, and RMarkdown by helping the team get organized and begin collecting data. By the end of this module, students can navigate RStudio, write and run basic R code, work with data frames, and produce simple visualizations.
 
-There is a food poisoning outbreak among team members. Students use data visualization to determine where the problem lies (fish, not plants) and simulations to determine the root of the problem (fish tank density, not fish tank temperature).
+### **Module 2: Good Food Gone Bad**
 
-### **⊳** Module 3: *Follow That Seal*
+A wave of food poisoning has swept through the team. Doctors have ruled out a viral infection, something in the food supply is to blame. Students use descriptive statistics, data visualization with `ggplot2`, and simulation to identify which food source is responsible and what conditions in the aquaculture system are driving the problem.
 
-The fish tanks need to be restocked, but we want to avoid fishing in places with high leopard seal density, so we track the seals. However, the radio collars on leopard seals are failing and there is a deadly conflict between fish collectors and seals. The collars come from two different manufacturers, but we need to tell how the collars are failing (days to recharge, not signal distance) and how to classify collars of unknown provenance.
+### **Module 3: Follow That Seal**
 
-### **⊳** Module 4: *March of the Penguins*
+Wild-caught fish are needed to supplement the food supply, but leopard seals are putting fishing teams at risk. The team has been tracking seals with radio collars from two manufacturers, but collars are failing earlier than expected. Students determine which manufacturer is responsible (battery life, not signal distance) using t-tests and ANOVA, then use joins and binds to combine datasets from multiple sources, and finally apply a K-Nearest Neighbors classification algorithm to identify the maker of a batch of unlabeled collars. Skills covered include hypothesis testing, multi-group comparison, data joining, and an introduction to machine learning.
 
-A new road is needed to access fishing sites with low leopard seal density. There are several possible routes, but we want to avoid crossing through Gentoo penguin nesting grounds. Students will build models to determine predictors of nesting success, first with bootstrapping for confidence intervals, then with linear regression.
+### **Module 4: March of the Penguins**
 
-## How to Navigate this Site
+Fishing bays have been identified, but a road is needed to reach them. The team wants to avoid destroying habitat for Antarctica hairgrass (*Deschampsia antarctica*), one of only two flowering plants on the continent, and avoid disturbing Gentoo penguin nesting sites. Students build linear and multiple regression models to identify environmental predictors of hairgrass density and penguin nesting success, then write their own functions to automate the analysis across candidate road routes. Skills covered include simple and multiple linear regression, model interpretation, and writing user-defined functions in R.
 
-Under Course Materials, you will find lessons taught in WFSC 223 at the University of Arizona as well as links download lectures, assignments, discussions, and other assets used for instruction.
+## **Learning Objectives**
 
-## Overall Learning Objectives
+By the end of the course, students will be able to:
 
-By the end of the semester, you will be able to...
+1.  Apply computational methods for managing, analyzing, visualizing, and sharing data in the context of real-world natural resource scenarios.
+2.  Infer meaning and insight from data and communicate findings in written, visual, and verbal form to multiple audiences.
+3.  Think critically across disciplines, consider multiple perspectives, and solve problems using data-informed approaches.
 
-1.  Define, differentiate, and explain the nature and application of computational methods
+## **For Instructors**
 
-    for acquiring, managing, analyzing, visualizing, and sharing data as it relates to real-
+Course materials, including student and instructor versions of all lessons, datasets, and assignments, are openly available and designed to be adaptable for other institutions and programming languages. R is used throughout, but the course structure is transferable to Python or other environments.
 
-    world natural resource scenarios.
-
-2.  Associate, examine, and compare how to infer meaning and insight from data through
-
-    written, visual, and verbal communication to multiple audiences.
-
-3.  Summarize, implement, and appraise multiple perspectives and make meaningful
-
-    connections across disciplines and social positions, think conceptually and critically, and
-
-    solve problems with data informed approaches.
-
-## Footnotes (For Instructors)
-
-This course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and Ellen Bledsoe. This was taught in pilot form at the University of Arizona in Spring 2020 as *Settlers of Antarctica*, and it has undergone multiple revisions to better communicate and optimize the material to both students and instructors over the years. At the end of the day, with the help of funding from the NSF's Harnessing the Data Revolution, the material is designed to be adaptable to other disciplines and serve as a template for your own courses. R was used as the primary programming language here, but the course is modifiable to other languages such as Python.
+All materials are available on the [course site](structure.qmd) and in the [GitHub repository](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA).

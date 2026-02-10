@@ -24,6 +24,8 @@ website:
           - text: "Contact Us"
             href: https://github.com/BiodiversityDataScienceCorp
 
+      - text: "---"
+
       - section: "Module 1"
         contents:
           - modules/module_1/module1_1.qmd
@@ -53,6 +55,8 @@ website:
           - modules/module_4/module4_1.qmd
           - modules/module_4/module4_2.qmd
           - modules/module_4/module4_3.qmd
+
+      - text: "---"
 
       - section: "Resources"
         contents:

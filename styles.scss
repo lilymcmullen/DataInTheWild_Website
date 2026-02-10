@@ -1,11 +1,6 @@
 /*-- scss:defaults --*/
 
 // Fonts
-
-// Raleway
-// Righteous
-// Vollkorn
-
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Righteous&family=Vollkorn:ital,wght@0,400..900;1,400..900&display=swap');
 
 // Colors
@@ -22,17 +17,15 @@ $saddlebrown: #8B4513;
 $slate-grey: #C6E2FF;
 
 // Base document colors
-$navbar-bg: $dark-blue; // navbar (bar at top of page)
-$navbar-fg: $blanched-almond; // navbar foreground (text, etc.)
-$navbar-hl: $slate-grey; // when you hover over navbar stuff
+$navbar-bg: $dark-blue;
+$navbar-fg: $blanched-almond;
+$navbar-hl: $slate-grey;
 $page-footer-hl: $slate-grey;
-$link-color: $magenta; // when you hover over buttons
-
-
+$link-color: $magenta;
 
 /*-- scss:rules --*/
 
-// Title, specifically (a.k.a. h1)
+// Title
 .title {
   font-family: "Vollkorn";
   font-size: 45px;
@@ -49,9 +42,16 @@ h1, h2, h3 {
   color: $darkest-blue;
 }
 
-// Navbar
+// Navbar for mobile only
 .navbar {
   font-family: "Righteous";
+}
+
+// Hide navbar logo on desktop since sidebar has the logo
+@media (min-width: 992px) {
+  .navbar-brand img {
+    display: none;
+  }
 }
 
 // Sidebar
@@ -89,10 +89,26 @@ body {
   font-family: "Raleway";
   color: $dark-blue;
   font-weight: 500;
-  
 }
 
-// Buttons (e.g. home buttons for email, Github, and Linkedin)
-div.quarto-about-trestles .about-entity .about-link {
+// Links
+a {
   color: $magenta;
+  text-decoration: none;
+}
+
+a:hover {
+  color: darken($magenta, 10%);
+  text-decoration: underline;
+}
+
+// Mobile
+@media (max-width: 768px) {
+  .title {
+    font-size: 32px;
+  }
+
+  body {
+    font-size: 14px;
+  }
 }
