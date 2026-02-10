@@ -32,11 +32,9 @@ The course website contains all lesson pages, module narratives, and links to do
 
 ### GitHub
 
-All source files including student and instructor versions of lessons (.Rmd), datasets (.csv/.zip), and assignments are available in the course repository:
+All source files are available in the course repository:
 
 [https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA)
-
-Instructor versions of lessons are also downloadable as PDFs directly from the website. Navigate to any lesson page and find the download link at the bottom of the right-hand table of contents.
 
 ## Building the Website Locally
 
