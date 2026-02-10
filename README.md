@@ -10,16 +10,16 @@ The course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and El
 
 ## Course Modules
 
-**Module 1 — Mission Antarctica!**
+**Module 1 - Mission Antarctica!**
 Introduction to data science, RStudio, RMarkdown, and the R programming language.
 
-**Module 2 — Good Food Gone Bad**
+**Module 2 - Good Food Gone Bad**
 Data visualization and simulation to investigate a food poisoning outbreak among team members.
 
-**Module 3 — Follow That Seal**
+**Module 3 - Follow That Seal**
 Classification and machine learning to identify failing radio collars on leopard seals.
 
-**Module 4 — March of the Penguins**
+**Module 4 - March of the Penguins**
 Regression and bootstrapping to model penguin nesting success and plan a new road route.
 
 ## Accessing Course Materials
