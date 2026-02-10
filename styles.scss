@@ -56,8 +56,32 @@ h1, h2, h3 {
 
 // Sidebar
 .sidebar {
-  font-family: "Raleway";
-  font-weight: 600;
+  font-family: "Righteous";
+  font-size: 1rem;
+}
+
+.sidebar-item .sidebar-item-text {
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+  letter-spacing: 0.03em;
+}
+
+.sidebar-item-container .active {
+  color: $magenta;
+  font-weight: 700;
+}
+
+.sidebar nav.sidebar-nav {
+  padding-top: 1em;
+}
+
+// Sidebar logo
+.sidebar-logo {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  display: block;
+  margin: 1em auto;
 }
 
 // Body
