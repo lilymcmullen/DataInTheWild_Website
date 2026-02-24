@@ -39,8 +39,6 @@ website:
           - modules/module_2/module2_3.qmd
           - modules/module_2/module2_4.qmd
           - modules/module_2/module2_5.qmd
-          - modules/module_2/module2_6.qmd
-          - modules/module_2/module2_7.qmd
 
       - section: "Module 3"
         contents:
@@ -49,6 +47,7 @@ website:
           - modules/module_3/module3_3.qmd
           - modules/module_3/module3_4.qmd
           - modules/module_3/module3_5.qmd
+          - modules/module_3/module3_6.qmd
 
       - section: "Module 4"
         contents:
@@ -79,5 +78,8 @@ format:
     mainfont: "Raleway"
     toc: true
     page-layout: full
+    include-in-header:
+      text: |
+        <script src="/scripts/pdf-button.js"></script>
 
 editor: visual

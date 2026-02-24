@@ -10,17 +10,13 @@ The course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and El
 
 ## Course Modules
 
-**Module 1 - Mission Antarctica!**
-Introduction to data science, RStudio, RMarkdown, and the R programming language.
+**Module 1 - Mission Antarctica!** Introduction to data science, RStudio, RMarkdown, and the R programming language.
 
-**Module 2 - Good Food Gone Bad**
-Data visualization and simulation to investigate a food poisoning outbreak among team members.
+**Module 2 - Good Food Gone Bad** Data visualization and simulation to investigate a food poisoning outbreak among team members.
 
-**Module 3 - Follow That Seal**
-Classification and machine learning to identify failing radio collars on leopard seals.
+**Module 3 - Follow That Seal** Classification and machine learning to identify failing radio collars on leopard seals.
 
-**Module 4 - March of the Penguins**
-Regression and bootstrapping to model penguin nesting success and plan a new road route.
+**Module 4 - March of the Penguins** Regression and bootstrapping to model penguin nesting success and plan a new road route.
 
 ## Accessing Course Materials
 
@@ -28,34 +24,59 @@ Regression and bootstrapping to model penguin nesting success and plan a new roa
 
 The course website contains all lesson pages, module narratives, and links to downloadable materials:
 
-[https://biodiversitydatasciencecorp.github.io/DataInTheWild_Website/](https://biodiversitydatasciencecorp.github.io/DataInTheWild_Website/)
+<https://biodiversitydatasciencecorp.github.io/DataInTheWild_Website/>
 
 ### GitHub
 
 All source files are available in the course repository:
 
-[https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA)
+<https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA>
 
 ## Building the Website Locally
 
-This site is built with [Quarto](https://quarto.org). To preview locally:
+This site is built with [Quarto](https://quarto.org) and requires R and several packages. To preview locally:
 
-```bash
+### 1.  Install required software
+
+-   Install [R](https://cran.r-project.org)
+-   Install [Quarto](https://quarto.org/docs/get-started/)
+
+### 2.  Install Packages
+
+Install the required R packages by running the following in your R console (e.g., RStudio):
+```r
+install.packages(c(
+  "tidyverse",
+  "palmerpenguins",
+  "ggplot2",
+  "rmarkdown",
+  "knitr",
+  "caret",
+  "recipes",
+  "tseries",
+  "drc"
+), dependencies = TRUE)
+```
+
+The `dependencies = TRUE` ensures all required sub-packages are installed automatically.
+
+In powershell (making sure you're in the root directory), run:
+```
+quarto install tinytex
+```
+Sometimes Quarto will display an error indicating additional packages that need to be installed.
+
+### 3. Preview the Site
+
+In powershell, run:
+```
 quarto preview
 ```
-
-To render for deployment:
-
-```bash
-quarto render
-```
-
-Output is written to the `docs/` folder, which is used for GitHub Pages deployment.
 
 ## Support
 
 This course was developed with support from the National Science Foundation under the Harnessing the Data Revolution (HDR) Data Science Corps (DSC) program. Materials are openly available and designed to be adaptable for use at other institutions.
 
----
+------------------------------------------------------------------------
 
 2026, University of Arizona & Lewis & Clark College

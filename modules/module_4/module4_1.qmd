@@ -1,305 +1,199 @@
 ---
-title: "4.1: Roads and Regressions"
+title: '4.1: Population Growth'
+author: "Jessie Golding and Ellen Bledsoe"
+format:
+  html:
+    toc: true
 ---
 
-## The Scenario
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```
 
-Last module, we tried to figure out which bays we should prioritize for fishing based on the following data sets:
+# Introduction to Population Growth
 
--   Radio collar data
--   Fish catch data
--   Leopard seal abundance data
+Let's use descriptive statistics and data visualization to better understand population dynamics.
 
-Based on our results from Assignment 2, it looks like Sulzberger Bay and Hope Bay are our best bets. Now, we need to make these bays accessible over land to transport the fish we've caught to our home base.
+### Exponential Growth
 
-**We want to build a road while minimizing our impact on the delicate antarctic ecosystem.**
+A population that shows [exponential growth]{.underline} has a growth rate that depends the average number of births (`b`) and deaths (`d`) per individual.
 
-Our first order of business is to make sure that we avoid areas with that are well-suited for [Antarctica hair grass](https://oceanwide-expeditions.com/blog/the-plants-of-antarctic) (*Deschamsia antarctica*), one of only two flowering species of plants on the continent.
+We call rates that are averages per individual in a population (rather than a total) *per capita* growth rates; *per capita* translates from Latin to "by head," meaning for individuals.
 
-![](assets/hairgrass_indiv.jpeg)
+Combined, birth and death rates can be described as the [intrinsic rate of increase]{.underline} (`r`). We calculate `r` by subtracting the number of individuals that are removed from the population (deaths) from the number of individuals that are joining the population (births): $r = b - d$.
 
-We want to know what environmental conditions are associated with hair grass. This way, we can avoid areas where these conditions are met and not destroy precious habitat for the hair grass.
+We can calculate by how many individuals the population will change in a given time period  (`N`) by multiplying the starting population size (`Ni`) by the intrinsic rate of increase (`r`) using this equation:
 
-It would take far too long to survey every bit of land between our base and our fishing spots, so we are going to build a **model** based on some samples of where hair grass is found to help us predict where else it might be.
+![](assets/clipboard-1439389577.png){width="90" fig-align="center"}
 
-### What is a model?
+### Logistic Growth
 
-A model is a way for us to take complex systems and break them down into small, more understandable bits. We can use models to help us understand the relationship between different variables. We can then use those model to make predictions based on those relationships.
+Populations that show logistic growth start out in the same way as populations with exponential growth–driven by *per capita* birth and death rates.
 
-## Data
+After a while, though, limited resources also start to come into play. When calculating the change in the size of the population (`N`), we also need to take into account the maximum number of individuals the population can sustainably support, called the [carrying capacity]{.underline}, `K`.
 
-![](assets/hairgrass_landscape.jpeg)
+We use the following equation to calculate the population size:
 
-Knowing that we would soon be building roads, we asked our botanists to collect data for us on key components of the hairgrass' environment. Since it would take too long to sample everywhere hairgrass grows, they collected data from a sample of the hairgrass population.
+![](assets/clipboard-3908560513.png){width="188" fig-align="center"}
 
-Our botanists collected data for the following variables:
+### Visualizing Growth Models
 
--   ***soil pH*****:** most plants prefer mildly acidic to neutral environments
--   ***nitrogen (N) content*****:** as percentage per 100 mL soil sample; important for plant growth and tissue building
--   ***phosphorous (P) content*****:** as percentage per 100 mL soil sample; important for plant growth and tissue building
--   ***percent rock*****:** how rocky the location is; rocks in soil impact water drainage and temperature
--   ***max windspeed (knots per hour)*****:** extreme wind can pose a challenge to plants of all types
--   ***average summer temperature (C)*****:** temperature in the growing season
--   ***penguin density*****:** the number of penguins per 5 m\^2 within 100 m of the sample quadrant for hair grass; penguin poop increases nitrogen content in the system
--   ***hairgrass density*****:** number of individual clumps (tussocks) of hairgrass per 1 m\^2
+As a reminder, this is what each type of population growth model looks like:
 
-This data is based on this article: [Parnikoza, et al. 2007](https://doi.org/10.1016/j.polar.2007.10.002)
+![](assets/exp_and_logisitc.png){width="75%" fig-align="center"}
 
-## Summarize and Visualize
+# What Population Factors Matter?
 
-As we see above, there are many environmental conditions that may be associated with hair grass density.
+We still need to figure out what fish population we will target for Antarctica.
 
-For this lesson, we are going to focus on two: *nitrogen (N) content* and *soil pH*.
+Briefly, let's consider what we think might be important for sustainability.
 
-### Set-Up
+1.  Large population
+2.  Stable population (i.e., not declining)
 
-As usual, we start with loading our packages and our data.
+## Fish Data
 
-```{r message=FALSE, warning=FALSE}
-# Load library
+Let's look at fish data from around our station in Antarctica over the past 20 years to get a better feel for how different population factors impact fish populations. These fish moved into the bay by our station when we established it, so we know the populations started at around the same time and had the same starting populations.
+
+These aren't necessarily our targets for fishing, particularly since it would be difficult and potentially disruptive to fish in the bay. Right now our goal is just to learn so we know what to look for when we are making our decision to conduct sustainable fishing.
+
+![Adapted from Figure 2 from Zheng et al. (2022)](assets/fish_data_fish.png){fig-align="center"}
+
+As always, first we load the `tidyverse` and read in the data.
+
+```{r}
 library(tidyverse)
-
-# Load data
-hairgrass <- read_csv("data/hairgrass_data.csv")
+fish_pops <- read_csv("data/fish_pops.csv")
 ```
 
-Let's take a look at the data in the data set. What does each row represent?
+### Largest Population
+
+Which population grows the biggest? Let's start by calculating some summary statistics of the data.
 
 ```{r}
-# View first few rows
-head(hairgrass)
-
-# View last few rows
-tail(hairgrass)
+max_pop <- fish_pops %>%
+  group_by(population)%>%
+  summarise(max_N = max(N))
+max_pop
 ```
 
-### Nitrogen Content
-
-Let's start by investigating any relationship between hair grass density and nitrogen content.
-
-First, we should spend a little time thinking about our variables. Spend a few minutes in small groups discussing the answer to the questions below.
-
--   Which columns are we interested in right now? **N_content, hairgrass_density**
--   Which one is the independent variable and which is the dependent variable?
-    -   independent: **N_content**
-    -   dependent: **hairgrass_density_m2**
--   Are the variables categorical or continuous? **Both are continuous**
--   Which type of data visualization should we use? **Scatterplot**
-
-Next, calculate the mean (`mean()`) and standard deviation (`sd()`) for the nitrogen content.
+It looks like Population B grows the largest by far. Let's learn more about Population B and filter out the data so we can look at it separately.
 
 ```{r}
-# Mean and standard deviation of nitrogen content
-hairgrass %>% 
-  summarise(mean_N = mean(n_content),
-            sd_N = sd(n_content))
+popB <- fish_pops %>%
+  filter(population == "B")
+popB
 ```
 
-Now that we have summarized the data, let's take a look at the data visually.
+**What type of growth is the population exhibiting?**  
+*Answer: Exponential.*
+
+**Why is there no carrying capacity in this population data set? What does this mean about the resources Population B needs?**  
+*Answer: Exponential models assume unlimited resources, so no carrying capacity (K) is included.*
+
+**What do you notice about Population A that is different than Population B?**  
+*Answer: The intrinsic growth rate (r) for Population A is negative.*
+
+**What has happened to this population?**  
+*Answer: Population A crashes and reaches zero.*
+
+**Between Population A and Population B, which is a better target population for fishing? Why?**  
+*Answer: Population B, because r > 0 and it grows quickly.*
+
+### Exponential Growth Populations
+
+It looks like populations exhibiting exponential growth might be good targets for our fishing operations because they can become very large. Let's look at the data we have on exponential growth populations a little closer.
+
+Let's filter out the exponential growth models to examine them.
 
 ```{r}
-# Scatterplot
-ggplot(hairgrass, aes(n_content, hairgrass_density_m2)) +
+exp_pops <-fish_pops %>%
+  filter(growth_type == "exponential")
+exp_pops
+```
+
+It's hard to see what's happening with only the data frame. Let's look at the exponential growth populations on the same plot:
+
+```{r}
+ggplot(exp_pops, aes(x = year, y = N, color = population)) +
   geom_point() +
-  labs(x = "N Content",
-       y = "Hairgrass Density (per m^2)") +
-  theme_bw()
+  geom_line()+
+  labs(x = "Time", y = "Abundance", color = "Population") +
+  theme_light()
 ```
 
-Do you see a pattern? What type of relationship do you see?
-
-How do we analyze this type of relationship statistically?
-
-## Statistical Analysis
-
-We are going to use two (related) statistical methods to understand the relationship between two continuous (numeric) variables:
-
--   Correlation coefficient ($r$) and R-squared ($R^2$)
--   Linear regression
-
-### Line of Best Fit
-
-To understand correlation, R-squared, and linear regression, we first need to talk about something we call the *line of best fit*.
-
-The line of best fit aims to minimize the distance between each observation (points) and the line. The distances between each observation and any line are called *residuals* (the dotted gray lines). The line of best fit is the line that has the smallest *residuals*.
-
-![](assets/lines.png) ![](assets/residuals.jpg)
-
-We can add a line of best fit to a ggplot by using the `geom_smooth()` function. We need to specify that the method we want should produce a straight line ("linear model").
+It looks like Population B is very large, but Population A stays small. It's hard to see what is happening on this plot because the scales are so different, so let's look at what is happening with Population A by filtering out the data just for that population.
 
 ```{r}
-# Scatterplot
-ggplot(hairgrass, aes(n_content, hairgrass_density_m2)) +
+popA <-fish_pops %>%
+  filter(population == "A")
+popA
+```
+
+What do you notice about Population A that is different than Population B? Intrinsic growth rate negative
+
+The intrinsic rate of increase (r) for Population A is negative. Let's see what that means for Population A and plot it by itself:
+
+```{r}
+ggplot(popA, aes(x = year, y = N)) +
   geom_point() +
-  geom_smooth(method = "lm") +
-  labs(x = "N Content",
-       y = "Hairgrass Density (per m^2)") +
-  theme_bw()
+  geom_line()+
+  labs(x = "Time", y = "Abundance") +
+  theme_light()
 ```
 
-### Correlation Coefficient
+What has happened to this population? Crashed
 
-The correlation coefficient, `r`, is a measurement of the strength of the relationship between two continuous variables.
+Even with "exponential growth", the population has crashed (gone to 0), because *r* is negative. It took approximately 7 years for this to happen.
 
-The correlation coefficient is a number between -1 and 1 that looks at the relationship between two numeric variables. If the value is negative, there is a negative relationship between the two variable; if the value is positive, there is a positive relationship.
+Between Population A and Population B, which do you think is a better target population for fishing? Population B, `r` is positive
 
-If all the points fall exactly on the line of best fit, r = 1 or -1. If there is no relationship between the variables, `r` is 0 (or something very close to it).
+**Logistic growth populations**
 
-![](assets/coefficient_correlation.jpg)
-
-The greater the magnitude (size) of the correlation coefficient, the stronger the relationship between the two variables.
-
-![](assets/correlation.jpg)
-
-It is also important to recognize that the correlation coefficient has nothing to do with the slope of the line (we use linear regression to assess that!).
-
-![](assets/steepness.jpeg)
-
-Based on the hairgrass plot we did above, do you expect the correlation coefficient to be positive or negative? For this class, we'll say that any `r` value with 0.1 of 0 means there is no relationship.
-
-To calculate the correlation coefficient, we need to go back to base R and indicate which columns we are referencing with the `$` operator. We use the `cor()` function.
+Ok, so we can't rely only on the type of growth as a way to make our fishing decisions. But, we're still curious about our populations that are limited by resources (i.e., exhibiting logistic growth).
 
 ```{r}
-# Find the correlation coefficient
-r <- cor(x = hairgrass$n_content, y = hairgrass$hairgrass_density_m2)
-
-# View result
-r
+log_pops <- fish_pops %>%
+  filter(growth_type == "logistic")
+log_pops
 ```
 
-### R-squared ($R^2$)
+Notice in this case we have carrying capacity data. Let's use some data visualizations to help us understand what that means.
 
-The R-squared ($R^2$) value is a representation of how much variation is explained by the line of best fit.
-
-When we have a dependent variable and an independent variable, the R-squared value tells us how much of the variation in the *dependent* variable is explained by the *independent* variable.
-
-Sometimes we don't have obvious dependent and independent variables, but we can still use similar language ($R^2$ tells us how much of the variation in the data is explained).
-
-To calculate R-squared, we square the correlation coefficient value we calculated above. It is always positive because we are squaring it `r` value; that means that R-squared values range from 0 to 1. The closer to 1, the more variation is explained.
+Lets look at the two logistic growth populations on the same plot:
 
 ```{r}
-# What is r^2?
-r^2
-```
-
-How would we interpret this `r^2` value?
-
-### Linear Regression Analysis
-
-A regression analysis approximates the relationship between a dependent variable and one or more independent variables. It evaluates the strength of that relationship, ultimately giving us a p-value.
-
-Since we are using linear regressions in this course, the regression model will take the form of a line: `y = mx + b`
-
--   `y` = dependent variable (y-axis)
--   `x` = independent variable (x-axis)
--   `m` = slope of the line is the slope
--   `b` = y-intercept
-
-Using our variables, what would our linear regression model look like (we don't know `m` or `b` yet...)?
-
-### Hypothesis Testing
-
-What is the null hypothesis? What is the alternative hypothesis?
-
-**Null Hypothesis** ($H_{0}$): There is *no* relationship between hair grass density and nitrogen content.
-
-**Alternative Hypothesis** ($H_{A}$): There *is* a relationship between hair grass density and nitrogen content.
-
-What do you think this means for the slopes?
-
-### Regression Analysis
-
-Thankfully, R can calculate the slope (`m`) and y-intercept (`b`) of the line of best fit for us.
-
-Let's find the equation for our line of best fit, our test statistic, and our p-value. To do this, we use a function called `lm()`: this stands for "linear model."
-
-Like with ANOVA, we will then want to use the `summary()` function to get out the values we need.
-
-```{r}
-# Linear model of hairgrass density v. nitrogen content
-nitrogen <- lm(hairgrass_density_m2 ~ n_content, hairgrass)
-
-# Summary of results
-summary(nitrogen)
-```
-
-As with our other statistical tests --- t-tests and ANOVAs --- the results give us some important values:
-
--   `b` (y-intercept): part of our line of best fit equation
-    -   The "intercept estimate", in this case 1.385, is our y-intercept in our line of best fit
--   `m` (slope): also part of our line of best fit equation
-    -   This is the estimate for our independent variable (N_content in this case)
-    -   In this model, m = 0.659
--   *F-statistic*: this is our test statistic
--   *p-value*: calculated from our regression model, used to determine significance (0.05 cut-off, as usual)
-    -   There are multiple p-values here. Focus either on the p-value for the independent variable (N_content) or the overall p-value displayed in the last line of the results summary (p \< 2.2e-16)
--   *R-squared*: this is our R-squared value that we calculated earlier
-    -   You can report either the "multiple" or the "adjusted"
-    -   The "multiple" will typically match the one we calculate with code
-
-This means our equation for the line of best fit is: y = 0.659x + 1.385 and there is a statistically significant relationship between nitrogen content and hairgrass density.
-
-## Soil pH
-
-Let's do the same series of steps to determine how soil pH impacts hair grass densities. Work on this in your small groups, and we will go over it in about 10 minutes.
-
-Start with summarizing the data: mean and standard deviation.
-
-```{r}
-# Mean and standard deviation of soil pH
-hairgrass %>% 
-  summarize(mean_pH = mean(soil_pH),
-            sd_pH = sd(soil_pH))
-```
-
-Visualize the data. Remember to add in the line of best fit using `ggplot2`. Also add labels and a theme for practice.
-
-```{r}
-# Scatterplot
-ggplot(hairgrass, aes(soil_pH, hairgrass_density_m2)) +
+ggplot(log_pops, aes(x = year, y = N, color = population))+
   geom_point() +
-  geom_smooth(method = "lm") +
-  labs(x = "Soil pH",
-       y = "Hairgrass Density per m^2") + 
-  theme_bw()
+  geom_line()+
+  labs(x = "Time", y = "Abundance", color = "Population")+
+  theme_light()
 ```
 
-Calculate the correlation coefficient (`r`)? What does this tell us?
+Which population gets the largest? Population 4
 
-```{r}
-# Correlation coefficient
-r <- cor(x = hairgrass$soil_pH, y = hairgrass$hairgrass_density_m2)
-```
+### Finding the Carrying Capacity
 
-How much variation does soil pH explain in the hair grass density data?
+When we have a logistic growth model, we often will want to find the carrying capacity of the population
 
-```{r}
-# What is r^2?
-r^2
-```
+What values does each population level off at?
 
-Write out the model for our question about soil pH (without values)?
+-   Population C: 20
 
-```{r}
-# hairgrass density  = m(soil_pH) + b
-```
+-   Population D: 100
 
-Run the regression model and write out the equation for the line of best fit.
+These are the carrying capacities. If you look back at the data, you will see Population C has a carrying capacity of 20 individuals, whereas Population D has a carrying capacity of 100 individuals. Which population do you think might be the best candidate to fish between these two? Population D is more abundant and has a higher carrying capacity.
 
-```{r}
-# Linear model of hairgrass density v. soil pH
-soil_pH <- lm(hairgrass_density_m2 ~ soil_pH, data = hairgrass)
-summary(soil_pH)
-```
+**A review of what we have learned**
 
-Equation for line of best fit: y = 0.005x + 7.65
+The following factors are important to know about a population before fishing:
 
-Interpret the results of the regression (our p-value cutoff is still = 0.05). What do we conclude about the relationship between soil pH and hair grass density? Why?
+1.  Exponential growth can result in bigger populations than logistic growth
 
-Because p \> 0.05 for the regression model, we fail to reject the null hypothesis and conclude that there is no relationship between soil pH and hairgrass density.
+2.  Intrinsic rate of increase (`r`) should not be negative
 
-## Data-driven Decision Making
+3.  A higher carrying capacity means the population can take advantage of more resources to grow larger, which may indicate that the population is a better candidate for fishing
 
-The reason we are using regression analysis is to inform where we should (or should not) build our road so we don't harm the sensitive hair grass or take away their prime habitat.
+## References
 
-What do results above for nitrogen content and soil pH mean for the road we are building?
+Zhang, M., Liu, S., Bo, J., Zheng, R., Hong, F., Gao, F., Miao, X., Li, H., & Fang, C. (2022). First evidence of microplastic contamination in Antarctic fish (Actinopterygii, Perciformes),*Water*, *14*(19).

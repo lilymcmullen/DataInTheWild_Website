@@ -1,0 +1,143 @@
+---
+title: "Final Assignment"
+author: "Ellen Bledsoe"
+format:
+  html:
+    toc: true
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Final Details
+
+### Purpose
+
+The goal of this final assignment is to assess your ability to integrate the many skills you have learned over the semester: filtering and summarizing data, creating new columns, choosing the appropriate data visualizations, and performing and interpreting the appropriate statistical tests.
+
+### Task
+
+Write R code which produces the correct data, summaries, plots and analyses. Correctly interpret the results of these plots and analyses.
+
+### Criteria for Success
+
+-   Code chunks run without errors
+-   Code produces the correct result
+    -   Code that produces the correct answer will receive **full** credit
+    -   Code attempts with logical direction will receive **partial** credit
+-   Appropriate plot types are used to visualize the data
+-   Appropriate statistical tests are used to analyze the data
+-   Written answers address the questions in sufficient detail
+
+### Due Date
+
+Dec 11 at midnight MST
+
+---
+
+For your final this semester, I am presenting you with 3 problem sets, totaling up to 60 points.
+
+I'm expecting you to be able to filter and summarize the data in the ways you need, choose the appropriate visualization, choose the appropriate analysis, and correctly interpret the analysis for the question I've asked you.
+
+It is important to note that I will not be giving you an answer key for this final project since a major part of your grade for the assignment is being able to choose the appropriate visualizations and analyses for the question and the data.
+
+We are going to use the `palmerpenguins` R package and data set, which we've used many times before! You can learn more about it [here](https://allisonhorst.github.io/palmerpenguins/). This is a real data set from a Long-Term Ecological Research (LTER) site in Antarctica.
+
+## Set-Up
+
+#### Be sure to run both of these code chunks before you begin!
+
+I've gone ahead and included the code to load the two packages you will need to successfully complete this project: the `tidyverse` and `palmerpenguins`. Be sure to run this code chunk!
+
+```{r}
+#| message: false
+library(tidyverse)
+library(palmerpenguins)
+```
+
+#### Important!
+
+I've also included one more code chunk below. Be sure to run this code chunk, as well!
+
+```{r}
+penguins <- penguins %>% drop_na()
+```
+
+---
+
+## Structure & Guidelines
+
+Like the practice version, this final is structured as 3 different problem sets. For each problem set, I am presenting you with an initial question to guide your thinking and analysis.
+
+### Data
+
+Assume that nothing carries over between problem sets.
+
+Each problem set is stand-alone, meaning that you should always start with the `penguins` data frame at the beginning of each problem set.
+
+### Interpreting Statistical Results
+
+When I ask you to interpret statistical results, you should roughly follow these guidelines.
+
+-   the cut-off for our p-values is always 0.05 ($\alpha = 0.05$)
+-   report the p-value that we are focused on in that question
+-   if there are multiple p-values of interest, report all of them
+-   state whether the p-value indicates a significant difference/relationship
+-   if applicable, state whether we should or should not reject the null hypothesis
+
+### Plotting
+
+All plots should be made using `ggplot2`.
+
+Your options for plot types to choose from are:
+
+-   multiple histogram plots  
+-   multiple density plots  
+-   box-and-whisker plot  
+-   scatter plot  
+
+**Note: All plots should have modified axis labels and legend labels.**
+
+---
+
+# Let's Begin!
+
+(Have you run the setup code chunks?)
+
+---
+
+## Problem Set 1 (30 points total)
+
+### Part 1 (20 points)
+
+#### Question: Is there a significant relationship between bill length and bill depth for penguins on Biscoe Island?
+
+```{r}
+
+```
+
+(Continue with empty chunks exactly as in your original file)
+
+---
+
+## Problem Set 2 (15 points)
+
+```{r}
+
+```
+
+---
+
+## Problem Set 3 (15 points)
+
+```{r}
+
+```
+
+---
+
+## The End!
+
+Great work, and thanks for a wonderful semester!

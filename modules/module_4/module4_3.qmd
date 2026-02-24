@@ -1,229 +1,260 @@
 ---
-title: "4.3: Using Functions to Automate Tasks"
+title: '4.3: Comparing Populations'
+author: "Jessie Golding and Ellen Bledsoe"
+format:
+  html:
+    toc: true
 ---
 
-## Introduction
-
-In this lesson, we'll learn how to write functions in R. Functions are essential for automating tasks and making your code more efficient and reusable. Let's get started!
-
-### What is a function?
-
-We've been using functions quite a lot in the course, but let's remind ourselves *exactly* what a function actually is.
-
-A function is a block of code designed to perform a specific task. A function is **executed** when it is **called.** This means that the block of code is run every time you use the function!
-
-A function takes specific **arguments** as input, processes them, and **returns** the output.
-
-![](assets/r-function-syntax.png)
-
-We've used a lot of built-in functions already, like the `mean()` function.
-
-Now, we are going to write our own, user-defined functions!
-
-## Writing Our First Function
-
-Following the syntax from the image above, let's write a function called `add_numbers` that takes **two numbers as arguments and returns their sum.**
-
-```{r}
-# An addition function
-add_numbers <- function(x, y) {
-  z <- x + y
-  return(z)
-}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-Notice that we didn't put any actual numbers in the function! Instead, we used generic (undefined) arguments (e.g., `x` and `y`) to represent the values that we will eventually supply to the function when we execute it.
+# Comparing Populations
 
-Using our undefined arguments, we set up a statement (or series of statements) for the function to perform: add `x` and `y` together and save that value as an object called `z`.
+Throughout this module, we have learned how populations demonstrating exponential growth and logistic growth differ from one another, both conceptually and visually.
 
-We use the `return()` function to indicate that `z` is the value we want the `add_numbers` function to give back to us when it is executed.
+While we have fit models to some of these populations (specifically, logistic growth models), we have done so in order to estimate the carrying capacity of the population rather than to use inferential statistics to determine if the populations are statistically significantly different from one another.
 
-Let's test our function with numbers, now!
+In today's lesson, we are going to learn how to (a) add those logistic growth models to our data visualizations and (b) compare populations statistically.
 
-```{r}
-# Use our new function
-add_numbers(5, 5)
+## Set Up
 
-# Store our result
-sum <- add_numbers(10, 10)
+As always, we need to start by loading the packages we are going to use along with our data.
 
-# View our result
-sum
-```
-
-#### Let's Practice
-
-Now try to write a function called `multiply_numbers` that takes **three** numbers as arguments and returns the **product.**
-
-Make sure to test your function, and remember a function should have a name, a list of arguments, and return something.
+First, let's load our packages. We are going to be using both the `tidyverse` and `drc` packages in this lesson, so we need to load both of them.
 
 ```{r}
-# Multiplication function
-multiply_numbers <- function(x, y, z) {
-  a <- x * y * z
-  return(z)
-}
-
-# Test function
-multiply_numbers(1, 3, 3)
-```
-
-### Exercise 1: Simple Function
-
-**Objective:** Write a function called `inspect` that takes a data frame as an argument and prints the head and tail of the data frame.
-
-Setup:
-
-```{r message = FALSE}
-# Load in tidyverse first!
 library(tidyverse)
+library(drc)
 ```
+
+Next, we want to bring in our dataset.
 
 ```{r}
-# Load the dataframe into your environment by reading the hairgrass_data.csv file
-hairgrass <- read_csv('data/hairgrass_data.csv')
+pops <- read_csv("data/comparing_populations.csv")
 ```
 
-Before we attempt to write this function, you'll need to know about the `print()` function.
-
-In R, if you have multiple expressions (in our case, head and tail) and you want to see the output of each, you need to explicitly print them using the `print()` function. Otherwise, R will just show the last expression it ran.
+We can use the `head()` function to take a look at the data. What data do we have?
 
 ```{r}
-# Demonstration of the print function
-print(mean(hairgrass$soil_pH))
+head(pops)
 ```
 
-Now we can start to write our function! Write a function that prints the head and tail of the dataframe. If you're up for an extra challenge, have the function print out the first 10 and last 10 rows (instead of 6 and 6).
+After inspecting our dataset, it looks as though we have more time-series data of population abundances. It isn't immediately clear how many populations there are, but perhaps the populations are named after their locations ("NE" could stand for "Northeast").
+
+## Visually
+
+Let's first start our investigation of these populations by plotting the data points as a scatterplot.
+
+As we have done throughout this module, we will want the variable representing time to be on the x-axis and the population abundance (N) on the y-axis.
+
+We will also want the data points to be distinguished by which population they are from, so we need to specify the `color` argument within the `aes()` function.
 
 ```{r}
-# Write your function here
-# Remember to use print!
-
-load_and_inspect <- function(dataframe) {
-  
-  # Print first 10 rows
-  print(head(dataframe, 10))
-  
-  # Print last 10 rows
-  print(tail(dataframe, 10))
-  
-}
+ggplot(pops, aes(year, abund, color = population)) +
+  geom_point() + 
+  labs(x = "Year",
+       y = "Abundance",
+       color = "Fish Population") +
+  theme_bw()
 ```
 
-Test your function with the hairgrass data frame.
+### Interpretation
+
+Based on the plot, what do you notice about these populations?
+
+-   Are they more likely exhibiting exponential or logistic growth? Why?
+-   How do the populations appear to differ from one another?
+
+Given your answers to the questions above, what might be a good next step?
+
+## Numerically
+
+When comparing different categories or groups (in this case, comparing different populations), we typically compare them both visually and numerically before conducting statistical tests.
+
+Since we have already made visual comparisons, let's compare the populations numerically.
+
+Typically, we have compared groups with measures of central tendency and measures of variability. Do you think that is what we should do here? Why or why not?
+
+### Separate Populations
+
+Unlike our typical procedure, in order to fit logistic models to each population, our simplest way forward will be to create one data frame for each population.
+
+| NOTE: in case you are wondering, yes, there are definitely ways to fit a logistic model to each population without separating them! However, we would have to introduce quite a few new concepts to do so efficiently, so we are going to stick with the tried-and-true process of running the models individually.
+
+We can use the `filter` function to select each population, one at a time.
 
 ```{r}
-# Test our function on hairgrass data
-load_and_inspect(hairgrass)
+pop_NE <- pops |> 
+  filter(population == "NE")
+
+pop_SE <- pops |> 
+  filter(population == "SE")
+
+pop_SW <- pops |> 
+  filter(population == "SW")
 ```
 
-### Exercise 2: Linear Regression Function
+### Finding the Carrying Capacity
 
-**Objective**: Develop a function that performs linear regression between two columns of a data frame and returns the model summary.
+Now that we have data frames for each of the populations, we can fit the logistic model to each population and determine the estimate of the carrying capacity for each.
 
-Some helpful hints:
-
--   Have 2 arguments, one for each column
--   In the `lm()` function, you'll want to run it by specifying the dataframe and column (like `dataframe$column`) rather than just using the name of the column and setting the `data = dataframe` argument. It will look similar to how we run the code to get a correlation coefficient.
+As we run the code to fit the model to each population, we might receive some warnings: "Warning :NaNs produced". Don't worry--that's ok! Keep going!
 
 ```{r}
-# Write your function here!
-do_regression <- function(independent, dependent) {
-  
-  # Linear model
-  lm_model <- lm(dependent ~ independent)
-  
-  # Print result
-  print(summary(lm_model))
-  
-}
+# NE population
+model_NE <- drm(abund ~ year, data = pop_NE, fct = LL.4())
+model_NE
+
+# if you want to be fancy and save the carrying capacity as an object
+# this code combines several steps from the last lesson into one step
+K_NE <- unname(coef(model_NE)[3])
+K_NE
 ```
 
-Test the function with two columns from the hairgrass data set.
+Now we can do the same for the SE and SW populations, too.
 
 ```{r}
-# Test function on hairgrass data
-do_regression(hairgrass$soil_pH, hairgrass$hairgrass_density_m2)
+# SE population
+model_SE <- drm(abund ~ year, data = pop_SE, fct = LL.4())
+model_SE
+
+K_SE <- unname(coef(model_SE)[3])
+K_SE
+
+# SW population
+model_SW <- drm(abund ~ year, data = pop_SW, fct = LL.4())
+model_SW
+
+K_SW <- unname(coef(model_SW)[3])
+K_SW
 ```
 
-### Exercise 3: Plotting Function
+Let's record the carrying capacity estimates for each population here so we can refer back to them later, if needed.
 
-**Objective:** Create a function to plot a scatter plot between two variables and add a regression line.
+| Population | Carrying Capacity  |
+|:----------:|:------------------:|
+|     NE     | `r round(K_NE, 1)` |
+|     SE     | `r round(K_SE, 1)` |
+|     SW     | `r round(K_SW, 1)` |
 
-For complicated reasons we won't get into, we need to do a few important things in this function to make it work:
+As we saw in the plot, the estimated carrying capacity for the SW population is below that of the NE population.
 
--   When you write the `ggplot` code, you'll need to use `aes_string()` in place of our usual `aes()` function.
--   When you test your function with the hairgrass data, you'll need to put the names of the two columns in quotation marks (e.g., "penguin_density_m2" instead of penguin_density_m2).
--   Don't worry about adding labels to your plot, but do add a theme.
+What was much more challenging to see clearly in the plot, however, is that the estimated carrying capacity of the SE population is in between the other two carrying capacities, albeit closer to the NE population.
+
+### Plotting the Logistic Model Curves
+
+We can add the logistic growth models that we fit to each population into our ggplot to more easily compare the curves.
+
+To do so requires a few steps.
+
+1.  Use the `predict()` function to get the values for the "logistic line of best fit." Remember, these will not match up perfectly with our *actual, observed* values; these are the y-axis or `abundance` values for the best fitting logistic model at each observed x-axis value, or year.
+
+2.  Use the `mutate()` function to create a new column in each data frame with these logistic *model* values.
+
+3.  Combine all three dataframes back together into one dataframe using the `bind_rows()` function.
+
+4.  Plot the actual data points using `geom_point()` and plot the logistic model data points using the `geom_line()` function.
+
+#### Add the Logistic Model Points to the Dataframes
+
+First, let's see what output the `predict()` function gives us for the NE population.
 
 ```{r}
-# Write your function here!
-plot_data <- function(dataframe, x, y) {
-  
-  # Make plot 
-  plot <- ggplot(dataframe, aes_string(x = x, y = y)) +
-    geom_point() +
-    geom_smooth(method = "lm") +
-    theme_classic()
-  
-  # Return plot
-  return(plot)
-  
-}
+predict(model_NE)
 ```
 
-Test the function with two columns from the hairgrass data set.
+If we compare these numbers to the numbers in the `abund` column of `pop_NE`, we notice that they are not the same. The difference between these values from the model of best fit and the actual, observed values are called *residuals*, just as they are with lines of best fit (from linear regressions).
+
+![](assets/residuals.jpg){width="50%" fig-align="center"}
+
+Let's use the `mutate` function to add these model values to each dataframe.
 
 ```{r}
-# Test function on harigrass data
-plot_data(hairgrass, "soil_pH", "p_content")
+pop_NE <- pop_NE |> 
+  mutate(logistic_model = predict(model_NE))
+pop_NE
+
+pop_SE <- pop_SE |> 
+  mutate(logistic_model = predict(model_SE))
+
+pop_SW <- pop_SW |> 
+  mutate(logistic_model = predict(model_SW))
 ```
 
-### Bonus:
+#### Combine Dataframes
 
-**Objective:** Create a function, `plot_data_with_r2`, that modifies the scatter plot to include the R\^2 value from the linear regression.
+We can now bring all three individual data frames back together into one data frame using a function called `bind_rows()`. You can think of `bind_rows` as gluing the data frames together, one after another.
 
-First, outside of the function, calculate the R\^2 value for your chosen variables. Then, modify your plotting function to add an `r_squared` argument.
-
-Use the `annotate()` to add the R\^2 value to the plot. You can learn more about `annotate()` [here!](https://ggplot2.tidyverse.org/reference/annotate.html)
-
-You might also want to learn about the `paste()` function [here](https://www.educative.io/answers/what-is-the-paste-function-in-r) to specify what the value you are putting on the plot represents. It might look something like `R squared = 0.4`.
-
-\*\*Remember to use `aes_string()` instead of `aes()`!
+The arguments in the `bind_rows()` function are all of the data frames we want glued together.
 
 ```{r}
-# Write your function here!
-
-# Calculate R-squared outside the function
-r <- cor(x = hairgrass$soil_pH, y = hairgrass$p_content)
-
-# Round the value because otherwise it is extremely long!
-r_squared <- round(r^2, 6) 
-
-# Make our function
-plot_with_r2 <- function(dataframe, x, y, r_squared) {
-  
-  # Create the plot with points and regression line
-  plot <- ggplot(dataframe, aes_string(x = x, y = y)) + 
-    geom_point() +
-    geom_smooth(method = "lm") +
-    annotate("text", x = 8, y = 20, label = paste("R^2 =", r_squared)) +
-    theme_classic()
-
-  # Return plot
-  return(plot)
-  
-}
-
+pops_models <- bind_rows(pop_NE, pop_SE, pop_SW)
+pops_models
 ```
 
-Test your function here:
+The resulting data frame again has 78 observations, as did the original `pops` data frame.
+
+#### Add Logistic Models to the Plot
+
+We can now add the logistic models to our plot using the `geom_line()` function. Specifically, the values from the `logistic_model` column will be the y-axis values for the lines we are adding; the x-axis values are the same as the overall plot: `year`.
 
 ```{r}
-# Test function on hairgrass data
-plot_with_r2(hairgrass, "soil_pH", "p_content", r_squared)
+ggplot(pops_models, aes(x = year, y = abund, color = population)) +
+  geom_point() +
+  geom_line(aes(y = logistic_model)) +
+  labs(x = "Year", y = "Abundance", color = "Fish Population") +
+  theme_bw()
 ```
 
-### Great Work!
+It is now much easier to visually distinguish the differences between the growth curves and the carrying capacities between the three populations!
 
-Remember, we will only ask you to make a function like the example at the beginning :)
+## Statistically
+
+We still want to analyze our three populations using inferential statistics to determine if there are significant differences between the populations.
+
+First, we need to decide what type of statistical test makes sense with the data we have. This is *not* a straight-forward question with a straight-forward answer. How we determine which test to use ultimately depends on the question we are asking and, therefore, the hypothesis we are testing.
+
+For the sake of the class (and in your assignment, too), let's assume the question we want to ask is whether the average population sizes significantly differ between the populations.
+
+What type of statistical test should we use to answer that question?
+
+What would the null and alternative hypotheses be for that statistical test?
+
+### Filtering the Data
+
+To most accurately compare the populations, we likely want to restrict the comparison to when the populations (or the models of best fit, at least) are fairly leveled off.
+
+(Again, this is more of an estimation than an exact science, though there are more precise--and complicated--tools that could be used.)
+
+A rough estimation would be that the models mostly level off around year 15; let's filter our data to include only abundance from year 15 and later.
+
+```{r}
+pops_15_25 <- pops_models |> 
+  filter(year >= 15)
+pops_15_25
+```
+
+### Running the Statistical Analysis
+
+Now that we have filtered our data, we can conduct our statistical test.
+
+```{r}
+model_aov <- aov(abund ~ population, data = pops_15_25)
+summary(model_aov)
+```
+
+This p-value tells us that the overall model is significant (we reject the null hypothesis), but it doesn't tell us which populations are significantly different from one another. To determine which populations differ from each other, we need to run *post hoc* pairwise-comparisons.
+
+```{r}
+TukeyHSD(model_aov)
+```
+
+How do we interpret these results? What are our conclusions?
+
+## Data-Driven Decision Making
+
+Our ultimate goal in this module has been to determine which population of fish is best for fishing sustainably. We are prioritizing large, stable populations.
+
+Given those requirements and what our numeric, visual, and statistical tests have told us, which of these populations would be the best for us to harvest? Why?

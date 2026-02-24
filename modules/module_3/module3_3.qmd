@@ -1,6 +1,16 @@
 ---
 title: "3.3: Comparing (Multiple) Means"
+author: "Ellen Bledsoe"
+format:
+  html:
+    toc: true
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Comparing (Multiple) Means
 
 So far in this module, we have discussed comparing the means of two groups in multiple ways: numerically, visually, and statistically. Specifically, we learned about running t-tests to statistically compare the means of two groups.
 
@@ -18,8 +28,8 @@ The group of statistical tests called ANOVAs are extensions of the t-test, using
 
 To run an ANOVA, the following things need to be true:
 
--   The variable that we use to create our groups (independent variable) is categorical.
--   The variable that we want to compare between groups (dependent or response variable) is numerical.
+-   The variable that we use to create our groups (independent variable) is qualitative (categorical).
+-   The variable that we want to compare between groups (dependent or response variable) is quantitative (numerical).
 
 These two aspects above might sound familiar, because they also need to be true for t-tests!
 
@@ -30,8 +40,8 @@ These two aspects above might sound familiar, because they also need to be true 
 
 Like t-tests, ANOVAs are another example of statistical hypothesis testing. We always want to formulate a null hypothesis and an alternative hypothesis. The generic version of these for any ANOVA are:
 
-**Null Hypothesis** ($H_{0}$): The means of the populations we sampled from are *all equal*.\
-**Alternative Hypothesis** ($H_{A}$): The means of the populations we sampled from *differ from each other*.
+**Null Hypothesis** ($H_{0}$): The means of the populations we sampled from are all equal.\
+**Alternative Hypothesis** ($H_{A}$): The means of the populations we sampled from differ from each other.
 
 ## Let's Run an Example
 
@@ -45,11 +55,8 @@ First up, in small groups, work through the set-up, numeric, and visual sections
 
 First, as always, we need to load the `tidyverse` and the read in our collars data. This time, use the file `more_collars.csv`.
 
-```{r, message=FALSE, warning=FALSE}
-# Load library
+```{r}
 library(tidyverse)
-
-# Load data
 collars <- read_csv("data/more_collars.csv")
 ```
 
@@ -63,13 +70,13 @@ Let's write out our hypotheses.
 
 First, for battery life:
 
--   **Null hypothesis**: There is no difference in the average battery life between the three collar makers.
--   **Alternative hypothesis**: There is a difference in the average battery life the three collar makers.
+**Null hypothesis**: There is no difference in the average battery life between the three collar makers.\
+**Alternative hypothesis**: There is a difference in the average battery life between the three collar makers.
 
 Next, for signal distance:
 
--   **Null hypothesis**: There is no difference in the average signal distance between the three collar makers.
--   **Alternative hypothesis**: There is a difference in the average signal distance between the three collar makers.
+**Null hypothesis**: There is no difference in the average signal distance between the three collar makers.\
+**Alternative hypothesis**: There is a difference in the average signal distance between the three collar makers.
 
 ### Numeric
 
@@ -79,11 +86,11 @@ Calculate the means and the standard deviations (`sd()`) for the battery life an
 
 ```{r}
 summary_stats <- collars %>% 
-  group_by(maker) %>%                              # Group by maker
-  summarise(mean_battery = mean(battery_life),     # Mean (battery)
-            sd_battery = sd(battery_life),         # SD (battery)
-            mean_signal = mean(signal_distance),   # Mean (signal)
-            sd_signal = sd(signal_distance))       # SD (signal)
+  group_by(maker) %>% 
+  summarise(mean_battery = mean(battery_life),
+            sd_battery = sd(battery_life),
+            mean_signal = mean(signal_distance),
+            sd_signal = sd(signal_distance))
 
 summary_stats
 ```
@@ -94,21 +101,28 @@ Let's examine the data. Do you think the collar companies are all different from
 
 As always, we love (\<3) visualizing our data, especially as a form of data exploration and comparing means.
 
-First, explore the distribution of battery life by maker using a multiple density plot (no need to add a line for the mean, but you can if you really want to!).
+First, explore the distribution of battery life by maker using a multiple histogram (no need to add a line for the mean, but you can if you really want to!).
 
 ```{r}
-# Battery life - density
+# battery life
 ggplot(collars, aes(battery_life, fill = maker)) +
-  geom_density(alpha = 0.5)
+  geom_histogram(alpha = 0.5, position = "identity") +
+  labs(x = "Battery Life", 
+       y = "Frequency",
+       fill = "Collar Maker") +
+  theme_bw()
 ```
 
 Let's do a different type of visualization for signal distance. What type of data visualization have we covered that does a good job of showing both central tendency (median, in this case) and variation (middle 50% and 95% confidence intervals) in one continuous variable?
 
 ```{r}
-# Signal distance - boxplot
+# signal distance
 ggplot(collars, aes(maker, signal_distance)) +
   geom_boxplot() +
-  geom_jitter(width = 0.1, alpha = 0.5)
+  geom_jitter(width = 0.1, alpha = 0.5) +
+  labs(x = "Collar Maker",
+       y = "Signal Distance") +
+  theme_classic()
 ```
 
 Based on the numbers and your visualizations, what is your prediction? Are the 3 groups different *enough*, whatever that means?
@@ -119,16 +133,13 @@ Now that we have explored the data numerically and visually, let's interrogate t
 
 To run an ANOVA, we use the `aov()` function. Some helpful tips about the `aov()` function:
 
--   Unlike the `t.test()` function, the initial output for the `aov()` function isn't particularly helpful. We will want to save it to an object and then look at it using the `summary()` function.
--   Like `t.test()`, the syntax for `aov()` is `dependent ~ independent`.
+-   unlike the `t.test()` function, the initial output for the `aov()` function isn't particularly helpful. We will want to save it to an object and then look at it using the `summary()` function
+-   like `t.test()`, the syntax for `aov()` is `dependent ~ independent`.
 
 First, let's run an ANOVA on the battery life variable.
 
 ```{r}
-# ANOVA on battery life
 battery_model <- aov(data = collars, battery_life ~ maker)
-
-# Summary of model
 summary(battery_model)
 ```
 
@@ -136,7 +147,7 @@ For us, our main focus here in the ANOVA summary is on the `maker` row. We can i
 
 We want to pay attention to the following:
 
--   `F-value`: this is our test statistic. It determines our `p-value` (you don't need to know how).
+-   `F-value`: this is our test statistic. It determines our `p-value` (you don't need to know how)
 -   `Pr(>F)`: this is our `p-value`, which has roughly the same meaning as with a t-test.
     -   We want to know if this value is larger or smaller than our cut-off value. We will stick with 0.05.
     -   The notation here, `Pr(>F)`, is saying "What is the probability of us getting an F-value larger than the one we have by change alone?" If that probability is less that 0.05 (or 5%), then we reject the null hypothesis that the means are the same.
@@ -149,10 +160,7 @@ What is our conclusion? Are these means different?
 How about for signal life? What is your interpretation of these results?
 
 ```{r}
-# ANOVA for signal distance
 signal_model <- aov(data = collars, signal_distance ~ maker)
-
-# Summary of model
 summary(signal_model)
 ```
 
@@ -165,8 +173,6 @@ To figure that out, you need to use a class of tests called "post hoc tests," me
 The most common post hoc test for these pairwise comparisons is `TukeyHSD()`, but there are others depending on the specifics of your data set. You don't need to worry about understanding the nuances of Tukey's test, but you should know how to run the code and interpret it.
 
 ```{r}
-# Pairwise comparisons for battery life
-# We take the results from the ANOVA and put it in TukeyHSD
 TukeyHSD(battery_model)
 ```
 
@@ -179,7 +185,7 @@ What do these different columns represent?
 
 How should we interpret these results?
 
--   Are Collarium and Budget significantly different in battery life? **Yes (p \< 0.05)**
+-   Are Collarium and Bugdet significantly different in battery life? **Yes (p \< 0.05)**
 -   Are Darn Tuff and Budget significantly different in battery life? **Yes (p \< 0.05)**
 -   Are Darn Tuff and Collarium significantly different in battery life? **No (p \> 0.05)**
 
@@ -188,7 +194,6 @@ How should we interpret these results?
 In your groups, run the Tukey's HSD test for signal distance and interpret the results.
 
 ```{r}
-# Pairwise comparisons for signal distance
 TukeyHSD(signal_model)
 ```
 

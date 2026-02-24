@@ -1,5 +1,9 @@
 ---
 title: "3.2: T-Tests"
+author: "Ellen Bledsoe"
+format:
+  html:
+    toc: true
 ---
 
 ## Comparing Two Means
@@ -57,7 +61,7 @@ Want more info on independent vs. dependent variables? Check out [this link](htt
 
 The first step in running any statistical test (t-test or otherwise) is *hypothesis testing*.
 
-We build the our hypotheses around our independent and dependent variables.
+We build our hypotheses around our independent and dependent variables.
 
 In this case, we want to know if there is a *meaningful* (read: statistical) difference between each collar manufacturer in their average values for battery life. To start, let's identify our independent and dependent variables:
 
@@ -69,7 +73,7 @@ Based on our question, we can now set up two different statistical hypotheses: t
 The null hypothesis always states that there is no difference or no relationship. We can think of the null hypothesis as our starting place---this is our default assumption. The alternative hypothesis is, well, the alternative to the null hypothesis. For example:
 
 -   **Null Hypothesis** ($H_{0}$): There is *no* difference in the means of battery life between the two collar makers
--   **Alternative Hypothesis** ($H_{A}$): There *is* no difference in the means of battery life between the two collar makers
+-   **Alternative Hypothesis** ($H_{A}$): There *is* a difference in the mean battery life between the two collar makers
 
 How can we determine whether we should *not reject* ("accept") or *reject* the null hypothesis? That's where statistics come in.
 
@@ -77,7 +81,7 @@ How can we determine whether we should *not reject* ("accept") or *reject* the n
 
 ### Running a t-test
 
-There is a set of statistical tools that can help us whether or not there is a difference between 2 means. This group of tools are called t-tests.
+There is a set of statistical tools that can help us determine whether or not there is a difference between 2 means. This group of tools are called t-tests.
 
 Let's briefly remind ourselves of the logic here.
 
@@ -89,7 +93,7 @@ Let's briefly remind ourselves of the logic here.
 3.  However, because we only have data from a random *sample* of collars, there will be some variation in our numbers due to sampling error.
 4.  We want to know if the difference in means is due to sampling error alone or due to an actual difference between manufacturers.
 
-The t-test allows us to determine if the means are different due to the random variation or if it represents an actual difference.
+The t-test helps us determine whether the observed difference in means is larger than what we would expect from random sampling variation alone.
 
 Let's run some code to perform our first t-test!
 

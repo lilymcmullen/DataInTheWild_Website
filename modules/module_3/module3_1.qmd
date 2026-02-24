@@ -1,22 +1,28 @@
 ---
-title: "3.1: Leopard Seals"
+title: '3.1: Leopard Seals'
+author: "Ellen Bledsoe"
+format:
+  html:
+    toc: true
 ---
 
-## Introduction to the Problem
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-### The Challenge
+# Introduction to the Problem
+
+## The Challenge
 
 Given the issues with our farmed fish, we will need to supplement our diets with some fish that are wild-caught for a while. These fish are caught by members of Team Antarctica, but there is quite a bit of risk involved.
 
-![](assets/seal2.jpeg)
+![](assets/seal2.jpeg){width="50%"} 
 
 One of the main hazards to these fishing teams are [leopard seals](https://en.wikipedia.org/wiki/Leopard_seal). They're apex predators in this ecosystem and are quite large, averaging 2.4--3.5 m (7.9--11.5 ft) in length and 200-600 kilograms (440-1,320 lb) in weight. Due to their large size and predatory nature, they can cause serious injury, especially when large schools of fish are involved ([a researcher was killed by a leopard seal in Antarctica in 2003](https://www.theguardian.com/uk/2003/jul/24/science.highereducation)).
 
-![](assets/seal3.jpeg)
+![](assets/seal3.jpeg){width="50%"}
 
 One way we're working to remove some of this danger is by working with data from large mammal researchers. They have been tracking leopard seals using radio collars, one of many ways to track wildlife.
-
-[Wildlife Tracking Powerpoint](https://docs.google.com/presentation/d/1n-rPHVoB9tydIj_yEQ1TxGTHXn6VWaliRbOszRnbCoc/edit#slide=id.g16730a957e3_0_20)
 
 They have radio collared on a number of seals that live in areas that could be fished. Fishing boats are equipped with radios that can detect the presence of seals in the area and avoid high-risk sites.
 
@@ -26,19 +32,16 @@ The large mammal team replaces collars frequently based on the two manufacturers
 
 We've been tasked with determining why the units are failing and if we can tie it to a particular manufacturer.
 
-### The Data
+## The Data
 
-Our data on collars is in a file called "collar_data.csv." Read in this data and our tidyverse.
+Our data on collars is in a file called "collar_data.csv."
 
-```{r message=FALSE, warning=FALSE}
-# Load library
+```{r message = FALSE}
 library(tidyverse)
-
-# Load data
 collars <- read_csv("data/collar_data.csv")
 ```
 
-## Explore the Data
+### Explore the Data
 
 1.  Two manufacturers
 2.  Battery life: the average number of days a particular collar lasts (this is recorded in the unit and stored when the battery dies)
@@ -49,34 +52,28 @@ collars <- read_csv("data/collar_data.csv")
 
 Let's practice. Write some code to do the following:
 
--   Calculate the mean and standard deviation for:
+-   calculate the mean and sd for:
     -   battery life
     -   signal distance
--   Do this for both manufacturers
+-   do this for both manufacturers
 
 ```{r summarize}
 bat_life_and_signal <- collars %>%
-  group_by(maker) %>%                                 # Group by manufacturer
-  summarize(bat_life_mean = mean(battery_life),       # Mean (battery)
-            bat_life_sd = sd(battery_life),           # SD (battery)
-            signal_mean = mean(signal_distance),      # Mean (signal)
-            signal_sd = min(signal_distance))         # SD (signal)
-
-# View results
+  group_by(maker) %>%
+  summarize(bat_life_mean = mean(battery_life),
+            bat_life_sd = sd(battery_life),
+            signal_mean = mean(signal_distance),
+            signal_sd = sd(signal_distance)) 
 bat_life_and_signal
 ```
 
 We also might want to count up how many collar failures are attributed to each maker.
 
 ```{r}
-# Number of failed collars per maker
-
-# Option 1: summarize + sum
 collars %>% 
   group_by(maker) %>% 
   summarize(fail_count = sum(fail))
 
-# Option 2: count
 collars %>% 
   group_by(maker) %>% 
   count(fail)
@@ -90,16 +87,14 @@ After summarizing our data, our next step in our data exploration is usually dat
 
 ### One Continuous Variable at a Time
 
-What types of plots can we use to explore one continuous variable (and one categorical variable --- in this case, maker)?
+What types of plots can we use to explore one continuous variable (and one categorical variable--in this case, maker)?
 
--   Multiple histogram
--   Multiple density plot
--   Box-and-whisker plot
+-   multiple histogram
+-   box-and-whisker plot
 
 We can start with a histogram of the battery life of the collars.
 
 ```{r}
-# Histogram
 ggplot(collars, aes(battery_life)) +
   geom_histogram()
 ```
@@ -107,7 +102,6 @@ ggplot(collars, aes(battery_life)) +
 We probably want to add in the collar maker to see some differences there.
 
 ```{r}
-# Histogram by maker
 ggplot(collars, aes(battery_life, fill = maker)) +
   geom_histogram(alpha = 0.5, position = "identity")
 ```
@@ -120,26 +114,23 @@ We will use the `geom_vline()` function to add a vertical line onto our plot at 
 
 Let's take a look at the help file for `geom_vline()` to see what arguments it takes. Scroll down to the "Aesthetics" section.
 
-```{r, eval=FALSE}
-# What is geom_vline?
-? geom_vline
+```{r}
+?geom_vline
 ```
 
 It looks like we will need to specify the data and the x-intercept, the place on the x-axis that matches the mean value.
 
 ```{r}
-# Histogram by maker, with mean line
 ggplot(collars, aes(battery_life, fill = maker)) +
   geom_histogram(alpha = 0.5, position = "identity") +
   geom_vline(data = bat_life_and_signal, aes(xintercept = bat_life_mean))
 ```
 
-Nice! We have name the data argument in the `geom_vline()` function because otherwise the function assumes we still want to use the data from the `ggplot()` function and gets confused. We are essentially overwriting that data and telling `geom_vline()` that we need to use a different data frame.
+Nice! We have to name the data argument in the `geom_vline()` function because otherwise the function assumes we still want to use the data from the `ggplot()` function and gets confused. We are essentially overwriting that data and telling `geom_vline()` that we need to use a different data frame.
 
 Let's wrap this up and make it extra nice by adding color, labels, and a theme.
 
 ```{r}
-# Histogram by maker, with mean line and labels
 ggplot(collars, aes(battery_life, fill = maker)) +
   geom_histogram(alpha = 0.5, position = "identity") +
   geom_vline(data = bat_life_and_signal, aes(xintercept = bat_life_mean, color = maker)) + 
@@ -155,7 +146,6 @@ ggplot(collars, aes(battery_life, fill = maker)) +
 Make the same plot that we made above expect for the signal distance.
 
 ```{r}
-# Same as above, but for signal distance
 ggplot(collars, aes(signal_distance, fill = maker)) +
   geom_histogram(alpha = 0.5, position = "identity") +
   geom_vline(data = bat_life_and_signal, aes(xintercept = signal_mean, color = maker)) + 
@@ -171,7 +161,6 @@ ggplot(collars, aes(signal_distance, fill = maker)) +
 We've explored both battery life and signal distance individually. Now let's bring them together into one plot to see what the relationship between them is like. What type of plot will be use for that?
 
 ```{r}
-# Scatterplot
 ggplot(collars, aes(x = signal_distance, y = battery_life, color = maker)) +
   geom_point()
 ```

@@ -1,164 +1,116 @@
 ---
-title: "2.2: Writing Functions"
+title: "2.2: Plotting with `ggplot2`"
+authors: "Ellen Bledsoe"
+format:
+  html:
+    toc: true
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Plotting with `ggplot2`
 
-## Learning Outcomes
+So far, we've used the base R plotting syntax. While quick plots in base R can still be really useful ways to do preliminary data exploration and visualization, we often want plots that go beyond the basics without too much additional effort. This is where `ggplot2` comes in and really shines!
 
--   Students will be able to apply fundamental components of the biology of recirculating aquaculture systems to hypothesize how these components could lead to unhealthy fish.
--   Students will be able to write custom functions that perform simple tasks.
--   Students will be able to describe the utility of iteration.
+## Example
 
-## Aquaculture, Immunology, and Disease
+Before we get into the nitty-gritty of how `ggplot2` works, Let's run an example using the data about our sick crew members from earlier.
 
-What is aquaculture anyway, and how might it contribute to disease? Here's a link to the [presentation](https://docs.google.com/presentation/d/1CciKgqhu9WhS3x-YaTgEF15B0TefFhqevufThvmEfSk/edit?usp=sharing).
+First, we need to load in both the `tidyverse` package and our data. We can remind ourselves what the data look like using the `head()` function.
 
-### Data Exploration
-
-Given the correlation we found earlier, it does seem like the fish are our likely culprit.
-
-Since we've narrowed down the issue, we should ask our aquaculture specialists to provide us with some data about the tanks.
-
-#### Group Brainstorm
-
-Based on what we know about aquaculture systems, what types of data should we ask for to get to the bottom of this issue? Spend about 3 minutes brainstorming with your group and be ready to report back.
-
-### The Data We Have
-
-```{r, message=FALSE, warning=FALSE}
-# Load the tidyverse
+```{r, message = FALSE}
+# load package
 library(tidyverse)
 
-# Read in the data
-tank_data <- read_csv("data/fish_tank_data.csv")
-
-# Look at the data
-glimpse(tank_data)
+# load data
+sick <- read_csv("data/sick_data.csv")
+head(sick)
 ```
 
-### Discussion of the problem
+Here is code to make a scatter plot of the relationship between percent fish in diets and how many trips to the doctor.
 
-Trout are a cold-water species whereas tilapia are a warm-water species. After doing some reading, we've come up with some critical values for each species.
-
-Water temperatures below 59º F for trout and below 75º F for tilapia are critically low temperatures and can result in suppression of the immune system.
-
-Great, we now know what the critical temperature cutoffs are for both species --- but there's a problem. The cut-off temperatures that we have are in Fahrenheit but the temperature values in our data frame are in Celsius.
-
-Our goal with this data is to ascertain if any of the tanks are below the critical temperature. Before we can do this, though, we need to convert tank temperatures from Celsius to Fahrenheit. Luckily for us, we've already done this before! (Hint: remember the `mutate()` function?).
-
-Now, we are going to run through a slightly different way to accomplish this task. It still involves `mutate()`, but we need to take some additional steps first before we use it.
-
-## Custom Functions
-
-We've already used functions a lot in this class, and it turns out that we can write our own functions to perform specific tasks.
-
-This has lot of varied uses and can be very powerful. The key takeaway here, though, is that we can write a function that converts Celsius to Fahrenheit and apply it to our entire data set in a few lines of code.
-
-### General Syntax Example
-
-Making a function involves creating local variables that act as a stand-in for the values you want to use later on. In the case below, our local variables are `x`, `y`, and `z`. You can see that they are local because they only circulate within the function and are not being pulled in from outside. However, once we are done defining our function we can assign values to the input variables (in this case, `x` and `y`) that the function will do its magic with. You can see this in the example chunk below, where `x = 2` and `y = 4`. All manipulations done with the input variables are contained between the curly brackets ( `{ }` ), and of course, we signify the start a function with `function()`.
-
-Function syntax follows the structure in the code chunk below, which can be viewed as:
-
-`name_of_new_function <- function(input1, input2){`
-
-`what do you want to do with your input variables? (add, subtract, etc.)`
-
-`output <- input1 + input2`
-
-`return(output)`
-
-`}`
-
-And we can see it in action here:
-
-```{r, message=FALSE, warning=FALSE}
-# General syntax
-new_sum <- function(x,y){
-  z <- x + y
-  return(z)
-}
-
-# Examples when using the new function
-new_sum(x = 2, y = 4)
-new_sum(2, 4)
-new_sum(7, 19)
+```{r}
+ggplot(sick, aes(x = perc_fish, y = doctor_trips)) +
+  geom_point() +
+  labs(x = "Percent Fish in Diet",
+       y = "Number of Trips to the Doctor") +
+  theme_light()
 ```
 
-### Building Our Custom Function
+Nice, right? In the next few classes, we will really start to see the power of `ggplot`. For now, though, let's focus on how this works.
 
-In your groups, build a custom function called `c_to_f()` that converts a single value of Celsius to Fahrenheit. Remember, the equation is `Celsius = Fahrenheit * (9/5) + 32`. Instead of two arguments like we have above (`x`, `y`), this function will only require one input value (`c`).
+## `ggplot2`
 
-Be prepared to show your code and run some test values.
+The package `ggplot2` is part of the `tidyverse`.
 
-```{r, message=FALSE, warning=FALSE}
-c_to_f <- function(c = NULL){
-  f <- (c * (9/5)) + 32
-  return(f)
-}
+Here are some resources you might find helpful now or in the future:
 
-c_to_f(c = 40)
+-   [ggplot2 Book](https://ggplot2-book.org/getting-started.html)
+-   [UC Business Analytics ggplot2 intro](https://uc-r.github.io/ggplot_intro)
+-   [R for Data Science Data Visualization chapter](https://r4ds.had.co.nz/data-visualisation.html)
+
+The `gg` in `ggplot2` stands for "Grammar of Graphics." The "grammar" part is based on an idea that all statistical plots have the same fundamental features: data and mapping (and specific components of mapping).
+
+The design is that you work iteratively, building up layer upon layer until you have your final plot.
+
+The typical structure looks like this:
+
+| `ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +`
+| `<GEOM_FUNCTION>()`
+
+Let's iteratively build up to the plot we have made above:
+
+1)  Specify the data
+
+```{r fig.width=4.5, fig.height=3}
+ggplot(data = sick)
+
+# ggplot always starts by drawing a blank coordinate system. Nothing will appear until you add at least one geometric layer. (geom())
 ```
 
-### Thinking about Iteration
+As we've previously seen, most plots that we make display data in some way relative to two different axes: the x-axis (horizontal) and the y-axis (vertical).
 
-So, we have a great function that we can use to convert a Celsius value to Fahrenheit, but how do we apply that to *every* value in the temperature column, not just one? We've built the function for one value, not for a whole vector of values...
+You will definitely want to memorize which axis is which!
 
-This is where `mutate()` comes in! As we've seen in the past, `mutate()` applies whatever function or mathematical formula we've given to it to each value in the column. It essentially is going row by row: applying the function or formula to one row, returning the new value in a new column, then moving to the next row to do the same.
+2)  Specify the x-axis (horizontal) and the y-axis (vertical) in the `aes()` function.
 
-```{r, message=FALSE, warning=FALSE}
-# Let's first demonstrate applying our new function to a vector
-# Only show the first 10 rows as well
-head(c_to_f(tank_data$avg_daily_temp))
-
-# Mutate is basically doing the same thing
-tank_data <- tank_data %>%
-  mutate(avg_daily_temp_F = c_to_f(avg_daily_temp))
-
-# View mutate() results
-tank_data
+```{r fig.width=4.5, fig.height=3}
+ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips))
 ```
 
-## Why Functions?
+3)  Add the type of plot we want using a `geom` function. For a scatter plot, we use `geom_point()`.
 
-We can easily fit the equation for converting from Celsius to Fahrenheit into a mutate call. We certainly didn't need to write our own function to do it. So why did we learn how to do that?
-
-### Main Ways to Iterate
-
-There are many different approaches to iterating in R, especially because we are typically working with vectorized data (columns in data frames). We will talk about the other options down the road. Today, we used #3, the `mutate()` function from the `tidyverse`.
-
-1.  `for` loops
-2.  `apply`/`map` functions
-3.  using `dplyr` (`tidyverse`) functions
-
-### Filtering Our Data
-
-Thankfully, we've solved our first problem! However, we haven't yet answered the original question.
-
-*Are any tanks are below the temperature cutoffs for each species? If so, how many?*
-
-Let's tackle that question:
-
-```{r, message=FALSE, warning=FALSE}
-# count() is a new function for most of us
-# It does what it sounds like -- count the number of results
-
-# Count number of tanks below temperature cutoff for TILAPIA
-tank_data %>% 
-  filter(species == "tilapia" & avg_daily_temp_F < 75) %>% 
-  count()
-
-# for TROUT
-tank_data %>% 
-  filter(species == "trout" & avg_daily_temp_F < 59) %>% 
-  count()
-
-# Let's introduce some additional syntax: "&" and "|"
-
-# Now we can get counts for both fish species in one go!
-tank_data %>%
-  filter(species == "tilapia" & avg_daily_temp_F < 75 |
-         species == "trout" & avg_daily_temp_F < 59) %>%
-  group_by(species) %>%
-  summarize(n = n()) # Another way to get the count is summarize() with n()
-
+```{r fig.width=4.5, fig.height=3}
+ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips)) +
+  geom_point()
 ```
+
+4)  Clean up the axis labels with the `labs()` function so they are more easily interpreted.
+
+```{r fig.width=4.5, fig.height=3}
+ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips)) +
+  geom_point() +
+  labs(x = "Percent Fish in Diet",
+       y = "Number of Trips to the Doctor") 
+```
+
+5)  Choose a `theme` function to make the plot more aesthetically pleasing.
+
+```{r fig.width=4.5, fig.height=3}
+# theme_bw(), theme_classic(), and theme_light() are my favorites
+ggplot(sick, aes(x = perc_fish, y = doctor_trips)) +
+  geom_point() +
+  labs(x = "Percent Fish in Diet",
+       y = "Number of Trips to the Doctor") +
+  theme_light()
+```
+
+In Summary:
+
+-   we always start with the `ggplot()` function
+-   we specify the dataset we want to use
+-   we specify the mappings (x- and y-axes and some other bits) with the `aes()` function
+-   we use a `+` to add layers
+-   we specify the type of plot, or `geom` using one of many possible geom functions
+-   we use the `labs()` function to clean up the labels
+-   we add a `theme` function to make it more visually readable

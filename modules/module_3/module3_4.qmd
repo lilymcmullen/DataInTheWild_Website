@@ -1,143 +1,307 @@
 ---
-title: "3.4: Combining Data (Joins and Binds)"
+title: "3.4: Roads and Regressions"
+author: "Mila Pruiett and Ellen Bledsoe"
+format:
+  html:
+    toc: true
 ---
 
-## The Context
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-After the series of incidents where a number of the collars made by Budget Collars LLC seem to be failing, our team decided to try and replace as many of them as possible. Besides, their battery life is far inferior.
+# Roads and Regressions
 
-We're placing as many collars on as many seals as we can, and we are starting to run short on collars.
+## The Scenario
 
-One of our intrepid data science team members found an old box of collars and some data on all of the collars (it was a real challenge getting this data off of an old floppy drive, but she managed).
+In this module, we have tried to figure out which bays we should prioritize for fishing based on the following data sets:
 
-### Our Tasks
+-   radio collar data
+-   fish catch data
+-   leopard seal abundance data
 
-We're going to spend the next lessons tackling two tasks:
+Based on our results from Assignment 2, we made a decision about which two bays look like our best options. Now, we need to make these bays accessible over land to transport the fish we've caught to our home base.
 
-**1) First, we'll work to join data sets together.**
+**Our Goal: build a road while minimizing our impact on the delicate antarctic ecosystem.**
 
-Our main goal is to create a single data set that includes the data we have previously looked at for collars, the data on the new collars, as well as the additional data on the old collars.
+Our first order of business is to make sure that we avoid areas with that are well-suited for [Antarctica hair grass](https://oceanwide-expeditions.com/blog/the-plants-of-antarctic) (*Deschamsia antarctica*), one of only two flowering species of plants on the continent.
 
-This is a little tricky, as the collar IDs need to be matched up with their counterparts across datasets, and new collars need be added. Unfortunately, the new collars have IDs and some additional data, but we don't know the maker of the new collars.
+![](assets/hairgrass_indiv.jpeg){width="50%"}
 
-**2) Second, we will try to identify the maker of mystery collars.**
+We want to know what environmental conditions are associated with hair grass. This way, we can avoid areas where these conditions are met and not destroy precious habitat for the hair grass.
 
-In order to do this, we will skim the surface of machine learning. We can use a common classification algorithm, K-Nearnest Neighbors (KNN), to predict which maker made which of our unidentified collars. Don't worry, we won't go into *too* much detail here, but I want to you to at least have a general idea of how it works.
+It would take far too long to survey every bit of land between our base and our fishing spots, so we are going to build a **model** based on some samples of where hair grass is found to help us predict where else it might be.
 
-## Combining Data (Joins and Binds)
+### What is a model?
 
-Often times, we have a lot of data for one project that are related but storing all of the data in one file would add unnecessary redundancy (e.g., data in certain rows would need to be repeated too often). Other times, data has been collected separately and needs to be combined before analysis.
+A model is a way for us to take complex systems and break them down into small, more understandable bits. We can use models to help us understand the relationship between different variables. We can then use those models to make predictions based on those relationships.
 
-Being able to join together data from related tables is a key skill in data science, and for working with larger data structures (databases with their own languages, like SQL).
+## Data
 
-### The Data
+![](assets/hairgrass_landscape.jpeg){width="50%"}
 
-Let's load in the `tidyverse` and the data we're working.
+Knowing that we would soon be building roads, we asked our botanists to collect data for us on key components of the hairgrass' environment. Since it would take too long to sample everywhere hairgrass grows, they collected data from a sample of the hairgrass population.
+
+Our botanists collected data for the following variables:
+
+-   *hairgrass density*: number of individual clumps (tussocks) of hairgrass (per 25 meters squared)
+-   *soil pH*: most plants prefer mildly acidic to neutral environments
+-   *nitrogen (N) content*: as parts per million (ppm); important for plant growth and tissue building
+-   *phosphorous (P) content*: as parts per million (ppm); important for plant growth and tissue building
+-   *percent rock*: how rocky the location is; rocks in soil impact water drainage and temperature
+-   *max windspeed (knots per hour)*: extreme wind can pose a challenge to plants of all types
+-   *average summer temperature (C)*: temperature in the growing season
+-   *penguin density*: the number of penguins per the sample quadrant penguin poop increases nitrogen and phosphorus content in the system but penguins may trample the plants
+
+This data is based on this article: [Parnikoza, et al. 2007](https://doi.org/10.1016/j.polar.2007.10.002)
+
+## Summarize and Visualize
+
+As we see above, there are many environmental conditions that may be associated with hair grass density.
+
+For this lesson, we are going to focus on two: *nitrogen (N) content* and *soil pH*.
+
+### Set-Up
+
+As usual, we start with loading our packages and our data.
 
 ```{r message=FALSE}
-# Load the tidyverse
 library(tidyverse)
-
-# Loading in the data
-collars <- read_csv("data/collar_data.csv")
-new_collars <- read_csv("data/new_collars.csv")
-old_collars_new_data <- read_csv("data/old_collars_new_data.csv")
-
-# Tell me about these data, how are we going to join them?
+hairgrass_data <- read_csv("data/hairgrass_data.csv")
 ```
 
-First, let's explore our data. We want to focus on 2 things here:
-
-(1) The columns: Which ones match columns in other datasets?
-(2) Collar identity: Which datasets have matching collars or new collars?
+Let's take a look at the data in the data set. What does each row represent?
 
 ```{r}
-# View first few rows of each dataset
-head(collars)
-head(new_collars)
-head(old_collars_new_data)
+head(hairgrass_data)
+tail(hairgrass_data)
 ```
 
-### Diagramming
+### Nitrogen Content
 
-In small groups, talk through the process of combining these three datasets. Think about the following:
+Let's start by investigating any relationship between hair grass density and nitrogen content.
 
--   Which columns match and which ones don't?
--   Which rows match and which ones don't?
--   Does the order in which we combine datasets matter?
+First, we should spend a little time thinking about our variables. Spend a few minutes in small groups discussing the answer to the questions below.
 
-Draw out a diagram that represents how this process might go.
+-   Which columns are we interested in right now? soil_nitrogen, hairgrass_density
+-   Which one is the independent variable and which is the dependent variable?
+    -   independent: soil_nitrogen
+    -   dependent: hairgrass_density
+-   Are the variables categorical or continuous? both are continuous
+-   Which type of data visualization should we use? scatterplot
 
-## Joins vs. Binds
-
-Now that we've decided on a process for how to combine our data, let's figure out which functions we are going to use to accomplish this task.
-
-We have 2 main methods of combining data sets, and they work in different ways.
-
-### Joins
-
-Joins are arguably the more complicated of the two types of ways to combine data, but they are, therefore, the more flexible and useful.
-
-The magic of comes comes because they match up columns of data based on unique identifiers in each row of data.
-
-In the following diagram, the two example data frames have the column `x1` in common, and each of the values in `x1` are unique (no repeats in the same data frame). When combining the data sets, all of the columns are added, and their rows are matched up to their respective values in the `x1` column.
-
-This can happen a couple ways, depending on which data frame is the reference and how much data you want to retain.
-
-![](assets/joins.png)
-
-### Binds
-
-The other way we can combine data sets in through binds. Binds act similarly to gluing datasets together.
-
-They don't match up data based on unique identifiers; instead they match up data by column name (`bind_rows`) or row position (`bind_cols`)
-
-![](assets/binds.png)
-
-How should we go about combining our three data sets? Come up with a plan that you think will work.
-
-## Task 1: Combine Our Data
-
-### Step 1
-
-Our first step in to merge the old collar data with the new data about those old collars.
+Next, calculate the mean (`mean()`) and standard deviation (`sd()`) for the nitrogen content.
 
 ```{r}
-# Use a left join
-
-# Full join would accomplish the same thing in this case because we don't have any missing rows
-
-old_collars_combined <- collars %>% 
-  left_join(old_collars_new_data, by = c("collar_id", "maker"))
-
+hairgrass_data %>% 
+  summarise(mean_N = mean(soil_nitrogen),
+            sd_N = sd(soil_nitrogen))
 ```
 
-If we take a look our new data frame, we should hopefully see that the values for `antenna_length` and `weight` have been matched up with their respective collar id.
-
-Could we have used another tactic to combine these two datasets? What would the pros and cons be?
-
-### Step 2
-
-Now we need to add the new collars to our dataset. What is our best method for combining?
+Now that we have summarized the data, let's take a look at the data visually.
 
 ```{r}
-# Add new collars
-full <- bind_rows(old_collars_combined, new_collars)
+ggplot(hairgrass_data, aes(soil_nitrogen, hairgrass_density)) +
+  geom_point() +
+  labs(x = "N Content",
+       y = "Hairgrass Density (per 25 m^2)") +
+  theme_bw()
 ```
 
-Let's take a look at our new data frame! Have we correctly accomplished our first task?
+Do you see a pattern? What type of relationship do you see?
 
-### Saving our New Data
+How do we analyze this type of relationship statistically?
 
-Now that we've accomplished our first task, we are going to want to use this combined dataset to accomplish our next task, which is using a classification algorithm to help us predict which maker made the mystery collars.
+## Statistical Analysis
 
-To save our data as a .csv file that we can use in another analysis, we are going to use a function that exports the dataset (`write_csv`) instead of importing it (`read_csv`).
+We are going to use two (related) statistical methods to understand the relationship between two continuous (numeric) variables:
 
-The `write_csv` function requires the name of the dataframe to export as the first argument and the name of the file we want to create as the second argument.
+-   correlation coefficient ($r$) and R-squared ($R^2$)
+-   linear regression
+
+### Line of Best Fit
+
+To understand correlation, R-squared, and linear regression, we first need to talk about something we call the *line of best fit*.
+
+The line of best fit aims to minimize the distance between each observation (points) and the line. The distances between each observation and any line are called *residuals* (the dotted gray lines). The line of best fit is the line that has the smallest *residuals*.
+
+![](assets/lines.png){width="50%"} ![](assets/residuals.jpg){width="50%"}
+
+We can add a line of best fit to a ggplot by using the `geom_smooth()` function. We need to specify that the method we want should produce a straight line ("linear model").
 
 ```{r}
-# Save our new data
-write_csv(full, "data/all_collar_data.csv")
+ggplot(hairgrass_data, aes(soil_nitrogen, hairgrass_density)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "N Content",
+       y = "Hairgrass Density (per m^2)") +
+  theme_bw()
+
+# method = "lm" is required!
+# se = FALSE is optional
 ```
 
-If we look over in our Files tab, you should see your new .csv file!
+### Correlation Coefficient
+
+The correlation coefficient, `r`, is a measurement of the strength of the relationship between two continuous variables.
+
+The correlation coefficient is a number between -1 and 1 that looks at the relationship between two numeric variables. If the value is negative, there is a negative relationship between the two variable; if the value is positive, there is a positive relationship.
+
+If all the points fall exactly on the line of best fit, r = 1 or -1. If there is no relationship between the variables, `r` is 0 (or something very close to it).
+
+![](assets/coefficient_correlation.jpg){width="50%"}
+
+The greater the magnitude (size) of the correlation coefficient, the stronger the relationship between the two variables.
+
+![](assets/correlation.jpg){width="50%"}
+
+It is also important to recognize that the correlation coefficient has nothing to do with the slope of the line (we use linear regression to assess that!)
+
+![](assets/steepness.jpeg){width="50%"}
+
+Based on the hairgrass plot we did above, do you expect the correlation coefficient to be positive or negative? For this class, we'll say that any `r` value with 0.1 of 0 means there is no relationship.
+
+To calculate the correlation coefficient, we need to go back to base R and indicate which columns we are referencing with the `$` operator. We use the `cor()` function.
+
+```{r}
+r_nitrogen <- cor(x = hairgrass_data$soil_nitrogen, y = hairgrass_data$hairgrass_density)
+r_nitrogen
+```
+
+### R-squared ($R^2$)
+
+The R-squared ($R^2$) value is a representation of how much variation is explained by the line of best fit.
+
+When we have a dependent variable and an independent variable, the R-squared value tells us how much of the variation in the *dependent* variable is explained by the *independent* variable.
+
+Sometimes we don't have obvious dependent and independent variables, but we can still use similar language ($R^2$ tells us how much of the variation in the data is explained).
+
+To calculate R-squared, we square the correlation coefficient value we calculated above. It is always positive because we are squaring it `r` value; that means that R-squared values range from 0 to 1. The closer to 1, the more variation is explained.
+
+```{r}
+r_nitrogen^2
+```
+
+How would we interpret this `r^2` value?
+
+One way to think of the `r^2` value that might be helpful is to convert it from a proportion to a percentage—what *percentage* of the variation in the dependent variable is explained by the independent variable?
+
+To convert the proportion to a percentage, we can multiply the value by 100.
+
+```{r}
+r_nitrogen^2 * 100
+```
+
+### Linear Regression Analysis
+
+A regression analysis approximates the relationship between a dependent variable and one or more independent variables. It evaluates the strength of that relationship, ultimately giving us a p-value.
+
+Since we are using linear regressions in this course, the regression model will take the form of a straight line. The generic equation for a straight line is `y = mx + b`.
+
+-   `y` = dependent variable (y-axis)
+-   `x` = independent variable (x-axis)
+-   `m` = slope of the line is the slope
+-   `b` = y-intercept
+
+When we have a line with the specific slope and y-intercept, this equation lets us calculate the expected y-axis value for any given point on the x-axis.
+
+Using our variables, what would our linear regression model look like (we don't know `m` or `b` yet...)?
+
+### Hypothesis Testing
+
+What is the null hypothesis? What is the alternative hypothesis?
+
+**Null Hypothesis** ($H_{0}$): There is no relationship between hair grass density and nitrogen content.
+
+**Alternative Hypothesis** ($H_{A}$): There is a relationship between hair grass density and nitrogen content.
+
+What do you think this means for the slopes?
+
+### Regression Analysis
+
+Thankfully, R can calculate the slope (`m`) and y-intercept (`b`) of the line of best fit for us.
+
+Let's find the equation for our line of best fit, our test statistic, and our p-value. To do this, we use a function called `lm()`: this stands for "linear model."
+
+Like with ANOVA, we will then want to use the `summary()` function to get out the values we need.
+
+```{r}
+nitrogen_model <- lm(hairgrass_density ~ soil_nitrogen, data = hairgrass_data)
+summary(nitrogen_model)
+```
+
+As with our other statistical tests---t-tests and ANOVAs---the results give us some important values:
+
+-   `b` (y-intercept): part of our line of best fit equation
+    -   The "intercept estimate", in this case 84.24, is our y-intercept in our line of best fit
+-   `m` (slope): also part of our line of best fit equation
+    -   this is the estimate for our independent variable (soil_nitrogen in this case)
+    -   in this model, m = 1.8
+-   *F-statistic*: this is our test statistic
+-   *p-value*: calculated from our regression model, used to determine significance (0.05 cut-off, as usual)
+    -   There are multiple p-values here. Focus either on the p-value for the independent variable (soil_nitrogen) or the overall p-value displayed in the last line of the results summary (p \< 2.2e-16)
+-   *R-squared*: this is our R-squared value that we calculated earlier
+    -   You can report either the "multiple" or the "adjusted"
+    -   The "multiple" will typically match the one we calculate with code
+
+This means our equation for the line of best fit is: y = 1.8x + 84.24 and there is a statistically significant relationship between nitrogen content and hairgrass density.
+
+## Soil pH
+
+Let's do the same series of steps to determine how soil pH impacts hair grass densities. Work on this in your small groups, and we will go over it in about 10 minutes.
+
+Start with summarizing the data: mean and standard deviation.
+
+```{r}
+hairgrass_data %>% 
+  summarize(mean_pH = mean(soil_ph),
+            sd_pH = sd(soil_ph))
+```
+
+Visualize the data. Remember to add in the line of best fit using `ggplot2`. Also add labels and a theme for practice.
+
+```{r}
+ggplot(hairgrass_data, aes(soil_ph, hairgrass_density)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Soil pH",
+       y = "Hairgrass Density per m^2") + 
+  theme_bw()
+```
+
+Calculate the correlation coefficient (`r`)? What does this tell us?
+
+```{r}
+r_ph <- cor(x = hairgrass_data$soil_ph, y = hairgrass_data$hairgrass_density)
+```
+
+How much variation does soil pH explain in the hair grass density data?
+
+```{r}
+r_ph^2
+```
+
+Write out the model for our question about soil pH (without values)?
+
+```{r}
+# hairgrass density  = m(soil_ph) + b
+```
+
+Run the regression model and write out the equation for the line of best fit.
+
+```{r}
+ph_model <- lm(hairgrass_density ~ soil_ph, data = hairgrass_data)
+summary(ph_model)
+```
+
+Equation for line of best fit: y = -4.648x + 150.24
+
+Interpret the results of the regression (our p-value cutoff is still = 0.05). What do we conclude about the relationship between soil pH and hair grass density? Why?
+
+Because p \< 0.05 for the regression model, we reject the null hypothesis and conclude that there is a relationship between soil pH and hairgrass density.
+
+## Data-driven Decision Making
+
+The reason we are using regression analysis is to inform where we should (or should not) build our road so we don't harm the sensitive hair grass or take away their prime habitat.
+
+What do results above for nitrogen content and soil pH mean for the road we are building?

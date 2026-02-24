@@ -1,108 +1,91 @@
 ---
-title: "2.3: Plotting with `ggplot2`"
+title: "2.3: Data Visualization"
+authors: "Ellen Bledsoe"
+format:
+  html:
+    toc: true
 ---
 
-## Get to Know `ggplot2`
-
-So far, we've used the base R plotting syntax. While quick plots in base R can still be really useful ways to do preliminary data exploration and visualization, we often want plots that go beyond the basics without too much additional effort. This is where `ggplot2` comes in and really shines!
-
-## Example
-
-Before we get into the nitty-gritty of how `ggplot2` works, Let's run an example using the data about our sick crew members from earlier.
-
-First, we need to load in both the `tidyverse` package and our data. We can remind oursevles what the data look like using the `head()` function.
-
-```{r, message=FALSE, warning=FALSE}
-# Load package
-library(tidyverse)
-
-# Load data
-sick <- read_csv("data/sick_data.csv")
-
-# View first few rows
-head(sick)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Here is code to make a scatter plot of the relationship between percent fish in diets and how many trips to the doctor.
+# A Visualization Primer
 
-```{r, message=FALSE, warning=FALSE}
-# Scatterplot of % fish diet and # of doctor visits
-ggplot(sick, aes(x = perc_fish, y = doctor_trips)) +
-  geom_point() +
-  labs(x = "Percent Fish in Diet",
-       y = "Number of Trips to the Doctor") +
-  theme_light()
-```
+## Why Does Data Visualization Matter?
 
-Nice, right? In the next few classes, we will really start to see the power of `ggplot`. For now, though, let's focus on how this works.
+### Small Groups
 
-## `ggplot2`
+As a group, take 5 minutes to compare your notes and come to a group consensus on your top 3 reasons why data visualization matters. Be sure to choose someone to report out!
 
-The package `ggplot2` is part of the `tidyverse`.
+## Types of Visualization
 
-Here are some resources you might find helpful now or in the future:
+### Visual cues for communicating data
 
--   [ggplot2 Book](https://ggplot2-book.org/getting-started.html)
--   [UC Business Analytics ggplot2 intro](https://uc-r.github.io/ggplot_intro)
--   [R for Data Science Data Visualization chapter](https://r4ds.had.co.nz/data-visualisation.html)
+[Here](https://rafalab.dfci.harvard.edu/dsbook-part-1/dataviz/dataviz-principles.html) is a decent overview of some of the core concepts of data visualization.
 
-The `gg` in `ggplot2` stands for "Grammar of Graphics." The "grammar" part is based on an idea that all statistical plots have the same fundamental features: data and mapping (and specific components of mapping).
+This website is pretty great and goes into a lot of detail about good practices in data visualization. If this is something that really piques your interest, I encourage you to check it out!
 
-The design is that you work iteratively, building up layer upon layer until you have your final plot.
+In this course, our main take-away from this website is the use of visual cues to communicate data and which ones are better than others.
 
-The typical structure looks like this:
+![](assets/data_viz_cues.jpg){width="50%"}
 
-```{r}
-# ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  
-# <GEOM_FUNCTION>()
-```
+### Small group activity
 
-A few things to note:
+In groups, discuss as many types of visualizations as you can think of. It's okay if you don't know what they are called! Make a quick list or draw them out if you prefer.
 
--   We always start with the `ggplot()` function
--   We specify the dataset we want to use
--   We specify the mappings (x- and y-axes and some other bits) with the `aes()` function
--   We use a `+` to add layers
--   We specify the type of plot, or `geom` using one of many possible geom functions
--   We use the `labs()` function to clean up the labels
--   We add a `theme` function to make it more visually readable
+Types of data visualizations:
 
-Let's iteratively build up to the plot we have made above:
+We will talk more about how to choose the right visualization for your data now and also in the rest of the module.
 
-1)  Specify the data
+### Data matching activity
 
-```{r fig.width=4.5, fig.height=3}
-ggplot(data = sick)
-```
+Still in your groups, open the PDF called "data_viz_matching"
 
-2)  Specify the x-axis (horizontal) and the y-axis (vertical) in the `aes()` function.
+Spend a few minutes seeing if you can match the data descriptions to the types of data visualizations.
 
-```{r fig.width=4.5, fig.height=3}
-ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips))
-```
+Each “dataset” is pulled from the same overall dataset: measurements from 344 individual penguins from different species and on different islands over 3 years. Some datasets created multiple plots.
 
-3)  Add the type of plot we want using a `geom` function.
+A.  Penguin body mass and flipper lengths
+B.  Penguin flipper lengths
+C.  Penguin species and flipper lengths
+D.  Penguins body mass, species, and flipper lengths
 
-```{r fig.width=4.5, fig.height=3}
-ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips)) +
-  geom_point()
-```
+#### Matches
 
-4)  Clean up the axis labels with the `lab()` function so they are more easily interpreted.
+1.  A
+2.  C
+3.  C
+4.  B
+5.  C
+6.  D
 
-```{r fig.width=4.5, fig.height=3}
-ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips)) +
-  geom_point() +
-  labs(x = "Percent Fish in Diet",
-       y = "Number of Trips to the Doctor") 
-```
+See the PowerPoint on D2L for full details!
 
-5)  Choose a `theme` function to make the plot more aesthetically pleasing. My favorites are `theme_bw()`, `theme_classic()`, and `theme_light()`.
+## Figure Critique
 
-```{r fig.width=4.5, fig.height=3}
-ggplot(sick, aes(x = perc_fish, y = doctor_trips)) +
-  geom_point() +
-  labs(x = "Percent Fish in Diet",
-       y = "Number of Trips to the Doctor") +
-  theme_light()
-```
+First, read through [this blog post](https://humansofdata.atlan.com/2019/02/dos-donts-data-visualization/) on the "Dos and Don'ts of Data Visualization"
+
+Now that you have some insights, let's critique these figures below. Yes, these are actual figures in the wild...
+
+-   what aspects don't work
+-   what aspects do work
+-   how would you present the data?
+
+Figures:
+
+1.  
+
+![](assets/image1.png){width="50%"}
+
+2.  
+
+![](assets/image2.jpg){width="50%"}
+
+3.  
+
+![](assets/image3.jpg){width="50%"}
+
+4.  
+
+![](assets/image4.png){width="50%"}

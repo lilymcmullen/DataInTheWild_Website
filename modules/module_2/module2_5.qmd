@@ -1,260 +1,129 @@
 ---
-title: "2.5: Sick Fish"
+title: "2.5: Module 2 Wrap-Up"
+author: "Ellen Bledsoe"
+format:
+  html:
+    toc: true
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-## Scenario
+# What is causing the food poisoning?
 
-Here is our current scenario.
+At the beginning of Module 2, we set out to discover what was causing food poisoning among our colleagues at our Antarctic base. Let's put everything we've learned about descriptive statistics and data visualization to use to try to hunt down what the problem is.
 
-**What we know**: We found a correlation between eating fish and people getting sick, but that isn't really the root of the problem. We have also found that a number of tanks are below the average temperature that might cause issues with fish immune systems.
+## Set-up
 
-**What we don't know**: We don't actually know if rates of disease are present above average levels in the tanks, and we definitely don't know what kinds of factors are contributing to this problem (if there is one!).
+Let's load the package and data we will need.
 
-Our first challenge is that we can't sample the disease rate in all tanks. It's too expensive and takes too long. Instead of sampling all 1000 tanks, we've tasked our aquaculture scientists to take a sub-sample (50 tanks). Our aquaculture scientists have shared this data with us.
+### Packages
 
-Let's scope it out:
-
-```{r, message=FALSE, warning=FALSE}
-# Load tidyverse
+```{r message = FALSE}
 library(tidyverse)
+```
 
-# Load data
-sick_fish <- read_csv("data/fish_sick_data.csv")
+### Data
 
-# View first few rows
+First, we need our dataset!
+
+```{r}
+sick_fish <- read_csv("data/fish_sick_data.csv") 
+```
+
+Let's check out our data and remind ourselves what we are working with.
+
+```{r}
 head(sick_fish)
 ```
 
-Oh no, we might need to add a Fahrenheit column... let's practice.
+## Which Fish?
+
+Last class, we plotted the number of sick fish. Let's remind ourselves what that looked like. Make a plot that compares the numbers of sick fish per species. We actually have a few options!
 
 ```{r}
-# Make temperature conversion function
-c_to_f <- function(c = NULL){
-  f <- (c * (9/5)) + 32
-  return(f)
-}
+ggplot(sick_fish, aes(num_sick, fill = species)) +
+  geom_histogram(alpha = 0.5, position = "identity", bins = 10) +
+  labs(x = "Number of Sick Fish in Tanks",
+       y = "Frequency",
+       fill = "Species") +
+  theme_classic()
+```
 
-# Convert temperatures and put converted value in a new column
+### Density
+
+Wait a second! Take a look back at the data. There is a "number of fish" column, indicating the total number of fish in the tank, and it looks like those numbers can differ pretty widely.
+
+We should probably take into account how many fish there are in the tank to begin with. 12 sick fish out of 50 is probably a bigger deal than 12 sick fish out of 100!
+
+What we need to do is calculate a density of fish--number of sick fish / number of total fish.
+
+```{r}
+# take into account the number of fish in the tank: density of sick fish
 sick_fish <- sick_fish %>% 
-  mutate(avg_daily_tempF = c_to_f(avg_daily_temp))
+  mutate(density = num_sick/num_fish) 
 ```
 
-## Data Exploration
+#### Small Groups
 
-One of the best ways to get an idea of what our data look like and are telling us is by calculating some summary statistics.
+Let's make sure our conclusions about trout being the true culprits still hold when we account for the total number of fish in the tank.
 
-### Group Challenge
+Work in small groups to do the following:
 
-Let's use the `tidyverse` to calculate some summary statistics for the data we have been given.
-
-Write some code that produces the following values *per species*.
-
--   Mean (average) number of sick fish
--   Mean (average) percentage of sick fish per tank
--   How many tanks
+-   find the average number and standard deviation of sick fish for both species
+-   make a plot that compares the distributions of sick fish numbers for both species (you have multiple options here!)
 
 ```{r}
-sick_fish %>%
-  group_by(species) %>%
-  summarize(mean_sick = mean(num_sick),             # mean number of fish
-            mean_perc = mean(num_sick/num_fish),    # mean percent of fish
-            n = n())                                # counts
+sick_fish %>% 
+  group_by(species) %>% 
+  summarize(mean_sick_fish = mean(density),
+            sd_sick_fish = sd(density))
+
+ggplot(sick_fish, aes(species, density, color = species)) +
+  geom_boxplot() + 
+  geom_jitter(alpha = 0.5, width = 0.1) +
+  labs(x = "Species",
+       y = "Density of Sick Fish in Tanks",
+       color = "Species") +
+  theme_light()
+
+# histogram
+ggplot(sick_fish, aes(density, fill = species)) +
+  geom_histogram(alpha = 0.5, bins = 15)
+
 ```
 
-Summary statistics (such as means) are helpful for giving us some ideas about our data, but they don't tell us the full story. Plotting data can give us some additional insights.
+Uh oh...the trout densities look even worse than just the number of sick fish. We need to take a closer look at what is going on in the trout tanks!
 
-Before we plot, let's create two different data frames: one for tilapia and one for trout.
+We should create a data frame that only contains trout to work with for the rest of our analyses. Take a few minutes to work on that; call it `sick_trout`.
 
 ```{r}
-# New data frame for just tilapia
-sick_tilapia <- sick_fish %>% 
-  filter(species == "tilapia")
-
-# New data frame for just trout
 sick_trout <- sick_fish %>% 
   filter(species == "trout")
 ```
 
-Now, let's plot our data to get an idea of the distribution (spread) of the data. What might the distribution of the data tell us that an average can't?
+## What Environmental Factor?
 
-We can make histograms to see if there are some tanks that have a lot of sick fish and are increasing this average or if most of the tanks seem to have about the same number of sick fish.
+Let's talk about fish physiology for a minute.
 
-What would these two different scenarios tell us?
+Take a look back at the data frame. Which columns are environmental variables that could be driving the issues?
 
-```{r}
-# Sick tilapia histogram
-hist(sick_tilapia$num_sick)
+Are those columns numeric or categorical? What plot type have we talked about that might help us find a relationship between density and each of these variables (one at a time...)?
 
-# Sick trout histogram
-hist(sick_trout$num_sick)
-```
-
-Let's compare values from tanks which are below the temperature cutoffs to those which are above the cutoffs to see if there are major difference or we can figure out some answers.
-
-## Using the `if_else()` function
-
-Before we start calculating means and plotting, let's create a new column in our data frame to indicate whether the tank temperature is above or below the cutoff temperature. We will use our fish-specific data frames to do this.
-
-A useful function that we can use when we want to create a new column based on values in another column is the `if_else()` function. It operates the following way:
-
-1.  IF a condition is true, do \[something\].
-
-2.  IF a condition is false, do \[something ELSE\].
+In small groups, make plots using `density` column in the `sick_trout` data to try to figure out which environmental factor is causing problems in the trout. Treat your variables as numeric.
 
 ```{r}
-# Start with tilapia dataframe
-sick_tilapia %>% 
-  mutate(temp_cutoff = if_else(condition = avg_daily_tempF >= 75,
-                               true = "above",
-                               false = "below"))
+ggplot(sick_trout, aes(x = density, y = num_fish)) +
+  #geom_smooth(method = 'lm', se = FALSE) +
+  geom_point() 
+
+ggplot(sick_trout, aes(x = density, y = avg_daily_temp)) +
+  #geom_smooth(method = 'lm', se = FALSE) +
+  geom_point()
+
+ggplot(sick_trout, aes(density, day_length)) +
+  #geom_smooth(method = 'lm', se = FALSE) +
+  geom_point() 
 ```
 
-### Individual Challenge
-
-Practice using the `if_else()` function as we did above. This time, use the sick_trout dataframe. Remember to change the bits of the code that you need to!
-
-```{r}
-# Modify the code below to do the same operation for the trout
-sick_tilapia %>% 
-  mutate(temp_cutoff = if_else(condition = avg_daily_tempF >= 75,
-                               true = "above",
-                               false = "below"))
-```
-
-## Another Type of Iteration: `for loop`
-
-Another way we could write something like this is by using the `if_else()` function in something we call a `for loop`.
-
-Before we do that, though, let's talk through the general structure of a `for loop`. It essentially says for each value in a list, do a certain task. The "loop" is because we are "looping" through a list of values, performing the task for one value then looping back to the beginning to perform the task for the next value. We type the "task" within curly brackets, similar to a function that we write.
-
-```{r}
-# for loop structure:
-
-# for ([value] in [list]){
-  # Do the things I've written between the curly brackets
-# }
-
-# for loop example with years
-for (year in 2020:2022){
-  print(paste("The year is", year))
-}
-
-# What is happening in this loop?
-
-# We start with year = 2020,
-# So the for loop will print "The year is 2020"
-# We then go back to the beginning and do this again,
-# this time year = 2021
-# So now the for loop will print "The year is 2021"
-# The last value in our loop is year = 2022
-# And as you would expect, that would give "The year is 2022"
-```
-
-Now that we know the general structure of a `for loop`, we can combine it with the `if_else()` function to create a new column.
-
-```{r}
-# Create an empty column in sick_tilapia
-sick_tilapia$temp_cutoff <- NA
-
-# What do we want to do?
-
-# for each value (i) in a list going from 1 to the number of rows in sick_tilapia,
-# put either "above" or "below" in the same place as (i) in the dataframe, but this time in the new column
-
-# In this case, i is equivalent to the row 
-
-# So this loop will repeat however many rows are present in sick_tilapia
-for (i in 1:nrow(sick_tilapia)){
-  
-  sick_tilapia$temp_cutoff[i] <- 
-    if_else(condition = sick_tilapia$avg_daily_tempF[i] >= 75,
-            true = "above",
-            false = "below")
-  
-}
-```
-
-*Note: I will never ask you to write a for loop completely from scratch. I might have you copy and paste one or change some values in one, but you won't have to write one out yourself.*
-
-### Group Challenge
-
-Try your hand at using the `for loop` we wrote above to create a new temperature cutoff column in the `sick_trout` data frame. Remember, the cutoff for trout was 59°F.
-
-```{r}
-# New column
-sick_trout$temp_cutoff <- NA
-
-# Same operation done on trout as done on tilapia above
-for (i in 1:nrow(sick_trout)){
-  
-  sick_trout$temp_cutoff[i] <- 
-    if_else(condition = sick_trout$avg_daily_tempF[i] >= 59,
-            true = "above",
-            false = "below")
-  
-}
-```
-
-### Why `for loops`?
-
-Like with our last lesson about functions, I've asked you to perform a task in a new and complicated way than you need to for that task. Why?
-
-You'll find some examples [here](https://github.com/bleds22e/PP_shifts/blob/master/scripts/functions.R) in code written for my Ph.D. dissertation.
-
-## Back to Data Exploration
-
-We now have 2 data frames, one with tilapia data and one with trout data. Each data frame also has a new column called `temp_cutoff`. On your own or with a partner, start exploring the data to figure out if there are differences between warm and cold tilapia and warm and cold trout.
-
-Can you pinpoint an issue? Let's start by comparing means.
-
-```{r}
-# Mean number of sick tilapia per temperature cutoff
-sick_tilapia %>% 
-  group_by(temp_cutoff) %>% 
-  summarise(mean_sick = mean(num_sick))
-
-# Mean number of sick tilapia per temperature cutoff
-sick_trout %>% 
-  group_by(temp_cutoff) %>% 
-  summarise(mean_sick = mean(num_sick))
-
-# Alternative:
-
-# Put tilapia and trout data back together
-sick_fish <- bind_rows(sick_tilapia, sick_trout)
-
-# Find mean number of sick fish for each species, for each temperature cutoff
-sick_fish %>% 
-  group_by(species, temp_cutoff) %>% 
-  summarise(mean_sick = mean(num_sick))
-```
-
-Not much popping out in the means. Next thing to check would be histograms of the number of sick fish for both species, above and below the cutoffs.
-
-For now, I would recommend making 4 different data frames (this isn't "best practice" but it is really helpful while you are learning).
-
-```{r}
-# Separate tilapia below temperature cutoff
-cold_tilapia <- sick_tilapia %>% 
-  filter(temp_cutoff == "below")
-
-# Separate tilapia above temperature cutoff
-warm_tilapia <- sick_tilapia %>% 
-  filter(temp_cutoff == "above")
-
-# Separate trout below temperature cutoff
-cold_trout <- sick_trout %>% 
-  filter(temp_cutoff == "below")
-
-# Separate trout above temperature cutoff
-warm_trout <- sick_trout %>% 
-  filter(temp_cutoff == "above")
-
-# Tilapia histograms
-hist(cold_tilapia$num_sick)
-hist(warm_tilapia$num_sick)
-
-# Trout histograms
-hist(cold_trout$num_sick)
-hist(warm_trout$num_sick)
-```
+What do we think is the environmental driver causing issues with the trout?
