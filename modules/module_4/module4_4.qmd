@@ -1,10 +1,11 @@
 ---
-title: "3.6: Multiple Regression"
+title: "4.4: Multiple Regression"
 author: "Ellen Bledsoe"
 format:
   html:
     toc: true
 ---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```

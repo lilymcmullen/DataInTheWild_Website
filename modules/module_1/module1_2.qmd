@@ -218,7 +218,7 @@ Because data frames are two-dimensional, we can subset the data in a data frame 
 
 R *always* takes information for the row first, then the column.
 
-Think of it as: data[row, column]
+Think of it as: data\[row, column\]
 
 Just like with vectors, we can subset data frames by index or by condition using square brackets.
 

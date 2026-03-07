@@ -5,10 +5,12 @@ format:
   html:
     toc: true
 ---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-# Plotting with `ggplot2`
+
+# Intro to `ggplot2`
 
 So far, we've used the base R plotting syntax. While quick plots in base R can still be really useful ways to do preliminary data exploration and visualization, we often want plots that go beyond the basics without too much additional effort. This is where `ggplot2` comes in and really shines!
 

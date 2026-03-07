@@ -1,199 +1,151 @@
 ---
-title: '4.1: Population Growth'
-author: "Jessie Golding and Ellen Bledsoe"
+title: "4.1: Combining Datasets (Joins & Binds)"
+author: "Ellen Bledsoe"
 format:
   html:
     toc: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction to Population Growth
+# The Context
 
-Let's use descriptive statistics and data visualization to better understand population dynamics.
+After the series of incidents where a number of the collars made by Budget Collars LLC seem to be failing, our team decided to try and replace as many of them as possible. Besides, their battery life is far inferior.
 
-### Exponential Growth
+We're placing as many collars on as many seals as we can, and we are starting to run short on collars.
 
-A population that shows [exponential growth]{.underline} has a growth rate that depends the average number of births (`b`) and deaths (`d`) per individual.
+One of our intrepid data science team members found an old box of collars and some data on all of the collars (it was a real challenge getting this data off of an old floppy drive, but she managed).
 
-We call rates that are averages per individual in a population (rather than a total) *per capita* growth rates; *per capita* translates from Latin to "by head," meaning for individuals.
+## Our Tasks
 
-Combined, birth and death rates can be described as the [intrinsic rate of increase]{.underline} (`r`). We calculate `r` by subtracting the number of individuals that are removed from the population (deaths) from the number of individuals that are joining the population (births): $r = b - d$.
+We're going to spend the next lessons tackling two tasks:
 
-We can calculate by how many individuals the population will change in a given time period  (`N`) by multiplying the starting population size (`Ni`) by the intrinsic rate of increase (`r`) using this equation:
+**1) First, we'll work to join data sets together.**
 
-![](assets/clipboard-1439389577.png){width="90" fig-align="center"}
+Our main goal is to create a single data set that includes the data we have previously looked at for collars, the data on the new collars, as well as the additional data on the old collars.
 
-### Logistic Growth
+This is a little tricky, as the collar IDs need to be matched up with their counterparts across datasets, and new collars need be added. Unfortunately, the new collars have IDs and some additional data, but we don't know the maker of the new collars.
 
-Populations that show logistic growth start out in the same way as populations with exponential growth–driven by *per capita* birth and death rates.
+**2) Second, we will try to identify the maker of mystery collars.**
 
-After a while, though, limited resources also start to come into play. When calculating the change in the size of the population (`N`), we also need to take into account the maximum number of individuals the population can sustainably support, called the [carrying capacity]{.underline}, `K`.
+In order to do this, we will skim the surface of machine learning. We can use a common classification algorithm, K-Nearnest Neighbors (KNN), to predict which maker made which of our unidentified collars. Don't worry, we won't go into *too* much detail here, but I want to you to at least have a general idea of how it works.
 
-We use the following equation to calculate the population size:
+## Combining Data (Joins and Binds)
 
-![](assets/clipboard-3908560513.png){width="188" fig-align="center"}
+Often times, we have a lot of data for one project that are related but storing all of the data in one file would add unnecessary redundancy (e.g., data in certain rows would need to be repeated too often). Other times, data has been collected separately and needs to be combined before analysis.
 
-### Visualizing Growth Models
+Being able to join together data from related tables is a key skill in data science, and for working with larger data structures (databases with their own languages, like SQL).
 
-As a reminder, this is what each type of population growth model looks like:
+### The Data
 
-![](assets/exp_and_logisitc.png){width="75%" fig-align="center"}
+Let's load in the `tidyverse` and the data we're working.
 
-# What Population Factors Matter?
-
-We still need to figure out what fish population we will target for Antarctica.
-
-Briefly, let's consider what we think might be important for sustainability.
-
-1.  Large population
-2.  Stable population (i.e., not declining)
-
-## Fish Data
-
-Let's look at fish data from around our station in Antarctica over the past 20 years to get a better feel for how different population factors impact fish populations. These fish moved into the bay by our station when we established it, so we know the populations started at around the same time and had the same starting populations.
-
-These aren't necessarily our targets for fishing, particularly since it would be difficult and potentially disruptive to fish in the bay. Right now our goal is just to learn so we know what to look for when we are making our decision to conduct sustainable fishing.
-
-![Adapted from Figure 2 from Zheng et al. (2022)](assets/fish_data_fish.png){fig-align="center"}
-
-As always, first we load the `tidyverse` and read in the data.
-
-```{r}
+```{r message=FALSE}
+# load the tidyverse
 library(tidyverse)
-fish_pops <- read_csv("data/fish_pops.csv")
+
+#loading in the data
+collars <- read_csv("data/collar_data.csv")
+new_collars <- read_csv("data/new_collars.csv")
+old_collars_new_data <- read_csv("data/old_collars_new_data.csv")
+
+# Tell me about these data, how are we going to join them?
 ```
 
-### Largest Population
+First, let's explore our data. We want to focus on 2 things here:
 
-Which population grows the biggest? Let's start by calculating some summary statistics of the data.
+(1) the columns: which ones match columns in other datasets
+(2) collar identity: which datasets have matching collars or new collars
 
 ```{r}
-max_pop <- fish_pops %>%
-  group_by(population)%>%
-  summarise(max_N = max(N))
-max_pop
+head(collars)
+head(new_collars)
+head(old_collars_new_data)
 ```
 
-It looks like Population B grows the largest by far. Let's learn more about Population B and filter out the data so we can look at it separately.
+### Diagramming
+
+In small groups, talk through the process of combining these three datasets. Think about the following:
+
+-   which columns match and which ones don't?
+-   which rows match and which ones don't?
+-   does the order in which we combine datasets matter?
+
+Draw out a diagram that represents how this process might go.
+
+## Joins vs. Binds
+
+Now that we've decided on a process for how to combine our data, let's figure out which functions we are going to use to accomplish this task.
+
+We have 2 main methods of combining datasets, and they work in different ways.
+
+### Joins
+
+Joins are arguably the more complicated of the two types of ways to combine data, but they are, therefore, the more flexible and useful.
+
+The magic of comes comes because they match up columns of data based on unique identifiers in each row of data.
+
+In the following diagram, the two example data frames have the column `x1` in common, and each of the values in `x1` are unique (no repeats in the same data frame). When combining the datasets, all of the columns are added, and their rows are matched up to their respective values in the `x1` column.
+
+This can happen a couple ways, depending on which data frame is the reference and how much data you want to retain.
+
+![](assets/joins.png){width="50%"}
+
+### Binds
+
+The other way we can combine data sets in through binds. Binds act similarly to gluing datasets together.
+
+They don't match up data based on unique identifiers; instead they match up data by column name (`bind_rows`) or row position (`bind_cols`)
+
+![](assets/binds.png){width="50%"}
+
+How should we go about combining our three datasets? Come up with a plan that you think will work.
+
+## Task 1: Combine Our Data
+
+### Step 1
+
+Our first step in to merge the old collar data with the new data about those old collars.
 
 ```{r}
-popB <- fish_pops %>%
-  filter(population == "B")
-popB
+# use a left join
+# full join would accomplish the same thing in this case because we don't have any missing rows
+old_collars_combined <- collars %>% 
+  left_join(old_collars_new_data, by = c("collar_id", "maker"))
+
 ```
 
-**What type of growth is the population exhibiting?**  
-*Answer: Exponential.*
+If we take a look our new data frame, we should hopefully see that the values for `antenna_length` and `weight` have been matched up with their respective collar id.
 
-**Why is there no carrying capacity in this population data set? What does this mean about the resources Population B needs?**  
-*Answer: Exponential models assume unlimited resources, so no carrying capacity (K) is included.*
+Could we have used another tactic to combine these two datasets? What would the pros and cons be?
 
-**What do you notice about Population A that is different than Population B?**  
-*Answer: The intrinsic growth rate (r) for Population A is negative.*
+### Step 2
 
-**What has happened to this population?**  
-*Answer: Population A crashes and reaches zero.*
-
-**Between Population A and Population B, which is a better target population for fishing? Why?**  
-*Answer: Population B, because r > 0 and it grows quickly.*
-
-### Exponential Growth Populations
-
-It looks like populations exhibiting exponential growth might be good targets for our fishing operations because they can become very large. Let's look at the data we have on exponential growth populations a little closer.
-
-Let's filter out the exponential growth models to examine them.
+Now we need to add the new collars to our dataset. What is our best method for combining?
 
 ```{r}
-exp_pops <-fish_pops %>%
-  filter(growth_type == "exponential")
-exp_pops
+full <- bind_rows(old_collars_combined, new_collars)
 ```
 
-It's hard to see what's happening with only the data frame. Let's look at the exponential growth populations on the same plot:
+Let's take a look at our new data frame! Have we correctly accomplished our first task?
 
 ```{r}
-ggplot(exp_pops, aes(x = year, y = N, color = population)) +
-  geom_point() +
-  geom_line()+
-  labs(x = "Time", y = "Abundance", color = "Population") +
-  theme_light()
+head(full)
+tail(full)
 ```
 
-It looks like Population B is very large, but Population A stays small. It's hard to see what is happening on this plot because the scales are so different, so let's look at what is happening with Population A by filtering out the data just for that population.
+### Saving our New Data
+
+Now that we've accomplished our first task, we are going to want to use this combined dataset to accomplish our next task, which is using a classification algorithm to help us predict which maker made the mystery collars.
+
+To save our data as a .csv file that we can use in another analysis, we are going to use a function that exports the dataset (`write_csv`) instead of importing it (`read_csv`).
+
+The `write_csv` function requires the name of the dataframe to export as the first argument and the name of the file we want to create as the second argument.
 
 ```{r}
-popA <-fish_pops %>%
-  filter(population == "A")
-popA
+write_csv(full, "data/all_collar_data.csv")
 ```
 
-What do you notice about Population A that is different than Population B? Intrinsic growth rate negative
-
-The intrinsic rate of increase (r) for Population A is negative. Let's see what that means for Population A and plot it by itself:
-
-```{r}
-ggplot(popA, aes(x = year, y = N)) +
-  geom_point() +
-  geom_line()+
-  labs(x = "Time", y = "Abundance") +
-  theme_light()
-```
-
-What has happened to this population? Crashed
-
-Even with "exponential growth", the population has crashed (gone to 0), because *r* is negative. It took approximately 7 years for this to happen.
-
-Between Population A and Population B, which do you think is a better target population for fishing? Population B, `r` is positive
-
-**Logistic growth populations**
-
-Ok, so we can't rely only on the type of growth as a way to make our fishing decisions. But, we're still curious about our populations that are limited by resources (i.e., exhibiting logistic growth).
-
-```{r}
-log_pops <- fish_pops %>%
-  filter(growth_type == "logistic")
-log_pops
-```
-
-Notice in this case we have carrying capacity data. Let's use some data visualizations to help us understand what that means.
-
-Lets look at the two logistic growth populations on the same plot:
-
-```{r}
-ggplot(log_pops, aes(x = year, y = N, color = population))+
-  geom_point() +
-  geom_line()+
-  labs(x = "Time", y = "Abundance", color = "Population")+
-  theme_light()
-```
-
-Which population gets the largest? Population 4
-
-### Finding the Carrying Capacity
-
-When we have a logistic growth model, we often will want to find the carrying capacity of the population
-
-What values does each population level off at?
-
--   Population C: 20
-
--   Population D: 100
-
-These are the carrying capacities. If you look back at the data, you will see Population C has a carrying capacity of 20 individuals, whereas Population D has a carrying capacity of 100 individuals. Which population do you think might be the best candidate to fish between these two? Population D is more abundant and has a higher carrying capacity.
-
-**A review of what we have learned**
-
-The following factors are important to know about a population before fishing:
-
-1.  Exponential growth can result in bigger populations than logistic growth
-
-2.  Intrinsic rate of increase (`r`) should not be negative
-
-3.  A higher carrying capacity means the population can take advantage of more resources to grow larger, which may indicate that the population is a better candidate for fishing
-
-## References
-
-Zhang, M., Liu, S., Bo, J., Zheng, R., Hong, F., Gao, F., Miao, X., Li, H., & Fang, C. (2022). First evidence of microplastic contamination in Antarctic fish (Actinopterygii, Perciformes),*Water*, *14*(19).
+If we look over in our Files tab, you should see your new .csv file!

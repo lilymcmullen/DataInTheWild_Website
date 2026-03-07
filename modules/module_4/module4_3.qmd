@@ -1,260 +1,307 @@
 ---
-title: '4.3: Comparing Populations'
-author: "Jessie Golding and Ellen Bledsoe"
+title: "4.3: Roads and Regressions"
+author: "Mila Pruiett and Ellen Bledsoe"
 format:
   html:
     toc: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Comparing Populations
+# Roads and Regressions
 
-Throughout this module, we have learned how populations demonstrating exponential growth and logistic growth differ from one another, both conceptually and visually.
+## The Scenario
 
-While we have fit models to some of these populations (specifically, logistic growth models), we have done so in order to estimate the carrying capacity of the population rather than to use inferential statistics to determine if the populations are statistically significantly different from one another.
+In this module, we have tried to figure out which bays we should prioritize for fishing based on the following data sets:
 
-In today's lesson, we are going to learn how to (a) add those logistic growth models to our data visualizations and (b) compare populations statistically.
+-   radio collar data
+-   fish catch data
+-   leopard seal abundance data
 
-## Set Up
+Based on our results from Assignment 2, we made a decision about which two bays look like our best options. Now, we need to make these bays accessible over land to transport the fish we've caught to our home base.
 
-As always, we need to start by loading the packages we are going to use along with our data.
+**Our Goal: build a road while minimizing our impact on the delicate antarctic ecosystem.**
 
-First, let's load our packages. We are going to be using both the `tidyverse` and `drc` packages in this lesson, so we need to load both of them.
+Our first order of business is to make sure that we avoid areas with that are well-suited for [Antarctica hair grass](https://oceanwide-expeditions.com/blog/the-plants-of-antarctic) (*Deschamsia antarctica*), one of only two flowering species of plants on the continent.
 
-```{r}
+![](assets/hairgrass_indiv.jpeg){width="50%"}
+
+We want to know what environmental conditions are associated with hair grass. This way, we can avoid areas where these conditions are met and not destroy precious habitat for the hair grass.
+
+It would take far too long to survey every bit of land between our base and our fishing spots, so we are going to build a **model** based on some samples of where hair grass is found to help us predict where else it might be.
+
+### What is a model?
+
+A model is a way for us to take complex systems and break them down into small, more understandable bits. We can use models to help us understand the relationship between different variables. We can then use those models to make predictions based on those relationships.
+
+## Data
+
+![](assets/hairgrass_landscape.jpeg){width="50%"}
+
+Knowing that we would soon be building roads, we asked our botanists to collect data for us on key components of the hairgrass' environment. Since it would take too long to sample everywhere hairgrass grows, they collected data from a sample of the hairgrass population.
+
+Our botanists collected data for the following variables:
+
+-   *hairgrass density*: number of individual clumps (tussocks) of hairgrass (per 25 meters squared)
+-   *soil pH*: most plants prefer mildly acidic to neutral environments
+-   *nitrogen (N) content*: as parts per million (ppm); important for plant growth and tissue building
+-   *phosphorous (P) content*: as parts per million (ppm); important for plant growth and tissue building
+-   *percent rock*: how rocky the location is; rocks in soil impact water drainage and temperature
+-   *max windspeed (knots per hour)*: extreme wind can pose a challenge to plants of all types
+-   *average summer temperature (C)*: temperature in the growing season
+-   *penguin density*: the number of penguins per the sample quadrant penguin poop increases nitrogen and phosphorus content in the system but penguins may trample the plants
+
+This data is based on this article: [Parnikoza, et al. 2007](https://doi.org/10.1016/j.polar.2007.10.002)
+
+## Summarize and Visualize
+
+As we see above, there are many environmental conditions that may be associated with hair grass density.
+
+For this lesson, we are going to focus on two: *nitrogen (N) content* and *soil pH*.
+
+### Set-Up
+
+As usual, we start with loading our packages and our data.
+
+```{r message=FALSE}
 library(tidyverse)
-library(drc)
+hairgrass_data <- read_csv("data/hairgrass_data.csv")
 ```
 
-Next, we want to bring in our dataset.
+Let's take a look at the data in the data set. What does each row represent?
 
 ```{r}
-pops <- read_csv("data/comparing_populations.csv")
+head(hairgrass_data)
+tail(hairgrass_data)
 ```
 
-We can use the `head()` function to take a look at the data. What data do we have?
+### Nitrogen Content
+
+Let's start by investigating any relationship between hair grass density and nitrogen content.
+
+First, we should spend a little time thinking about our variables. Spend a few minutes in small groups discussing the answer to the questions below.
+
+-   Which columns are we interested in right now? soil_nitrogen, hairgrass_density
+-   Which one is the independent variable and which is the dependent variable?
+    -   independent: soil_nitrogen
+    -   dependent: hairgrass_density
+-   Are the variables categorical or continuous? both are continuous
+-   Which type of data visualization should we use? scatterplot
+
+Next, calculate the mean (`mean()`) and standard deviation (`sd()`) for the nitrogen content.
 
 ```{r}
-head(pops)
+hairgrass_data %>% 
+  summarise(mean_N = mean(soil_nitrogen),
+            sd_N = sd(soil_nitrogen))
 ```
 
-After inspecting our dataset, it looks as though we have more time-series data of population abundances. It isn't immediately clear how many populations there are, but perhaps the populations are named after their locations ("NE" could stand for "Northeast").
-
-## Visually
-
-Let's first start our investigation of these populations by plotting the data points as a scatterplot.
-
-As we have done throughout this module, we will want the variable representing time to be on the x-axis and the population abundance (N) on the y-axis.
-
-We will also want the data points to be distinguished by which population they are from, so we need to specify the `color` argument within the `aes()` function.
+Now that we have summarized the data, let's take a look at the data visually.
 
 ```{r}
-ggplot(pops, aes(year, abund, color = population)) +
-  geom_point() + 
-  labs(x = "Year",
-       y = "Abundance",
-       color = "Fish Population") +
-  theme_bw()
-```
-
-### Interpretation
-
-Based on the plot, what do you notice about these populations?
-
--   Are they more likely exhibiting exponential or logistic growth? Why?
--   How do the populations appear to differ from one another?
-
-Given your answers to the questions above, what might be a good next step?
-
-## Numerically
-
-When comparing different categories or groups (in this case, comparing different populations), we typically compare them both visually and numerically before conducting statistical tests.
-
-Since we have already made visual comparisons, let's compare the populations numerically.
-
-Typically, we have compared groups with measures of central tendency and measures of variability. Do you think that is what we should do here? Why or why not?
-
-### Separate Populations
-
-Unlike our typical procedure, in order to fit logistic models to each population, our simplest way forward will be to create one data frame for each population.
-
-| NOTE: in case you are wondering, yes, there are definitely ways to fit a logistic model to each population without separating them! However, we would have to introduce quite a few new concepts to do so efficiently, so we are going to stick with the tried-and-true process of running the models individually.
-
-We can use the `filter` function to select each population, one at a time.
-
-```{r}
-pop_NE <- pops |> 
-  filter(population == "NE")
-
-pop_SE <- pops |> 
-  filter(population == "SE")
-
-pop_SW <- pops |> 
-  filter(population == "SW")
-```
-
-### Finding the Carrying Capacity
-
-Now that we have data frames for each of the populations, we can fit the logistic model to each population and determine the estimate of the carrying capacity for each.
-
-As we run the code to fit the model to each population, we might receive some warnings: "Warning :NaNs produced". Don't worry--that's ok! Keep going!
-
-```{r}
-# NE population
-model_NE <- drm(abund ~ year, data = pop_NE, fct = LL.4())
-model_NE
-
-# if you want to be fancy and save the carrying capacity as an object
-# this code combines several steps from the last lesson into one step
-K_NE <- unname(coef(model_NE)[3])
-K_NE
-```
-
-Now we can do the same for the SE and SW populations, too.
-
-```{r}
-# SE population
-model_SE <- drm(abund ~ year, data = pop_SE, fct = LL.4())
-model_SE
-
-K_SE <- unname(coef(model_SE)[3])
-K_SE
-
-# SW population
-model_SW <- drm(abund ~ year, data = pop_SW, fct = LL.4())
-model_SW
-
-K_SW <- unname(coef(model_SW)[3])
-K_SW
-```
-
-Let's record the carrying capacity estimates for each population here so we can refer back to them later, if needed.
-
-| Population | Carrying Capacity  |
-|:----------:|:------------------:|
-|     NE     | `r round(K_NE, 1)` |
-|     SE     | `r round(K_SE, 1)` |
-|     SW     | `r round(K_SW, 1)` |
-
-As we saw in the plot, the estimated carrying capacity for the SW population is below that of the NE population.
-
-What was much more challenging to see clearly in the plot, however, is that the estimated carrying capacity of the SE population is in between the other two carrying capacities, albeit closer to the NE population.
-
-### Plotting the Logistic Model Curves
-
-We can add the logistic growth models that we fit to each population into our ggplot to more easily compare the curves.
-
-To do so requires a few steps.
-
-1.  Use the `predict()` function to get the values for the "logistic line of best fit." Remember, these will not match up perfectly with our *actual, observed* values; these are the y-axis or `abundance` values for the best fitting logistic model at each observed x-axis value, or year.
-
-2.  Use the `mutate()` function to create a new column in each data frame with these logistic *model* values.
-
-3.  Combine all three dataframes back together into one dataframe using the `bind_rows()` function.
-
-4.  Plot the actual data points using `geom_point()` and plot the logistic model data points using the `geom_line()` function.
-
-#### Add the Logistic Model Points to the Dataframes
-
-First, let's see what output the `predict()` function gives us for the NE population.
-
-```{r}
-predict(model_NE)
-```
-
-If we compare these numbers to the numbers in the `abund` column of `pop_NE`, we notice that they are not the same. The difference between these values from the model of best fit and the actual, observed values are called *residuals*, just as they are with lines of best fit (from linear regressions).
-
-![](assets/residuals.jpg){width="50%" fig-align="center"}
-
-Let's use the `mutate` function to add these model values to each dataframe.
-
-```{r}
-pop_NE <- pop_NE |> 
-  mutate(logistic_model = predict(model_NE))
-pop_NE
-
-pop_SE <- pop_SE |> 
-  mutate(logistic_model = predict(model_SE))
-
-pop_SW <- pop_SW |> 
-  mutate(logistic_model = predict(model_SW))
-```
-
-#### Combine Dataframes
-
-We can now bring all three individual data frames back together into one data frame using a function called `bind_rows()`. You can think of `bind_rows` as gluing the data frames together, one after another.
-
-The arguments in the `bind_rows()` function are all of the data frames we want glued together.
-
-```{r}
-pops_models <- bind_rows(pop_NE, pop_SE, pop_SW)
-pops_models
-```
-
-The resulting data frame again has 78 observations, as did the original `pops` data frame.
-
-#### Add Logistic Models to the Plot
-
-We can now add the logistic models to our plot using the `geom_line()` function. Specifically, the values from the `logistic_model` column will be the y-axis values for the lines we are adding; the x-axis values are the same as the overall plot: `year`.
-
-```{r}
-ggplot(pops_models, aes(x = year, y = abund, color = population)) +
+ggplot(hairgrass_data, aes(soil_nitrogen, hairgrass_density)) +
   geom_point() +
-  geom_line(aes(y = logistic_model)) +
-  labs(x = "Year", y = "Abundance", color = "Fish Population") +
+  labs(x = "N Content",
+       y = "Hairgrass Density (per 25 m^2)") +
   theme_bw()
 ```
 
-It is now much easier to visually distinguish the differences between the growth curves and the carrying capacities between the three populations!
+Do you see a pattern? What type of relationship do you see?
 
-## Statistically
+How do we analyze this type of relationship statistically?
 
-We still want to analyze our three populations using inferential statistics to determine if there are significant differences between the populations.
+## Statistical Analysis
 
-First, we need to decide what type of statistical test makes sense with the data we have. This is *not* a straight-forward question with a straight-forward answer. How we determine which test to use ultimately depends on the question we are asking and, therefore, the hypothesis we are testing.
+We are going to use two (related) statistical methods to understand the relationship between two continuous (numeric) variables:
 
-For the sake of the class (and in your assignment, too), let's assume the question we want to ask is whether the average population sizes significantly differ between the populations.
+-   correlation coefficient ($r$) and R-squared ($R^2$)
+-   linear regression
 
-What type of statistical test should we use to answer that question?
+### Line of Best Fit
 
-What would the null and alternative hypotheses be for that statistical test?
+To understand correlation, R-squared, and linear regression, we first need to talk about something we call the *line of best fit*.
 
-### Filtering the Data
+The line of best fit aims to minimize the distance between each observation (points) and the line. The distances between each observation and any line are called *residuals* (the dotted gray lines). The line of best fit is the line that has the smallest *residuals*.
 
-To most accurately compare the populations, we likely want to restrict the comparison to when the populations (or the models of best fit, at least) are fairly leveled off.
+![](assets/lines.png){width="50%"} ![](assets/residuals.jpg){width="50%"}
 
-(Again, this is more of an estimation than an exact science, though there are more precise--and complicated--tools that could be used.)
-
-A rough estimation would be that the models mostly level off around year 15; let's filter our data to include only abundance from year 15 and later.
-
-```{r}
-pops_15_25 <- pops_models |> 
-  filter(year >= 15)
-pops_15_25
-```
-
-### Running the Statistical Analysis
-
-Now that we have filtered our data, we can conduct our statistical test.
+We can add a line of best fit to a ggplot by using the `geom_smooth()` function. We need to specify that the method we want should produce a straight line ("linear model").
 
 ```{r}
-model_aov <- aov(abund ~ population, data = pops_15_25)
-summary(model_aov)
+ggplot(hairgrass_data, aes(soil_nitrogen, hairgrass_density)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "N Content",
+       y = "Hairgrass Density (per m^2)") +
+  theme_bw()
+
+# method = "lm" is required!
+# se = FALSE is optional
 ```
 
-This p-value tells us that the overall model is significant (we reject the null hypothesis), but it doesn't tell us which populations are significantly different from one another. To determine which populations differ from each other, we need to run *post hoc* pairwise-comparisons.
+### Correlation Coefficient
+
+The correlation coefficient, `r`, is a measurement of the strength of the relationship between two continuous variables.
+
+The correlation coefficient is a number between -1 and 1 that looks at the relationship between two numeric variables. If the value is negative, there is a negative relationship between the two variable; if the value is positive, there is a positive relationship.
+
+If all the points fall exactly on the line of best fit, r = 1 or -1. If there is no relationship between the variables, `r` is 0 (or something very close to it).
+
+![](assets/coefficient_correlation.jpg){width="50%"}
+
+The greater the magnitude (size) of the correlation coefficient, the stronger the relationship between the two variables.
+
+![](assets/correlation.jpg){width="50%"}
+
+It is also important to recognize that the correlation coefficient has nothing to do with the slope of the line (we use linear regression to assess that!)
+
+![](assets/steepness.jpeg){width="50%"}
+
+Based on the hairgrass plot we did above, do you expect the correlation coefficient to be positive or negative? For this class, we'll say that any `r` value with 0.1 of 0 means there is no relationship.
+
+To calculate the correlation coefficient, we need to go back to base R and indicate which columns we are referencing with the `$` operator. We use the `cor()` function.
 
 ```{r}
-TukeyHSD(model_aov)
+r_nitrogen <- cor(x = hairgrass_data$soil_nitrogen, y = hairgrass_data$hairgrass_density)
+r_nitrogen
 ```
 
-How do we interpret these results? What are our conclusions?
+### R-squared ($R^2$)
 
-## Data-Driven Decision Making
+The R-squared ($R^2$) value is a representation of how much variation is explained by the line of best fit.
 
-Our ultimate goal in this module has been to determine which population of fish is best for fishing sustainably. We are prioritizing large, stable populations.
+When we have a dependent variable and an independent variable, the R-squared value tells us how much of the variation in the *dependent* variable is explained by the *independent* variable.
 
-Given those requirements and what our numeric, visual, and statistical tests have told us, which of these populations would be the best for us to harvest? Why?
+Sometimes we don't have obvious dependent and independent variables, but we can still use similar language ($R^2$ tells us how much of the variation in the data is explained).
+
+To calculate R-squared, we square the correlation coefficient value we calculated above. It is always positive because we are squaring it `r` value; that means that R-squared values range from 0 to 1. The closer to 1, the more variation is explained.
+
+```{r}
+r_nitrogen^2
+```
+
+How would we interpret this `r^2` value?
+
+One way to think of the `r^2` value that might be helpful is to convert it from a proportion to a percentage—what *percentage* of the variation in the dependent variable is explained by the independent variable?
+
+To convert the proportion to a percentage, we can multiply the value by 100.
+
+```{r}
+r_nitrogen^2 * 100
+```
+
+### Linear Regression Analysis
+
+A regression analysis approximates the relationship between a dependent variable and one or more independent variables. It evaluates the strength of that relationship, ultimately giving us a p-value.
+
+Since we are using linear regressions in this course, the regression model will take the form of a straight line. The generic equation for a straight line is `y = mx + b`.
+
+-   `y` = dependent variable (y-axis)
+-   `x` = independent variable (x-axis)
+-   `m` = slope of the line is the slope
+-   `b` = y-intercept
+
+When we have a line with the specific slope and y-intercept, this equation lets us calculate the expected y-axis value for any given point on the x-axis.
+
+Using our variables, what would our linear regression model look like (we don't know `m` or `b` yet...)?
+
+### Hypothesis Testing
+
+What is the null hypothesis? What is the alternative hypothesis?
+
+**Null Hypothesis** ($H_{0}$): There is no relationship between hair grass density and nitrogen content.
+
+**Alternative Hypothesis** ($H_{A}$): There is a relationship between hair grass density and nitrogen content.
+
+What do you think this means for the slopes?
+
+### Regression Analysis
+
+Thankfully, R can calculate the slope (`m`) and y-intercept (`b`) of the line of best fit for us.
+
+Let's find the equation for our line of best fit, our test statistic, and our p-value. To do this, we use a function called `lm()`: this stands for "linear model."
+
+Like with ANOVA, we will then want to use the `summary()` function to get out the values we need.
+
+```{r}
+nitrogen_model <- lm(hairgrass_density ~ soil_nitrogen, data = hairgrass_data)
+summary(nitrogen_model)
+```
+
+As with our other statistical tests---t-tests and ANOVAs---the results give us some important values:
+
+-   `b` (y-intercept): part of our line of best fit equation
+    -   The "intercept estimate", in this case 84.24, is our y-intercept in our line of best fit
+-   `m` (slope): also part of our line of best fit equation
+    -   this is the estimate for our independent variable (soil_nitrogen in this case)
+    -   in this model, m = 1.8
+-   *F-statistic*: this is our test statistic
+-   *p-value*: calculated from our regression model, used to determine significance (0.05 cut-off, as usual)
+    -   There are multiple p-values here. Focus either on the p-value for the independent variable (soil_nitrogen) or the overall p-value displayed in the last line of the results summary (p \< 2.2e-16)
+-   *R-squared*: this is our R-squared value that we calculated earlier
+    -   You can report either the "multiple" or the "adjusted"
+    -   The "multiple" will typically match the one we calculate with code
+
+This means our equation for the line of best fit is: y = 1.8x + 84.24 and there is a statistically significant relationship between nitrogen content and hairgrass density.
+
+## Soil pH
+
+Let's do the same series of steps to determine how soil pH impacts hair grass densities. Work on this in your small groups, and we will go over it in about 10 minutes.
+
+Start with summarizing the data: mean and standard deviation.
+
+```{r}
+hairgrass_data %>% 
+  summarize(mean_pH = mean(soil_ph),
+            sd_pH = sd(soil_ph))
+```
+
+Visualize the data. Remember to add in the line of best fit using `ggplot2`. Also add labels and a theme for practice.
+
+```{r}
+ggplot(hairgrass_data, aes(soil_ph, hairgrass_density)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Soil pH",
+       y = "Hairgrass Density per m^2") + 
+  theme_bw()
+```
+
+Calculate the correlation coefficient (`r`)? What does this tell us?
+
+```{r}
+r_ph <- cor(x = hairgrass_data$soil_ph, y = hairgrass_data$hairgrass_density)
+```
+
+How much variation does soil pH explain in the hair grass density data?
+
+```{r}
+r_ph^2
+```
+
+Write out the model for our question about soil pH (without values)?
+
+```{r}
+# hairgrass density  = m(soil_ph) + b
+```
+
+Run the regression model and write out the equation for the line of best fit.
+
+```{r}
+ph_model <- lm(hairgrass_density ~ soil_ph, data = hairgrass_data)
+summary(ph_model)
+```
+
+Equation for line of best fit: y = -4.648x + 150.24
+
+Interpret the results of the regression (our p-value cutoff is still = 0.05). What do we conclude about the relationship between soil pH and hair grass density? Why?
+
+Because p \< 0.05 for the regression model, we reject the null hypothesis and conclude that there is a relationship between soil pH and hairgrass density.
+
+## Data-driven Decision Making
+
+The reason we are using regression analysis is to inform where we should (or should not) build our road so we don't harm the sensitive hair grass or take away their prime habitat.
+
+What do results above for nitrogen content and soil pH mean for the road we are building?

@@ -1,6 +1,6 @@
 ---
-title: '4.2: Sustainable Fishing'
-author: "Jessie Golding and Ellen Bledsoe"
+title: "4.2: K-Nearest Neighbor"
+author: "Ellen Bledsoe"
 format:
   html:
     toc: true
@@ -10,175 +10,173 @@ format:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Sustainable Fishing
+# K-Nearest Neighbors
 
-## Applying Principles of Population Growth
+## Machine Learning
 
-We have decided that the Antarctic toothfish (*Dissostichus mawsoni*) may be a good candidate for our fishing.
+Now, we're going to work through an example of machine learning, which is used in a variety of ways in data science, across industries and disciplines.
 
-![](assets/antarctic_toothfish.jpg){fig-align="center"}
+Machine learning is a subfield of artificial intelligence (AI). Machine learning uses a data-driven approach; a model is typically trained on data with known outcomes, then the model uses that previous knowledge to predict the outcomes of new data.
 
-The Antarctic toothfish is fairly widely distributed around Antarctica. The hexagons below show where the Antarctic toothfish occurs. Gray represents known distribution and red represents locations where genetic samples were taken for a study on their population (Maschette et al. 2023).
+Remember, we have 50 unlabeled collars, and we want to be able to predict who made them so we can increase the safety of our fishers. We need to throw out any collars that we think were made by Budget Collars LLC, and only incorporate new collars from our unlabeled batch that we think were made by Collarium Inc.
 
-![](assets/antarctic_toothfish_distribution.jpg){width="75%" fig-align="center"}
+Given the data we have from the collars we know were created by Budget Collars LLC and Collarium Inc, our goal is to train a model on collars with known makers to then apply to our unknown collars.
 
-However, given concerns about maintaining the fishery (an important ecosystem service), we want to make sure we do not overfish the species but rather fish sustainably.
+## KNN in R
 
-Let's keep exploring our fish populations to help us understand what we should be focusing on when making decisions about how many fish we can sustainably harvest from any given population.
+K-nearest neighbors (KNN) is a classification algorithm (e.g., it attempts to predict labels or "classes"). It uses the classes of the nearest neighbors to a new data point (the number of neighbors = k) to predict the class of the new data point.
 
-## Set-Up
+![](assets/nearest_neighbor.png)
 
-As usual, we start with loading our packages and our data.
+You don't need to know the inner-workings of the model or even the code below; all you need to know is the overall concept of how K-nearest neighbors works and what the results mean.
 
-```{r}
-library(tidyverse)
+### How does KNN work?
 
-fish <- read_csv("data/fish_pops.csv")
-```
+Let's start with watch [a video](https://www.youtube.com/watch?v=MDniRwXizWo&ab_channel=AugmentedStartups) that does a nice job explaining the basics of KNN.
 
-Let's take a look at the data and remind ourselves what the data look like.
+What are your takeaways?
 
-```{r}
-head(fish)
-```
+### Visualizing
 
-## Population Growth Models
+Creating plots that visualize KNN is pretty complicated, so we won't be doing that as a class. However, you can find a nice interactive data visualization [here](http://vision.stanford.edu/teaching/cs231n-demos/knn/).
 
-Let's remind ourselves about exponential growth and logistic growth.
+Play around with the data visualization. Can you figure out what it is telling you?
 
-**Expotential growth** takes births and deaths (in the form of the intrinsic growth rate, `r`) into account:
+## Classifying Collars
 
-![](assets/clipboard-4205079346.png){width="83" fig-align="center"}
+Now that we have an idea of how KNN works, let's get started with our dataset.
 
-**Logistic growth** includes the intrinsic growth rate and another important factor—resources. The resources determine the maximum number of individuals a population can have, which we call the carrying capacity (`K`):
+Here's our overall trajectory: 1) Load our collars data 2) Split the data into collars where we know the maker and collars where we don't 3) Split the collars with known makers into 2 data frames: one for training our model and one for testing the model out on data where we already know the answers 4) Apply the best model to our collars with unknown makers to get predictions for which maker made the collar
 
-![](assets/clipboard-3779797644.png){width="130" fig-align="center"}
+First, we need our data!
 
-This is what each type of population growth model looks like:
-
-![](assets/exp_and_logisitc.png){width="75%" fig-align="center"}
-
-### Which Population to Fish?
-
-We've previously discussed what factors we want to focus on when we are deciding which population to fish. Ideally, we want to target both a large population and a stable population.
-
-At first glance, a population that is growing exponentially seems ideal—and it is, in some ways.
-
-But in reality, all populations will *eventually* hit some capacity on resources. Populations that are currently demonstrating exponential growth either haven't yet hit their carrying capacity or have dramatically overshot their carrying capacity, which can lead to a huge crash or a smaller crash with boom and bust cycles until it evens out around the carrying capacity.
-
-![](assets/pop_crash.jpeg){width="75%" fig-align="center"}
-
-So, in order for us to feel confident that our population will be large for a long time, we probably want to choose the safer option, which is choosing a population that is showing logistic growth.
-
-Let's select the logistic growth population with the largest value, Population D, for our next analyses.
-
-```{r}
-log_pop <- fish %>% 
-  filter(population == "D")
-```
-
-## Estimating Carrying Capacity
-
-In our journey to determine how many fish we can sustainably harvest (i.e., remove from the population without causing the population to go extinct), we first need to determine the carrying capacity.
-
-While the dataset contains carrying capacity estimates, those are only visual estimates. We are going to use code (and R will use a lot of math behind the scenes) to calculate a more accurate estimate from the data.
-
-To do so, we are actually going to use a new package, `drc`.
-
-This package will let us fit a logistic model and provide an estimate of the asymptote of the curve, or the value where the curve levels off and not longer increases. This is our estimate of `K`, the carrying capacity of the population.
+### Data Cleaning and Prepping
 
 ```{r message=FALSE}
-# load the drc package; text when you load it is fine (as long as it doesn't say error)
-library(drc)
+library(tidyverse)
+full_collars <- read_csv("data/all_collar_data.csv")
 ```
 
-Now, we are going to use a function from the `drc` package called `drm()` to fit our logistic growth model.
+Next, we need to scale our data.
 
-It works very similarly to the inferential statistics models from Module 3 except instead of finding a straight line of best fit, this line of best fit is allowed to curve like the logistic growth model.
+What does this mean? It means we are transforming the data so that they are all in the same scale. Because KNN uses distances between points to determine neighbors, we need to have our data measured on the same scale.
 
-What kind of growth do we think we have based on this plot? Logistic
+Before scaling, battery life (\~100) and signal distance (\~4000) were working in very different ranges, with signal distance being much bigger. Once we scale them, they will both have means around 0 and similar standard deviations.
 
 ```{r}
-# Fit the model to the data
-# 'N ~ year' means we're predicting N (population) as a function of 'year'
-# fct = LL.4() specifies to fit a logistic growth model
-model <- drm(N ~ year, data = log_pop, fct = LL.4())
+# standardize the data and remove unnecessary data
+
+# start with the full data set
+knn_data <- full_collars %>%
+  # mutate the battery and signal columns to be scaled
+  mutate(battery_scaled = scale(battery_life),
+         signal_scaled = scale(signal_distance)) %>%
+  # remove columns we aren't using anymore
+  dplyr::select(-battery_life, -signal_distance, -fail:-weight) %>% 
+  # make the maker column a factor (categorical)
+  mutate(maker = as.factor(maker))
+
 ```
 
-This time, unlike with the linear model, we are interested not in a p-value but in the estimate of a specific value from the model--the carrying capacity.
-
-To get all of the estimated values, we will use a function called `coef`, which is short for "coefficient," to give us the estimates from the `model` object.
+Let's summarize and plot the scaled data to see what it looks like. Let's focus on battery life.
 
 ```{r}
-estimates <- coef(model)
-estimates
+knn_data %>% 
+  summarise(mean_bat = mean(battery_scaled),
+            sd_bat = sd(battery_scaled))
+
+ggplot(knn_data, aes(battery_scaled, fill = maker)) +
+  geom_histogram()
 ```
 
-In this case, we happen to be interested in the estimate they are calling `d:(Intercept)`; this is what we are calling `K`, the carrying capacity. Let's save that value.
+Right now, we have 3 collar categories because we haven't separated the unknown collars. Let's do that.
 
-The simplest way to choose one value from the vector `estimates` is to use square brackets for subsetting, something we haven't done since Module 1! We want the 3rd value.
+### Known and Unknown Labels
+
+Before we continue, we need to make separate data frames to work with, one with collars with known makers and one with collars with unknown labels
 
 ```{r}
-K <- estimates[3]
-K
+# we also need to remove the collar_id labels
+collars_to_label <- knn_data %>%
+  filter(is.na(maker))
+
+# we need to save the collar ids before removing them
+unknown_collar_ids <- collars_to_label %>% dplyr::select(collar_id)
+collars_to_label <- collars_to_label %>% dplyr::select(-maker, -collar_id)
+
+labeled_collars <- knn_data %>%
+  filter(!is.na(maker)) %>% 
+  select(-collar_id)
+
 ```
 
-Our estimate for the carrying capacity is 104.5 fish, which is close to the carrying capacity value in the dataset (100).
+### Training and Testing Data
 
-We can remove the label (`d:(Intercept)`) if we want to by using the `unname()` function. Now our object `K` is only the number for the estimate of the carrying capacity.
+First, we need to train and test our model. We will do that with the data with known collars makers.
+
+Note: this is where the code starts getting a bit complicated. It's ok if you aren't entirely clear on what everything is doing.
 
 ```{r}
-K <- unname(K)
-K
+# randomly choose 30 out of the 100 collars to be our test data
+# we will train the model with the other 70 collars, then test how well that model does using the 30 collars we held back
+# because we know the actual makers of those 30 collars, we will know if our model made any mistakes
+
+# since randomly choosing, we will use set.seed() to make sure everyone is getting the same values
+set.seed(411)
+
+# randomly select 30 row positions (70%) to pull out
+rows_to_pull <- sample(1:100, 30)
+rows_to_pull
+
+training <- labeled_collars[-rows_to_pull, ] # remove test data from labeled collars
+testing <- labeled_collars[rows_to_pull, ] # pull out the 30 rows for testing
+
 ```
 
-### Plotting the Carrying Capacity
+### Training and Testing KNN
 
-Let's now add this estimated carrying capacity value to our plot of the data.
+Now that we have training and testing data, we can perform the first phase of KNN.
 
-First, let's plot the population data alone.
+We want to know how many nearest neighbors we should use and how well our model works on the testing data. We will use the `caret` package to run these analyses.
 
 ```{r}
-ggplot(log_pop, aes(x = year, y = N)) + # Plot the original data points (year vs. population)
-  geom_point() +
-  geom_line() +
-  labs(x = "Year", y = "Population") +
-  theme_bw()
+#loading package to do knn
+library(caret)
+
+# set seed again
+# training the model and finding the best k value
+set.seed(411)
+knn_training_model <- train(maker ~ ., data = training, method = "knn")
+knn_training_model # best k value is 5
 ```
 
-To add the a line representing the carrying capacity, we can use `geom_hline()` to add a horizontal line where the y-intercept is equal to the carrying capacity.
-
-This is very similar to how we used `geom_vline()` to add a vertical line to histograms to represent the mean value.
+Ok, we have determined that our best k value is 5. Now we can use our training model on the testing data to see if it makes any mistakes. We use the `predict` function from `caret` to do this.
 
 ```{r}
-ggplot(log_pop, aes(x = year, y = N)) + # Plot the original data points (year vs. population)
-  geom_point() +
-  geom_line() +
-  # use geom_hline to plot a horizontal line where the y-intercept is equal to K
-  geom_hline(aes(yintercept = K), color = "red") + # outside of aes() sets color
-  labs(x = "Year", y = "Population") +
-  theme_bw()
+# making predictions with the test data
+knn_predict_test <- predict(knn_training_model, testing)
+confusionMatrix(knn_predict_test, testing$maker) # no mistakes!
 ```
 
-## Maximum Sustainable Yield
+Great, our model didn't make any mistakes! It is probably ready to apply to our collars of unknown origin.
 
-Once we have an estimate of the carrying capacity for a population, we can calculate something called the *maximum sustainable yield*, or MSY.
+### Predicting the Unknown Collar Makers
 
-The MSY is the number of individuals that we can remove from the population and keep the population stable (or increasing). If we remove too many individuals (above MSY), the population will not be able to reproduce fast enough to replace the harvested individuals, causing a decline in the population—in this case, from over-fishing.
-
-![](assets/logistic_growth_msy.png){width="49%"} ![](assets/msy.png){width="49%"}
-
-While the concept behind how we get to the equation for MSY may be a bit complex, thankfully, the equation itself is quite straightforward:
-
-![](assets/clipboard-959845017.png){fig-align="center"}
-
-Let's calculate the maximum sustainable yield for Population D.
+We will apply the same model but now to the new data.
 
 ```{r}
-MSY <- K/2
-MSY
+# making predictions for the collars without makers
+knn_predict <- predict(knn_training_model, collars_to_label)
+knn_predict
+table(knn_predict)
 ```
 
-This means that we can take about 52 fish from this population annually and keep the population stable!
+We have predictions! Our last step is to recombine our data so that the collars now have their new labels.
 
-If we take fewer than 52 fish, the population will increase (until the carrying capacity, that is). If we take more than 52 fish, however, we are over-fishing the population, meaning the population will not be able to reproduce enough to maintain the population and will eventually collapse.
+```{r}
+# let's bind the columns together
+new_labels <- bind_cols(unknown_collar_ids, knn_predict)
+new_labels
+```
+
+Typically, you would want to replace the columns in the entire dataframe, but we will end here for today :) Our goal of labeling our unlabeled collars is complete! We will deploy any that are now labeled as Collarium LLC.
