@@ -1,0 +1,46 @@
+---
+title: "For Instructors"
+format:
+  html:
+    toc: false
+---
+
+This page is for instructors who are interested in teaching with, adapting, or learning more about *Data in the Wild*.
+
+The course was designed to make data science more accessible, applied, and meaningful for students in the life sciences. While the version shared here is rooted in ecological questions and a narrative set in Antarctica, the broader structure is flexible and can be adapted to other disciplines, datasets, and teaching contexts.
+
+## Context
+
+The course has been taught at the University of Arizona as part of the general education curriculum, and the materials shared here are openly available so that others can use and adapt them in ways that fit their own classrooms.
+
+## R, RStudio, and Posit Cloud
+
+This course uses the R programming language and was taught using Posit Cloud.
+
+A quick distinction:
+
+-   **R** is the programming language itself.
+-   **RStudio** is a coding environment used to write and run R code.
+-   **Posit Cloud** is a browser-based version of that environment, which lets students work online without needing to install software on their own computers.
+
+For this course, Posit Cloud was especially useful because it gave students a shared, consistent workspace and lowered the barrier to getting started. That was particularly helpful in an introductory course where many students were new to coding.
+
+That said, the materials can also be taught in local RStudio or adapted to other environments.
+
+## Source Files - Download on GitHub
+
+Lessons, assignments, datasets, and other course materials are available in the public GitHub repository.
+
+## Assignments
+
+### Using the Expected Outputs
+
+The expected outputs document is provided as an additional resource for students as they work through the assignment. It is intended to help students check that their code is producing the expected results.
+
+This document is **not** an answer key. It does not provide the code needed to generate those results. Instead, it gives students a way to verify their work while still doing the problem-solving themselves.
+
+### Answer Keys for Instructors
+
+Assignment answer keys are available to instructors, but they are not included in the public course materials.
+
+If you are an instructor and would like access to the answer keys, please open an issue in the GitHub repository \[add link here when repo is set up\]. This repository contains the assignment keys and grading references.

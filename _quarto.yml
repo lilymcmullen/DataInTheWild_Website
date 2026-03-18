@@ -26,6 +26,9 @@ website:
       - text: "Contact Us"
         href: https://github.com/BiodiversityDataScienceCorp
 
+      - text: "For Instructors"
+        href: instructors.qmd
+
       - text: "---"
 
       - section: "Module 1"
@@ -72,9 +75,8 @@ website:
 
       - text: "---"
 
-      - section: "Resources"
-        contents:
-          - resources.qmd
+      - text: "Resources"
+        href: resources.qmd
 
   page-footer:
     background: $dark-blue

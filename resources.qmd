@@ -1,12 +1,28 @@
 ---
-title: "Learn More!"
+title: "Resources"
 format: 
   html: 
     toc: false
 ---
 
-There are many external resources if you're interested in learning more about the R language, and any programming language really. Here, we have compiled a list of some places you might turn to for additional nuggets of knowledge.
+There are many resources available if you would like to keep building your skills in R, data science, and data visualization beyond this course. Here, we have compiled a list of some places you might turn to for additional nuggets of knowledge.
 
--   Jeff Oliver (one of the people who helped develop this course) holds workshops for both students and instructors at the University of Arizona and beyond. Here is one of his lesson sequences for novices in R: [learn-r (jcoliver.github.io)](https://jcoliver.github.io/learn-r/)
+## Learn More!
 
--   If you enjoy the customization of visualizations as much as I do, here is a good resource: [R CHARTS \| A collection of charts and graphs made with the R programming language (r-charts.com)](https://r-charts.com/)
+- [learn-r by Jeff Oliver](https://jcoliver.github.io/learn-r/)  
+  A helpful introductory lesson sequence in R developed by Jeff Oliver, one of the contributors to this course.
+
+- [Hello Data Science](https://hellodata.science/)  
+  A beginner-friendly resource designed to introduce students to data science concepts and tools in a clear, accessible way.
+
+- [R for Data Science](https://r4ds.hadley.nz/)  
+  A widely used open-access textbook for learning R, data wrangling, visualization, and analysis.
+
+- [The Carpentries](https://carpentries.org/)  
+  A well-known community focused on teaching foundational coding and data skills for research. Their workshops and teaching materials are especially helpful for beginners.
+
+- [From Data to Viz](https://www.data-to-viz.com/)  
+  A guide for choosing the right kind of visualization for your data.
+
+- [R Charts](https://r-charts.com/)  
+  A useful reference for creating and customizing charts and graphs in R.

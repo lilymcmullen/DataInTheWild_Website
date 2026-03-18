@@ -1,36 +1,20 @@
 # Data In The Wild
 
-An introductory data science course for the life sciences, developed as part of the NSF Harnessing the Data Revolution (HDR) Data Science Corps program in collaboration between the University of Arizona and Lewis & Clark College.
-
 ## About the Course
 
-Data in the Wild teaches students to apply data science skills to real-world problems in biodiversity and conservation. Using the R programming language, students work through four narrative-driven modules set in Antarctica, from their first steps in RStudio to building predictive models for penguin nesting habitat. The course is designed for students across all majors and fulfills general education requirements at the University of Arizona.
+Data in the Wild introduces students to data science through the R programming language and a series of ecological problems set in Antarctica. Across the course, students use data to investigate food safety, wildlife tracking, habitat relationships, and sustainable fisheries management. Along the way, they learn skills in data wrangling, visualization, statistical analysis, modeling, and interpretation.
 
-The course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and Ellen Bledsoe, and first taught in pilot form at UA in Spring 2020.
+The course is designed for students in the life sciences and assumes no prior programming experience. Lessons begin with the basics of coding in R and gradually build toward more advanced tools such as hypothesis testing, machine learning, regression, and population modeling.
 
-## Course Modules
-
-**Module 1 - Mission Antarctica!** Introduction to data science, RStudio, RMarkdown, and the R programming language.
-
-**Module 2 - Good Food Gone Bad** Data visualization and simulation to investigate a food poisoning outbreak among team members.
-
-**Module 3 - Follow That Seal** Classification and machine learning to identify failing radio collars on leopard seals.
-
-**Module 4 - March of the Penguins** Regression and bootstrapping to model penguin nesting success and plan a new road route.
+The course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and Ellen Bledsoe with support from the NSF Harnessing the Data Revolution program, and has been taught at the University of Arizona as part of the general education curriculum.
 
 ## Accessing Course Materials
 
 ### Website
 
-The course website contains all lesson pages, module narratives, and links to downloadable materials:
+The course website contains all modules, lessons, assignments, and their downloads:
 
 <https://biodiversitydatasciencecorp.github.io/DataInTheWild_Website/>
-
-### GitHub
-
-All source files are available in the course repository:
-
-<https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA>
 
 ## Building the Website Locally
 

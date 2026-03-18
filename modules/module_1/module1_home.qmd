@@ -21,7 +21,20 @@ By the end of this module, students will be able to:
 -   use functions and interpret function arguments in R
 -   use core `tidyverse` tools such as `select()`, `filter()`, `mutate()`, `summarize()`, and `group_by()` to explore and organize data
 
-## Instructor Downloads
+## Downloads
 
--   [Download Module 1 source files](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA) on GitHub
--   Add more details or downloads here...?
+The files below are available for instructors and students. Instructor versions include teaching notes or answer content where applicable, while student versions are designed for classroom use and independent work.
+
+| Item | Instructor QMD | Student QMD | PDF | Data |
+|------------|------------|------------|------------|------------|
+| 1.1: Introduction to R and RStudio | [Download]() | [Download]() | [PDF]() |  |
+| 1.2: Intro to Coding in R | [Download]() | [Download]() | [PDF]() |  |
+| 1.3: Introduction to the `tidyverse` | [Download]() | [Download]() | [PDF]() | [CSV]() |
+| Assignment 1: Getting to Know the Team | [Download]() | [Download]() | [PDF]() | [CSV]() |
+| Assignment 2: Getting to Know Your Antarctic Home | [Download]() | [Download]() | [PDF]() | [CSV]() |
+
+## Download All Files
+
+-   [Download all Module 1 files (.zip)]()
+
+**Links are not yet live! Working on this!**

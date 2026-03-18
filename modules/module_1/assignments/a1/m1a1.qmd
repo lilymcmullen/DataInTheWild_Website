@@ -5,28 +5,6 @@ format:
     toc: true
 ---
 
-## Downloads
-
-The files for this assignment are available below:
-
--   [Download the assignment (.qmd or .rmd?)]()
--   [Download the dataset (.csv)](team_antarctica.csv)
--   [Download the expected outputs (.pdf)](m1a1_expected.pdf)
-
-## Using the Expected Outputs
-
-The expected outputs document is provided as an additional resource for students as they work through the assignment. It is intended to help students check that their code is producing the expected results.
-
-This document is **not** an answer key. It does not provide the code needed to generate those results. Instead, it allows students to verify their work while still completing the assignment independently.
-
-## For Instructors
-
-Assignment answer keys are available to instructors, but they are not included in the public course materials.
-
-If you are an instructor and would like access to the answer keys, please open an issue in the GitHub repository\[link here\]. After verification, instructors can be added to the private repository that contains the assignment keys and grading references.
-
-# Assignment Description
-
 ## Getting to Know Team Antarctica!
 
 ### Purpose
