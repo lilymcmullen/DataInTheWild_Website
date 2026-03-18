@@ -1,13 +1,14 @@
 ---
 title: '5.3: Comparing Populations'
-author: "Jessie Golding and Ellen Bledsoe"
+author: "Jessie Golding, Desiree Andersen, Ellen Bledsoe"
 format:
   html:
     toc: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```{r}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Comparing Populations
@@ -258,3 +259,7 @@ How do we interpret these results? What are our conclusions?
 Our ultimate goal in this module has been to determine which population of fish is best for fishing sustainably. We are prioritizing large, stable populations.
 
 Given those requirements and what our numeric, visual, and statistical tests have told us, which of these populations would be the best for us to harvest? Why?
+
+## References
+
+Golding, J.; Andersen, D.; Bledsoe, E. (2024). [Data-Driven Decision-Making: Antarctic Fisheries](http://dx.doi.org/10.25334/YECE-7M02). [Teaching Ecology for All Undergraduate Audiences](https://qubeshub.org/groups/teespring2024), QUBES Educational Resources. [doi:10.25334/YECE-7M02](http://dx.doi.org/10.25334/YECE-7M02)

@@ -20,20 +20,25 @@ website:
     collapse-level: 1
 
     contents:
-      - section: "Introduction"
-        contents:
-          - index.qmd
-          - structure.qmd
-          - text: "Contact Us"
-            href: https://github.com/BiodiversityDataScienceCorp
+      - text: "Home"
+        href: index.qmd
+      
+      - text: "Contact Us"
+        href: https://github.com/BiodiversityDataScienceCorp
 
       - text: "---"
 
       - section: "Module 1"
         contents:
+          - text: "Overview"
+            href: modules/module_1/module1_home.qmd
           - modules/module_1/module1_1.qmd
           - modules/module_1/module1_2.qmd
           - modules/module_1/module1_3.qmd
+          - text: "Assignment 1"
+            href: modules/module_1/assignments/a1/m1a1.qmd
+          - text: "Assignment 2"
+            href: modules/module_1/assignments/a2/m1a2.qmd
 
       - section: "Module 2"
         contents:
@@ -61,6 +66,9 @@ website:
           - modules/module_5/module5_1.qmd
           - modules/module_5/module5_2.qmd
           - modules/module_5/module5_3.qmd
+
+      - text: "Final Project"
+        href: modules/final_project/FinalProject.qmd
 
       - text: "---"
 

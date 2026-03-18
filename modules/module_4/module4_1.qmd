@@ -6,11 +6,12 @@ format:
     toc: true
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# The Context
+## The Context
 
 After the series of incidents where a number of the collars made by Budget Collars LLC seem to be failing, our team decided to try and replace as many of them as possible. Besides, their battery life is far inferior.
 

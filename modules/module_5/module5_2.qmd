@@ -1,12 +1,13 @@
 ---
-title: '5.1: Sustainable Fishing'
-author: "Jessie Golding and Ellen Bledsoe"
+title: '5.2: Sustainable Fishing'
+author: "Jessie Golding, Desiree Andersen, Ellen Bledsoe"
 format:
   html:
     toc: true
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -182,3 +183,7 @@ MSY
 This means that we can take about 52 fish from this population annually and keep the population stable!
 
 If we take fewer than 52 fish, the population will increase (until the carrying capacity, that is). If we take more than 52 fish, however, we are over-fishing the population, meaning the population will not be able to reproduce enough to maintain the population and will eventually collapse.
+
+## References
+
+Golding, J.; Andersen, D.; Bledsoe, E. (2024). [Data-Driven Decision-Making: Antarctic Fisheries](http://dx.doi.org/10.25334/YECE-7M02). [Teaching Ecology for All Undergraduate Audiences](https://qubeshub.org/groups/teespring2024), QUBES Educational Resources. [doi:10.25334/YECE-7M02](http://dx.doi.org/10.25334/YECE-7M02)

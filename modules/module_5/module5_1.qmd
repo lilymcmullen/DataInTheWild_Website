@@ -1,13 +1,14 @@
 ---
 title: '5.1: Population Growth'
-author: "Jessie Golding and Ellen Bledsoe"
+authors: "Jessie Golding, Desiree Andersen, Ellen Bledsoe"
 format:
   html:
     toc: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Introduction to Population Growth
@@ -16,7 +17,7 @@ Let's use descriptive statistics and data visualization to better understand pop
 
 ### Exponential Growth
 
-A population that shows [exponential growth]{.underline} has a growth rate that depends the average number of births (`b`) and deaths (`d`) per individual.
+A population that shows [exponential growth]{.underline} has a growth rate that depends on the average number of births (`b`) and deaths (`d`) per individual.
 
 We call rates that are averages per individual in a population (rather than a total) *per capita* growth rates; *per capita* translates from Latin to "by head," meaning for individuals.
 
@@ -91,15 +92,6 @@ popB
 **Why is there no carrying capacity in this population data set? What does this mean about the resources Population B needs?**\
 *Answer: Exponential models assume unlimited resources, so no carrying capacity (K) is included.*
 
-**What do you notice about Population A that is different than Population B?**\
-*Answer: The intrinsic growth rate (r) for Population A is negative.*
-
-**What has happened to this population?**\
-*Answer: Population A crashes and reaches zero.*
-
-**Between Population A and Population B, which is a better target population for fishing? Why?**\
-*Answer: Population B, because r \> 0 and it grows quickly.*
-
 ### Exponential Growth Populations
 
 It looks like populations exhibiting exponential growth might be good targets for our fishing operations because they can become very large. Let's look at the data we have on exponential growth populations a little closer.
@@ -130,7 +122,8 @@ popA <-fish_pops %>%
 popA
 ```
 
-What do you notice about Population A that is different than Population B? Intrinsic growth rate negative
+**What do you notice about Population A that is different than Population B?**\
+*Answer: The intrinsic growth rate (r) for Population A is negative.*
 
 The intrinsic rate of increase (r) for Population A is negative. Let's see what that means for Population A and plot it by itself:
 
@@ -142,11 +135,13 @@ ggplot(popA, aes(x = year, y = N)) +
   theme_light()
 ```
 
-What has happened to this population? Crashed
+**What has happened to this population?**\
+*Answer: Population A crashes and reaches zero.*
 
 Even with "exponential growth", the population has crashed (gone to 0), because *r* is negative. It took approximately 7 years for this to happen.
 
-Between Population A and Population B, which do you think is a better target population for fishing? Population B, `r` is positive
+**Between Population A and Population B, which is a better target population for fishing? Why?**\
+*Answer: Population B, because r \> 0 and it grows quickly.*
 
 **Logistic growth populations**
 
@@ -160,7 +155,7 @@ log_pops
 
 Notice in this case we have carrying capacity data. Let's use some data visualizations to help us understand what that means.
 
-Lets look at the two logistic growth populations on the same plot:
+Let's look at the two logistic growth populations on the same plot:
 
 ```{r}
 ggplot(log_pops, aes(x = year, y = N, color = population))+
@@ -170,19 +165,20 @@ ggplot(log_pops, aes(x = year, y = N, color = population))+
   theme_light()
 ```
 
-Which population gets the largest? Population 4
+**Which population gets the largest?**\
+*Answer: Population D*
 
 ### Finding the Carrying Capacity
 
-When we have a logistic growth model, we often will want to find the carrying capacity of the population
+When we have a logistic growth model, we often will want to find the carrying capacity of the population.
 
-What values does each population level off at?
+**What values does each population level off at?**
 
--   Population C: 20
+-   Population C: *20*
 
--   Population D: 100
+-   Population D: *100*
 
-These are the carrying capacities. If you look back at the data, you will see Population C has a carrying capacity of 20 individuals, whereas Population D has a carrying capacity of 100 individuals. Which population do you think might be the best candidate to fish between these two? Population D is more abundant and has a higher carrying capacity.
+These are the carrying capacities. If you look back at the data, you will see Population C has a carrying capacity of 20 individuals, whereas Population D has a carrying capacity of 100 individuals. **Which population do you think might be the best candidate to fish between these two?** *Answer: Population D is more abundant and has a higher carrying capacity.*
 
 **A review of what we have learned**
 
@@ -196,4 +192,6 @@ The following factors are important to know about a population before fishing:
 
 ## References
 
-Zhang, M., Liu, S., Bo, J., Zheng, R., Hong, F., Gao, F., Miao, X., Li, H., & Fang, C. (2022). First evidence of microplastic contamination in Antarctic fish (Actinopterygii, Perciformes),*Water*, *14*(19).
+Golding, J.; Andersen, D.; Bledsoe, E. (2024). [Data-Driven Decision-Making: Antarctic Fisheries](http://dx.doi.org/10.25334/YECE-7M02). [Teaching Ecology for All Undergraduate Audiences](https://qubeshub.org/groups/teespring2024), QUBES Educational Resources. [doi:10.25334/YECE-7M02](http://dx.doi.org/10.25334/YECE-7M02)
+
+Zhang, M., Liu, S., Bo, J., Zheng, R., Hong, F., Gao, F., Miao, X., Li, H., & Fang, C. (2022). First evidence of microplastic contamination in Antarctic fish (Actinopterygii, Perciformes), *Water*, *14*(19).

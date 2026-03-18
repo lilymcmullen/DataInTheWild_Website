@@ -6,7 +6,12 @@ format:
     toc: true
 ---
 
-## Comparing Two Means
+```{r}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Comparing Two Means
 
 When we are comparing data from two groups, we often want to compare the mean values of the different groups to see if there are differences. We can do this in a number of ways:
 
@@ -86,7 +91,6 @@ There is a set of statistical tools that can help us determine whether or not th
 Let's briefly remind ourselves of the logic here.
 
 1.  Our data are a *sample* of a larger *population* (think of the population as all of the collars ever produced by both companies).
-    -   Remember how we sampled our fish tank data for sick fish instead of getting data for every single tank? Same idea.
 2.  We're interested in the the difference in the means between the two groups.
     -   If they're exactly the same, the difference in means would be 0.
     -   If they're different, the difference between the means will be something either larger or smaller than 0.

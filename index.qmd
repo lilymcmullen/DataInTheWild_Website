@@ -8,40 +8,45 @@ format:
 
 ![](images/penguins.jpg)
 
-*Data in the Wild* introduces students to data science through the R programming language, applied to real ecological and conservation challenges. The course is built around a narrative, a mission to establish a sustainable colony in Antarctica, in which each module presents a new crisis for students to investigate using data. No prior programming experience is required.
+*Data in the Wild* introduces students to data science through the R programming language and a series of ecological problems set in Antarctica. Across the course, students use data to investigate food safety, wildlife tracking, habitat relationships, and sustainable fisheries management. Along the way, they learn skills in data wrangling, visualization, statistical analysis, modeling, and interpretation.
 
-The course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and Ellen Bledsoe with support from the NSF Harnessing the Data Revolution program, and is taught at the University of Arizona as part of the general education curriculum.
+The course is designed for students in the life sciences and assumes no prior programming experience. Lessons begin with the basics of coding in R and gradually build toward more advanced tools such as hypothesis testing, machine learning, regression, and population modeling.
 
-## **The Narrative**
+The course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and Ellen Bledsoe with support from the NSF Harnessing the Data Revolution program, and has been taught at the University of Arizona as part of the general education curriculum.
 
-### **Module 1: Mission Antarctica!**
-
-The team has arrived in Antarctica and must set up the tools needed for all future data work. Students learn the basics of R and RStudio in Posit Cloud: navigating the interface, writing and running code, creating objects, working with vectors and data types, and importing datasets. They practice summarizing data frames and computing simple descriptive statistics. By the end of the module, students can use R to explore ecological data and are prepared for data visualization and deeper analysis in later modules.
-
-### **Module 2: Good Food Gone Bad**
-
-A wave of food poisoning spreads through the team, and the colony must identify the source. Students use descriptive statistics and data visualization to explore dietary and aquaculture data and investigate whether plants or fish are responsible. They create and interpret histograms, scatterplots, and multi-group comparisons using both base R and ggplot2, learning how visual cues reveal patterns in single variables and relationships between variables. By the end of the module, students can summarize numeric data, choose appropriate plot types, compare groups visually, and use evidence from distributions and densities to identify which fish species and environmental conditions are driving the sickness.
-
-### **Module 3: Follow That Seal**
-
-Leopard seal activity is disrupting fishing operations, and unreliable radio collars are making it difficult to track seal behavior safely. Students begin by cleaning multiple datasets on collar battery life and signal distance, then use t-tests and ANOVA to compare performance across manufacturers. They apply K-Nearest Neighbors to classify unlabeled collars and determine which supplier is producing faulty equipment. The module introduces regression: first simple linear regression to model relationships between ecological variables, and then multiple regression and interaction terms. By the end of the module, students can test group differences, fit and interpret linear and multiple regression models, and use a simple machine-learning method to support ecological decision-making.
-
-### **Module 4: March of the Penguins**
-
-To build a sustainable fishery, the team must understand how local Antarctic fish populations grow and respond to harvesting. Students begin by exploring exponential and logistic population growth, interpreting the intrinsic rate of increase and carrying capacity. They visualize population trajectories, compare species, and identify which populations are stable or declining. Students then fit logistic growth models using the `drc` package to estimate carrying capacity more accurately, and use those estimates to calculate the maximum sustainable yield. Then, they compare multiple fish populations by adding logistic model curves to their plots and testing differences statistically with ANOVA and post-hoc comparisons. By the end of the module, students can model population dynamics, estimate sustainable harvest levels, and use data-driven evidence to recommend which fish population is safest to fish.
-
-## **Learning Objectives**
+## Learning Objectives
 
 By the end of the course, students will be able to:
 
-1. Work with ecological data in R, including importing, cleaning, summarizing, and organizing datasets.
-2. Visualize patterns and relationships using appropriate plots.
-3. Apply statistical methods including t-tests, ANOVA, and regression to evaluate ecological questions.
-4. Fit and interpret ecological models, including logistic growth and carrying capacity, to support management decisions.
-5. Communicate data-driven conclusions clearly.
+1.  Import, organize, summarize, and work with ecological datasets in R.
+2.  Create and interpret appropriate data visualizations using `ggplot2`.
+3.  Apply statistical tools such as t-tests, ANOVA, and regression to ecological questions.
+4.  Combine datasets and use basic classification approaches to support inference and prediction.
+5.  Interpret population growth models, carrying capacity, and sustainable yield in an ecological management context.
+6.  Communicate quantitative findings clearly using code, figures, and written interpretation.
 
-## **For Instructors**
+## The Narrative
 
-Course materials, including student and instructor versions of all lessons, datasets, and assignments, are openly available and designed to be adaptable for other institutions and programming languages. R is used throughout, but the course structure is transferable to Python or other environments.
+### **Module 1: Mission Antarctica!**
 
-All materials are available on the [course site](structure.qmd) and in the [GitHub repository](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA).
+The team has arrived in Antarctica and needs to establish the technical foundation for all future data work. Students begin by learning how to use R and RStudio in Posit Cloud, including how to run code, create objects, work with vectors, understand data classes, subset data, and use functions. They are also introduced to the `tidyverse`, where they begin learning how to select, filter, summarize, group, and mutate data. By the end of the module, students are comfortable navigating their coding environment and working with simple ecological datasets.
+
+### **Module 2: Good Food Gone Bad**
+
+A wave of food poisoning spreads through the colony, and students must determine what is making people sick. They use descriptive statistics and data visualization to investigate dietary and aquaculture data, beginning with basic plots in base R and then building toward more flexible visualizations in `ggplot2`. Students practice interpreting histograms, scatterplots, boxplots, and multiple-group comparisons, and they begin connecting patterns in the data to biological explanations. This module focuses on using visualization and summary statistics to explore evidence and support decision-making.
+
+### **Module 3: Follow That Seal**
+
+Fishing operations are becoming dangerous because leopard seal activity is hard to track, and some radio collars appear to be failing. Students analyze collar data to compare manufacturers using t-tests and ANOVA, then use post-hoc comparisons to determine which groups differ from one another. They also learn how to interpret significance, p-values, and hypothesis tests in the context of a real ecological problem. This module builds students’ confidence with inferential statistics and group comparisons.
+
+### **Module 4: Roads and Regressions**
+
+As the colony expands, new infrastructure and equipment decisions depend on bringing multiple datasets together and modeling ecological relationships. Students learn how to combine datasets with joins and binds, then use K-Nearest Neighbors (KNN) to classify unlabeled seal collars. They also work with linear regression and multiple regression to investigate relationships between environmental variables and ecological responses, including habitat suitability and penguin nesting patterns. By the end of the module, students can integrate multiple sources of data, fit regression models, and interpret both main effects and interactions.
+
+### **Module 5: Sustainable Fishing**
+
+The final module highlights how the core themes of the course can be brought together and shaped by a particular disciplinary perspective. In this version, Module 5 was developed and taught by Dr. Ellen Bledsoe, whose training as an ecologist informed its focus on population growth, carrying capacity, and sustainable fisheries management in Antarctica.
+
+Students explore exponential and logistic population growth, interpret intrinsic rate of increase and carrying capacity, estimate carrying capacity from logistic models, calculate maximum sustainable yield, and compare fish populations visually and statistically to determine which populations are the best candidates for harvest. The module draws together many of the skills developed earlier in the course, including visualization, statistical analysis, modeling, and ecological interpretation.
+
+At the same time, Module 5 is intended as an example of how Data in the Wild can be specialized. The course can be taught with or without this module, and the broader structure can be adapted to reflect other disciplines, research questions, or instructor expertise while still building from the same data science foundation.

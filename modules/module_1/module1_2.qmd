@@ -1,12 +1,13 @@
 ---
 title: "1.2: Intro to Coding in R"
-authors: "Keaton Wilson, Ellen Bledsoe"
+authors: "Ellen Bledsoe"
 format:
   html:
     toc: true
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 ```
 

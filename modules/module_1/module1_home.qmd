@@ -1,0 +1,27 @@
+---
+title: "Module 1: Mission Antarctica!"
+format:
+  html:
+    toc: false
+---
+
+## Overview
+
+The team has arrived in Antarctica and needs to establish the technical foundation for all future data work. Students begin by learning how to use R and RStudio in Posit Cloud, including how to run code, create objects, work with vectors, understand data classes, subset data, and use functions. They are also introduced to the `tidyverse`, where they begin learning how to select, filter, summarize, group, and mutate data. By the end of the module, students are comfortable navigating their coding environment and working with simple ecological datasets.
+
+## Learning Objectives
+
+By the end of this module, students will be able to:
+
+-   describe the role of R and RStudio in a data science workflow
+-   use Posit Cloud to write, run, and organize code
+-   create objects and work with vectors in R
+-   distinguish among common data classes, including numeric, character, logical, factor, and data frame structures
+-   subset vectors and data frames using both index- and condition-based approaches
+-   use functions and interpret function arguments in R
+-   use core `tidyverse` tools such as `select()`, `filter()`, `mutate()`, `summarize()`, and `group_by()` to explore and organize data
+
+## Instructor Downloads
+
+-   [Download Module 1 source files](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_UA) on GitHub
+-   Add more details or downloads here...?

@@ -6,7 +6,8 @@ format:
     toc: true
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -114,7 +115,7 @@ We will use the `geom_vline()` function to add a vertical line onto our plot at 
 
 Let's take a look at the help file for `geom_vline()` to see what arguments it takes. Scroll down to the "Aesthetics" section.
 
-```{r}
+```{r, eval=FALSE}
 ?geom_vline
 ```
 

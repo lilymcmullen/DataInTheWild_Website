@@ -5,7 +5,9 @@ format:
   html:
     toc: true
 ---
-```{r setup, include=FALSE}
+
+```{r}
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
