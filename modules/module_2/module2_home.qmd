@@ -1,0 +1,42 @@
+---
+title: "Module 2: Good Food Gone Bad!"
+format:
+  html:
+    toc: false
+---
+
+## Overview
+
+A wave of food poisoning spreads through the Antarctic base, and the team needs to figure out why. Students investigate a potential food contamination event using descriptive statistics and data visualization to track down the culprit. Along the way, they are introduced to histograms, scatter plots, and box plots in both base R and `ggplot2`, and they develop an eye for what makes a visualization effective or misleading. By the end of the module, students have solved the problem and begun exploring a dataset of their own for the course's final project.
+
+## Learning Objectives
+
+By the end of this module, students will be able to:
+
+-   distinguish between descriptive and inferential statistics and explain when each is appropriate
+-   calculate and interpret measures of central tendency and variation, including mean, median, and standard deviation
+-   create histograms and scatter plots using base R syntax
+-   build plots iteratively in `ggplot2` using `ggplot()`, `aes()`, geom functions, `labs()`, and `theme()` functions
+-   select an appropriate plot type based on the number and types of variables being visualized
+-   create histograms, multiple histograms, scatter plots, and box-and-whisker plots in `ggplot2`
+-   evaluate the effectiveness of a data visualization and identify common pitfalls
+-   write a research question with a clearly defined dependent and independent variable
+
+## Lessons & Assignments
+
+Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
+
+-   [2.1: Good Food Gone Bad](module2_1.qmd)
+-   [2.2: Plotting with `ggplot2`](module2_2.qmd)
+-   [2.3: Data Visualization](module2_3.qmd)
+-   [2.4: Exploring `geom` Functions](module2_4.qmd)
+-   [2.5: Module 2 Wrap-Up](module2_5.qmd)
+-   Assignment 1: Scatter Plots
+-   Assignment 2: From Data to Plot
+-   Assignment 3: Final Project Kickoff
+
+## GitHub
+
+To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
+
+**Links are not yet live!**

@@ -1,0 +1,43 @@
+---
+title: "Module 5: Sustainable Fishing"
+format:
+  html:
+    toc: false
+---
+
+## Overview
+
+With fishing bays selected and roads planned, the team must now figure out how many fish they can sustainably harvest without depleting the population. Students are introduced to population growth models - exponential and logistic - and use them to estimate carrying capacities and maximum sustainable yield for Antarctic toothfish populations. They then learn to fit logistic growth curves to real data and compare populations statistically. Along the way, students also step outside of R to practice finding and citing scientific literature and writing a scientific abstract in preparation for the final project.
+
+> **Note:** Module 5 is an example of how *Data in the Wild* can be extended or adapted to reflect a specific disciplinary focus. This version was developed by Dr. Ellen Bledsoe and draws on her background in ecology. The course can be taught with or without this module, and instructors are encouraged to develop alternatives that reflect their own expertise or research context.
+
+## Learning Objectives
+
+By the end of this module, students will be able to:
+
+-   explain the difference between exponential and logistic population growth and identify each from a graph
+-   define carrying capacity (`K`) and intrinsic rate of increase (`r`) and use them in population growth calculations
+-   calculate maximum sustainable yield from population growth parameters
+-   fit a logistic growth model to population data using the `drc` package
+-   overlay a fitted logistic growth curve onto a `ggplot2` scatter plot
+-   compare multiple populations statistically using tools from previous modules
+-   find and evaluate scientific literature using AI-assisted search tools
+-   summarize scientific articles and integrate them into written work
+-   write a scientific abstract for a research question using supporting literature
+
+## Lessons & Assignments
+
+Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
+
+-   [5.1: Population Growth](module5_1.qmd)
+-   [5.2: Sustainable Fishing](module5_2.qmd)
+-   [5.3: Comparing Populations](module5_3.qmd)
+-   Assignment 1: Scientific Literature & Abstract Writing *(writing assignment)*
+-   Assignment 2: Choosing a Bay to Fish
+-   Assignment 3: Comparing Populations
+
+## GitHub
+
+To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
+
+**Links are not yet live!**

@@ -7,7 +7,7 @@ format:
 
 ## Overview
 
-The team has arrived in Antarctica and needs to establish the technical foundation for all future data work. Students begin by learning how to use R and RStudio in Posit Cloud, including how to run code, create objects, work with vectors, understand data classes, subset data, and use functions. They are also introduced to the `tidyverse`, where they begin learning how to select, filter, summarize, group, and mutate data. By the end of the module, students are comfortable navigating their coding environment and working with simple ecological datasets.
+The team has arrived in Antarctica and needs to establish the technical foundation for all future data work. Students begin by learning how to use R and RStudio in Posit Cloud, including how to run code, create objects, work with vectors, understand data classes, subset data, and use functions. They are also introduced to the tidyverse, where they begin learning how to select, filter, summarize, group, and mutate data. By the end of the module, students are comfortable navigating their coding environment and working with simple ecological datasets.
 
 ## Learning Objectives
 
@@ -21,20 +21,18 @@ By the end of this module, students will be able to:
 -   use functions and interpret function arguments in R
 -   use core `tidyverse` tools such as `select()`, `filter()`, `mutate()`, `summarize()`, and `group_by()` to explore and organize data
 
-## Downloads
+## Lessons & Assignments
 
-The files below are available for instructors and students. Instructor versions include teaching notes or answer content where applicable, while student versions are designed for classroom use and independent work.
+Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
 
-| Item | Instructor QMD | Student QMD | PDF | Data |
-|------------|------------|------------|------------|------------|
-| 1.1: Introduction to R and RStudio | [Download]() | [Download]() | [PDF]() |  |
-| 1.2: Intro to Coding in R | [Download]() | [Download]() | [PDF]() |  |
-| 1.3: Introduction to the `tidyverse` | [Download]() | [Download]() | [PDF]() | [CSV]() |
-| Assignment 1: Getting to Know the Team | [Download]() | [Download]() | [PDF]() | [CSV]() |
-| Assignment 2: Getting to Know Your Antarctic Home | [Download]() | [Download]() | [PDF]() | [CSV]() |
+-   [1.1: Introduction to R and RStudio](module1_1.qmd)
+-   [1.2: Intro to Coding in R](module1_2.qmd)
+-   [1.3: Introduction to the `tidyverse`](module1_3.qmd)
+-   [Assignment 1: Getting to Know the Team](assignments/a1/m1a1.qmd)
+-   [Assignment 2: Getting to Know Your Antarctic Home](assignments/a2/m1a2.qmd) Another assignment?
 
-## Download All Files
+## GitHub
 
--   [Download all Module 1 files (.zip)]()
+To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
 
-**Links are not yet live! Working on this!**
+**Links are not yet live!**

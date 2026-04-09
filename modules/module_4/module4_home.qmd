@@ -1,0 +1,43 @@
+---
+title: "Module 4: Roads and Regressions"
+format:
+  html:
+    toc: false
+---
+
+## Overview
+
+With fishing bays selected and collars in need of replacement, the team faces two new challenges: identifying the makers of a mystery batch of collars, and planning a road to the fishing sites that minimizes harm to Antarctica's fragile ecosystem - including avoiding habitat for Antarctic hair grass and penguin nesting sites. Students learn to combine datasets using joins and binds, get an introduction to machine learning through K-Nearest Neighbors classification, and dive into linear and multiple regression to model environmental relationships. By the end of the module, students can work with data from multiple sources, fit regression models, and interpret their results.
+
+## Learning Objectives
+
+By the end of this module, students will be able to:
+
+-   combine data frames using binding and joining operations in `tidyverse`
+-   explain the basic concept of K-Nearest Neighbors (KNN) as a classification algorithm
+-   describe what a model is and how it can be used to understand and predict relationships between variables
+-   run and interpret a simple linear regression using `lm()` and `summary()`
+-   interpret regression output including the slope, intercept, R-squared value, and p-value
+-   add a regression line to a `ggplot2` scatter plot using `geom_smooth()`
+-   explain when and why multiple regression is preferable to simple linear regression
+-   run and interpret a multiple regression with more than one independent variable
+-   select the appropriate statistical test for a given research question and dataset
+
+## Lessons & Assignments
+
+Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
+
+-   [4.1: Combining Datasets (Joins & Binds)](module4_1.qmd)
+-   [4.2: K-Nearest Neighbor](module4_2.qmd)
+-   [4.3: Roads and Regressions](module4_3.qmd)
+-   [4.4: Multiple Regression](module4_4.qmd)
+-   Assignment 1: Linear Regression
+-   Assignment 2: More Regressions
+-   Assignment 3: Multiple Regressions
+-   Assignment 4: Final Project Practice
+
+## GitHub
+
+To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
+
+**Links are not yet live!**

@@ -31,15 +31,7 @@ That said, the materials can also be taught in local RStudio or adapted to other
 
 Lessons, assignments, datasets, and other course materials are available in the public GitHub repository.
 
-## Assignments
-
-### Using the Expected Outputs
-
-The expected outputs document is provided as an additional resource for students as they work through the assignment. It is intended to help students check that their code is producing the expected results.
-
-This document is **not** an answer key. It does not provide the code needed to generate those results. Instead, it gives students a way to verify their work while still doing the problem-solving themselves.
-
-### Answer Keys for Instructors
+## Answer Keys for Instructors
 
 Assignment answer keys are available to instructors, but they are not included in the public course materials.
 

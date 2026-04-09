@@ -1,0 +1,37 @@
+---
+title: "Module 3: Follow That Seal"
+format:
+  html:
+    toc: false
+---
+
+## Overview
+
+With the aquaponics system compromised, the team must turn to wild-caught fish to supplement their food supply, but fishing in Antarctic waters comes with risks. Leopard seals are apex predators in the area, and the radio collars used to track them have been failing unexpectedly. Students are tasked with figuring out which collar manufacturer is to blame by comparing means numerically, visually, and statistically, first using t-tests to compare two groups, then extending to ANOVA and post-hoc comparisons when more than two groups are involved. By the end of the module, students can determine whether differences between groups are statistically meaningful and apply these tools to new ecological contexts.
+
+## Learning Objectives
+
+By the end of this module, students will be able to:
+
+-   explain the logic of hypothesis testing, including null and alternative hypotheses
+-   distinguish between independent and dependent variables and identify each in a research question
+-   determine when a t-test versus an ANOVA is the appropriate statistical test
+-   run a t-test using the `t.test()` function and interpret the output, including t-value, p-value, and confidence interval
+-   run a one-way ANOVA using the `aov()` and `summary()` functions and interpret the F-value and p-value
+-   run a Tukey's HSD post hoc test using `TukeyHSD()` and interpret pairwise comparisons
+
+## Lessons & Assignments
+
+Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
+
+-   [3.1: Leopard Seals](module3_1.qmd)
+-   [3.2: T-Tests](module3_2.qmd)
+-   [3.3: Comparing (Multiple) Means](module3_3.qmd)
+-   Assignment 1: Comparing Two Means
+-   Assignment 2: Comparing Multiple Means
+
+## GitHub
+
+To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
+
+**Links are not yet live!**
