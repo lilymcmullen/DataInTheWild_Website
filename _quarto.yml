@@ -130,5 +130,6 @@ format:
     include-in-header:
       text: |
         <script src="/scripts/pdf-button.js"></script>
+        <script src="/scripts/toggle-view.js"></script>
 
 editor: visual

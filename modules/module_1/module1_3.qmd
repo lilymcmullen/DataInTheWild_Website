@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 -   Students will be able to load packages.
 -   Students will be able to use some functions of the tidyverse: select, filter, the pipe, mutate, summarize, and group by.
 -   Students will compare and contrast base R and tidyverse methodology for sub-setting data frames.
--   Students will able to use tidyverse functions to summarize real-world data.
+-   Students will be able to use tidyverse functions to summarize real-world data.
 
 ## The `tidyverse`: What is it?
 
@@ -88,7 +88,6 @@ To learn about the `tidyverse` syntax, we're going to use a real data set on cli
 # read in the data file
 
 # `read_csv()` is part of the `tidyverse` and gives us nice options when reading in data
-# your file path should only be read_csv("global_temps.csv")
 climate_df <- read_csv("data/global_temps.csv")
 
 # Let's take a look at the climate data. 
@@ -140,8 +139,17 @@ Note that we haven't put any column names in quotations. Using the `tidyverse`, 
 Write a line of code to select the following data from the `climate_df`: average temperature, latitude and longitude
 
 ```{r}
+# Write your code here
+
+```
+
+::: {.instructor-only}
+**Answer:**
+
+```{r}
 select(climate_df, AverageTemperature, Latitude, Longitude)
 ```
+:::
 
 It is important to remember that the computer interprets everything literally. We need to tell the function the **exact** names of the columns. R will interpret `latitude` and `Latitude` as different things; it doesn't know that they are probably the same!
 
@@ -183,11 +191,21 @@ Work with the climate data we've been using this class period. Construct a small
 3.  Name this new data frame "cold_paris"
 
 ```{r}
-# not piped
+# Write your code here
+
+```
+
+::: {.instructor-only}
+**Answer:**
+
+```{r}
 slim <- select(climate_df, dt, AverageTemperature, City)
 filtered <- filter(slim, City == "Paris", AverageTemperature < 22)
 cold_paris <- filtered
 ```
+
+**Instructor Note:** Students haven't learned the pipe yet so the unpiped version is correct here. 
+:::
 
 ## The Pipe `%>%`
 
@@ -221,10 +239,21 @@ In small groups, use pipes to create a new data frame called `warm_nigeria` that
 -   only rows for the country Nigeria and temperatures that are greater than 30 degrees
 
 ```{r}
+# Write your code here
+
+```
+
+::: {.instructor-only}
+**Answer:**
+
+```{r}
 warm_nigeria <- climate_df %>% 
   select(AverageTemperature, City, Country) %>% 
   filter(Country == "Nigeria", AverageTemperature > 30)
 ```
+
+**Instructor Note:** A common mistake here is putting `filter()` before `select()` and then getting an error because the pipe tries to filter on `Country` after it has already been dropped. If students hit this, it's a great moment to learn about the order of operations in a pipe chain.
+:::
 
 ## Turning Data into Information with `summarize()`
 
@@ -269,7 +298,7 @@ One common way we analyze data is through something we call the "split, apply, c
 
 The `group_by()` function lets us do this. It is most often used in combination with `summarize()`.
 
-For example, we can use this method to calculate the mean temperatures of **each** country instead of the overall mean of the entire dataset. In order to do these, we create groups in the data based on the country.
+For example, we can use this method to calculate the mean temperatures of **each** country instead of the overall mean of the entire dataset. In order to do this, we create groups in the data based on the country.
 
 ```{r}
 climate_df %>% 
@@ -280,10 +309,18 @@ climate_df %>%
 
 ### Let's practice!
 
-Practice using the combination of `group_by()` and `summarize()` to calculate the minimum (`min()`) and maximum (`max()`) average temperatures for each city. Save this data frame as `city_min_max`
+Practice using the combination of `group_by()` and `summarize()` to calculate the minimum (`min()`) and maximum (`max()`) average temperatures for each city. Save this data frame as `city_min_max`.
 
 ```{r}
-climate_df %>% 
+# Write your code here
+
+```
+
+::: {.instructor-only}
+**Answer:**
+
+```{r}
+city_min_max <- climate_df %>% 
   group_by(City) %>% 
   summarize(min_temp = min(AverageTemperature, na.rm = TRUE),
             max_temp = max(AverageTemperature, na.rm = TRUE))
@@ -298,13 +335,16 @@ climate_df %>%
             max_temp = max(AverageTemperature, na.rm = TRUE))
 ```
 
+**Instructor Note:** The bonus challenge works because `group_by()` can take multiple columns. Students often try to add `select(Country)` somewhere in the pipe instead, which either drops columns they need or doesn't work as expected.
+:::
+
 ## Creating New Columns with `mutate()`
 
 Sometimes our data frame doesn't have our data points in exactly the format we want. For example, we might want our temperature data in Fahrenheit instead of Celsius.
 
-The `tidyverse` has a function called `mutate()` that lets us create a new column. Often, we want to apply a function to the entire column or perform some type of calculation, such as converting temp from F to C.
+The `tidyverse` has a function called `mutate()` that lets us create a new column. Often, we want to apply a function to the entire column or perform some type of calculation, such as converting temperature from Celsius to Fahrenheit.
 
-Like the `summarize()` function, The first part of the argument in the `mutate` function (before the `=`) is the name of the new column we want to create (or, sometime, the name of a column we want to overwrite). After the `=` is code producing the values we want the new column to contain.
+Like the `summarize()` function, the first part of the argument in the `mutate` function (before the `=`) is the name of the new column we want to create (or, sometimes, the name of a column we want to overwrite).
 
 | `mutate(new_column_name = code_producing_values_for_the_new_column)`
 
@@ -319,11 +359,22 @@ climate_df %>%
 
 ### Let's Practice
 
-Write some code that uses the `round()` function to create a new column of average temperatures (Celsius) with only point value after the decimal point.
+Write some code that uses the `round()` function to create a new column of average temperatures (Celsius) rounded to one decimal place.
+
+```{r}
+# Write your code here
+
+```
+
+::: {.instructor-only}
+**Answer:**
 
 ```{r}
 climate_df %>% 
   mutate(AverageTemperatureRound = round(AverageTemperature, digits = 1))
 ```
 
-If we set the "new" column name in the `mutate()` function as the same name of a column that already exists, the code with replace that column with the new values.
+**Instructor Note:** Students may try `round(AverageTemperature, 1)` without the `digits =` argument name, that also works.
+:::
+
+If we set the "new" column name in the `mutate()` function as the same name of a column that already exists, the code will replace that column with the new values.

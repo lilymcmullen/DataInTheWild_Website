@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Learning Outcomes
 
 -   Students will be able to define the following terms: object, assignment, vector, function, data frame
--   Students will be able to run code line-by-line and as code chunks from an Rmarkdown file.
+-   Students will be able to run code line-by-line and as code chunks from a Quarto file.
 -   Students will be able to write code assigning values to variables and use these variables to perform various operations.
 -   Students will be able to recall and explain how functions operate, and the basic syntax around functions (arguments, auto-completion, parentheses).
 -   Students will be able to differentiate different data classes in R.
@@ -147,8 +147,9 @@ round(weight_kg_mean, digits = 2) # round to 2 digits past 0
 
 To get more information about a function, use the `help()` function or `?name_of_function`.
 
-```{r, eval=FALSE}
-help(round) # or type ?help
+```{r}
+#| eval: false
+help(round) # or type ?round
 ```
 
 We can use a function called `class()` to figure out the data type of a vector.
@@ -166,7 +167,13 @@ Let's practice! Write a few lines of code that do the following:
 -   subset `six_to_one` to include the last 3 numbers (should include 3, 2, 1)
 -   find the sum of the numbers (hint: use the `sum()` function)
 
-Answer: 6
+```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:** 6
 
 ```{r}
 six_to_one <- c(6, 5, 4, 3, 2, 1)
@@ -186,9 +193,9 @@ sum(last_three)
 Already finished? See if you can condense your code down any further or turn around and help out a neighbor.
 
 ```{r}
-six_to_one <- seq(6, 1)
 sum(six_to_one[4:6])
 ```
+:::
 
 ## 2-Dimensional Data: Data Frames
 
@@ -278,18 +285,29 @@ plants_no_nitrogen <- plants[plants$nitrogen == "N", ]
 As a group, find the standard deviation (`sd()`) of the height of plants treated with nitrogen and those not treated with nitrogen. Which group has the larger standard deviation? Any ideas what that means?
 
 ```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
 sd(plants[plants$nitrogen == "Y", 1])
 sd(plants[plants$nitrogen == "N", 1])
 ```
+
+**Instructor Note:** The **no-nitrogen group** has the larger standard deviation. Discuss: a larger SD means more variability in plant heights among untreated plants. Ask students why that might be? Without nitrogen, other factors like light or water availability may drive more variation in growth outcomes. This is a preview of the statistical thinking they will develop in later modules!
+:::
 
 ## Helpful Functions
 
 Below are some functions that I often find very helpful when working with vectors and data frames:
 
 -   `str()`: shows the structure of the object (e.g., rows and columns)
--   `head()` and `tail()`: shows the first six and last six rows, respectfully
+-   `head()` and `tail()`: shows the first six and last six rows, respectively
 -   `length()`: counts the number of elements in an object
--   `ncol()` and `nrow()`: counts the number of columns or rows, respectfully
+-   `ncol()` and `nrow()`: counts the number of columns or rows, respectively
 -   `names()`: shows the names of the columns in a data frame
 -   `unique()`: shows one of each element in an object (removes duplicate values)
 

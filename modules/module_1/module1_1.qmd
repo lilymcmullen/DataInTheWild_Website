@@ -24,12 +24,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Let's all sign-up for [Posit Cloud!](https://posit.cloud/) We use Posit Cloud as our coding environment so everyone has access to R and RStudio through a web browser.
 
-## Rstudio Mini-tour
+## RStudio Mini-tour
 
-Perform a live-coding mini-tour of RStudio.
+Let's start with a brief live demo of RStudio. As you follow along, pay attention to:
 
 1.  What do the four main panels allow you to do?
-2.  Console (runs immediately) versus a script/R Markdown file (allows you to save and organize your work.)
+2.  The difference between the **Console** (runs code immediately) versus a **script or Quarto file** (lets you save and organize your work).
+
+::: instructor-only
+**Instructor Note:** Perform a live-coding mini-tour using your own Posit Cloud project so students see a realistic setup. Cover:
+
+1.  Walk through each panel: script/editor (top-left), console (bottom-left), environment/history (top-right), files/plots/help (bottom-right).
+2.  Demonstrate running code in the Console vs. a chunk in a `.qmd` file, emphasizing that the Console doesn't save your work.
+:::
 
 ## Using R as a Calculator
 
@@ -39,16 +46,16 @@ You can do basic math in the Console (the bottom left part of the screen). The C
 
 Try multiplying 5 and 3 in the Console (hint: \* means multiply). Hit `Enter` to run that line of code.
 
-### Rmarkdown and Code Chunks
+### Quarto Documents and Code Chunks
 
-Rmarkdown (`.Rmd`) is a file format that lets us incorporate text and code into one document seamlessly. In fact, it is the file format for this document!
+Quarto (`.qmd`) is a file format that lets us incorporate text and code into one document seamlessly. In fact, it is the file format for this document!
 
 -   For writing text, you can type as you normally would.
 -   Code chunks are a bit different:
     -   Near the top right of your screen you can toggle between viewing this document in "Source" or "Visual" mode.
-    -   If you view this document under "Source," you will see that all code chunks are sandwiched between ```` ```{r} ```` and ```` ``` ````.
-    -   Under "Visual," you can type R code in the lines under `{r}`.
-    -   To include text in chunks, you will need to put a `#` in front. R will not read anything in the line after `#` as code.
+    -   In **Source** view, all code chunks are sandwiched between ```` ```{r} ```` and ```` ``` ````.
+    -   In **Visual** view, you type R code in the lines beneath `{r}`.
+    -   To add a comment (a note R won't run as code), put a `#` in front of the line.
 
 Code chunks look like this:
 
@@ -61,6 +68,10 @@ To run a chunk of code, click the green arrow on the top right corner of the chu
 You can also run one or a few lines of code at a time by having your cursor on the line or highlighting multiple lines and hitting `Ctrl` + `Enter` (or `Cmd` + `Enter` on a Mac).
 
 A quick shortcut for adding a code chunk is `Ctrl + Alt + i` (`Cmd + Opt + i` on a Mac). Alternatively, you can go to Code \> Insert Chunk.
+
+::: instructor-only
+**Instructor Note:** Pause here and make sure everyone can toggle between Source and Visual mode and can run a chunk.
+:::
 
 ### Some Code Chunk Practice
 
@@ -78,7 +89,7 @@ Let's work with an example code chunk.
 3 * 5        # multiplication
 ```
 
-Notice that if you run code in the Console (below) rather than the code chunk in a `.Rmd` file, you don't need to add the `{r}` to tell it that you are typing R code. The Console only understands R code anyway, so we don't need to tell it what it is!
+Notice that if you run code in the Console rather than the code chunk in a `.qmd` file, you don't need to add the `{r}` to tell it that you are typing R code. The Console only understands R code anyway, so we don't need to tell it what it is!
 
 ### Math: Small Group Challenge
 
@@ -89,5 +100,16 @@ First, write and run the code in the console.
 Next, write and run the code in the code chunk below. What did you have to do differently?
 
 ```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
 2^3
 ```
+
+**Instructor Note:** The key difference students should notice is that in the Console you just type R code directly, while in a `.qmd` chunk you need the ```` ```{r} ```` wrapper.
+:::

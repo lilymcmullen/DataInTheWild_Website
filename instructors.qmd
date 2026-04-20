@@ -2,37 +2,100 @@
 title: "For Instructors"
 format:
   html:
-    toc: false
+    toc: true
 ---
 
-This page is for instructors who are interested in teaching with, adapting, or learning more about *Data in the Wild*.
+# Instructor Resources
 
-The course was designed to make data science more accessible, applied, and meaningful for students in the life sciences. While the version shared here is rooted in ecological questions and a narrative set in Antarctica, the broader structure is flexible and can be adapted to other disciplines, datasets, and teaching contexts.
+This page is for instructors who are interested in teaching with, adapting, or learning more about *Data in the Wild*. It covers how to navigate the site as an instructor, how to set up Posit Cloud for your class, and how to access source files and answer keys.
 
-## Context
+## Using This Site as an Instructor
 
-The course has been taught at the University of Arizona as part of the general education curriculum, and the materials shared here are openly available so that others can use and adapt them in ways that fit their own classrooms.
+The lesson pages on this site have two modes: **Student View** and **Instructor View**. Student View is the default, coding challenge answers and instructor notes are hidden. Instructor View reveals both!
+
+Look for the **View: Student** | **Instructor** toggle in the upper-right sidebar on any lesson page (and this page!).
+
+::: {.instructor-only}
+## Instructor View reveals...
+
+-   **Answers** to all in-class coding challenges, shown after each prompt
+-   **Instructor notes** with suggested talking points, teaching tips
+
+You can also use the **Download PDF** button (also in the right sidebar) to print either version.
+:::
 
 ## R, RStudio, and Posit Cloud
 
-This course uses the R programming language and was taught using Posit Cloud.
+This course uses the R programming language and was designed to be taught using Posit Cloud.
 
-A quick distinction:
+A quick distinction for those new to the ecosystem:
 
 -   **R** is the programming language itself.
--   **RStudio** is a coding environment used to write and run R code.
--   **Posit Cloud** is a browser-based version of that environment, which lets students work online without needing to install software on their own computers.
+-   **RStudio** is the coding environment used to write and run R code.
+-   **Posit Cloud** is a browser-based version of RStudio that lets students work online without installing anything on their own computers.
 
-For this course, Posit Cloud was especially useful because it gave students a shared, consistent workspace and lowered the barrier to getting started. That was particularly helpful in an introductory course where many students were new to coding.
+The materials can also be taught using a local RStudio installation or adapted to other environments, though some file path references in the lessons may need updating.
 
-That said, the materials can also be taught in local RStudio or adapted to other environments.
+### Setting Up Posit Cloud for Your Class
 
-## Source Files - Download on GitHub
+**1. Create your instructor workspace**
 
-Lessons, assignments, datasets, and other course materials are available in the public GitHub repository.
+Sign in to [Posit Cloud](https://posit.cloud) and create a new workspace. This will be the shared space your students join.
 
-## Answer Keys for Instructors
+**2. Set up the base project**
 
-Assignment answer keys are available to instructors, but they are not included in the public course materials.
+Inside your workspace, create a new project. Add the course modules from Github\[\].
 
-If you are an instructor and would like access to the answer keys, please open an issue in the GitHub repository \[add link here when repo is set up\]. This repository contains the assignment keys and grading references.
+**3. Invite students to the workspace**
+
+In your workspace settings, go to **Members** and share the join link with your students. Students will need to create a free Posit Cloud account if they don't have one. Lesson 1.1 gives students time to do this!
+
+**4. Students copy the project**
+
+Once in the workspace, students can see your base project but cannot edit it directly. They click **Save a Permanent Copy** to create their own editable version in the workspace. All their work lives in their copy.
+
+::: callout-note
+The free tier of Posit Cloud has limits on compute hours per month. For a full-semester course with active coding, consider whether your institution qualifies for an academic plan, or check current pricing at [posit.cloud/plans](https://posit.cloud/plans).
+:::
+
+## Access Course Files
+
+> [\[GitHub repo\]](https://github.com/BiodiversityDataScienceCorp)
+
+Contains:
+
+-   All lesson `.qmd` files (instructor and student versions)
+-   All assignment `.qmd` files (student versions)
+-   All datasets (`.csv`) used in lessons and assignments
+-   Expected outputs (`.pdf`) for assignments that include them
+
+This is the repo to clone if you want to run or adapt the course. You are welcome to fork or adapt any of these materials (under a certain license??)
+
+## For Instructors: Assignment Keys & the Final Project
+
+The private repository contains everything in the course repo plus:
+
+-   Answer keys for all assignments
+-   Final Project assignment, rubric, and key
+
+To request access, open an issue on the public course repository and we will add you as a collaborator. We review requests manually and typically respond within a few business days.
+
+Link here \*\*
+
+::: callout-note
+You will need a free [GitHub account](https://github.com/join) to submit a request and access the private repository.
+:::
+
+## Expected Outputs
+
+Some assignments include expected outputs: the tables, plots, or values a correct solution should produce. These are provided for students to reference while completing their assignments.
+
+This was a deliberate design choice. Data science and coding problems often have more than one path to the correct answer. Showing students what a correct answer looks like without showing how to get there preserves that open-ended problem-solving while reducing unnecessary point loss.
+
+The actual graded work, the code that produces those outputs, is what appears in the answer keys in the private repository.
+
+**Website source**:
+
+> Quarto site[\[DataInTheWild-Website placeholder\]](https://github.com/BiodiversityDataScienceCorp)
+
+Contains `_quarto.yml`, `styles.scss`, scripts, images, and all non-lesson pages. Fork this if you want to adapt your own website for a course!

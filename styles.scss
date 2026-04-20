@@ -25,7 +25,8 @@ $link-color: $magenta;
 
 /*-- scss:rules --*/
 
-// Title
+// text
+
 .title {
   font-family: "Vollkorn";
   font-size: 45px;
@@ -36,25 +37,44 @@ $link-color: $magenta;
   font-weight: 500;
 }
 
-// Headers
 h1, h2, h3 {
   font-family: "Vollkorn";
   color: $darkest-blue;
 }
 
-// Navbar for mobile only
+body {
+  font-family: "Raleway";
+  color: $dark-blue;
+  font-weight: 500;
+}
+
+// links
+
+a {
+  color: $magenta;
+  text-decoration: none;
+
+  &:hover {
+    color: darken($magenta, 10%);
+    text-decoration: underline;
+  }
+}
+
+// navbar
+
 .navbar {
   font-family: "Righteous";
 }
 
-// Hide navbar logo on desktop since sidebar has the logo
+// Hide navbar logo on desktop — sidebar logo takes over
 @media (min-width: 992px) {
   .navbar-brand img {
     display: none;
   }
 }
 
-// Sidebar
+// sidebar
+
 .sidebar {
   font-family: "Righteous";
   font-size: 1rem;
@@ -75,7 +95,6 @@ h1, h2, h3 {
   padding-top: 1em;
 }
 
-// Sidebar logo
 .sidebar-logo {
   width: 160px;
   height: 160px;
@@ -84,36 +103,8 @@ h1, h2, h3 {
   margin: 1em auto;
 }
 
-// Body
-body {
-  font-family: "Raleway";
-  color: $dark-blue;
-  font-weight: 500;
-}
+// pdf download button
 
-// Links
-a {
-  color: $magenta;
-  text-decoration: none;
-}
-
-a:hover {
-  color: darken($magenta, 10%);
-  text-decoration: underline;
-}
-
-// Mobile
-@media (max-width: 768px) {
-  .title {
-    font-size: 32px;
-  }
-
-  body {
-    font-size: 14px;
-  }
-}
-
-/* PDF button in the sidebar */
 .toc-pdf-button {
   display: block;
   margin-top: 1rem;
@@ -124,9 +115,129 @@ a:hover {
   background: $magenta;
   color: $blanched-almond !important;
   text-decoration: none;
+
+  &:hover {
+    background: darken($magenta, 10%);
+    text-decoration: none;
+  }
 }
 
-.toc-pdf-button:hover {
-  background: darken($magenta, 10%);
-  text-decoration: none;
+// instructor/student toggle
+
+// by default, student view
+.instructor-only {
+  display: none;
+}
+
+// instructor view
+body.instructor-view .instructor-only {
+  display: block;
+  border-left: 4px solid $magenta;
+  background: rgba(138, 22, 101, 0.05);
+  padding: 0.5rem 1rem;
+  margin: 0.75rem 0;
+  border-radius: 0 8px 8px 0;
+
+  &::before {
+    content: "INSTRUCTOR";
+    display: block;
+    font-family: "Righteous";
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: $magenta;
+    margin-bottom: 0.35rem;
+  }
+}
+
+// banner below navbar when instructor mode is active
+#instructor-banner {
+  display: none;
+  width: 100%;
+  background: $magenta;
+  color: $blanched-almond;
+  font-family: "Righteous";
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  padding: 0.4rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+// toggle button, sits lh side of rh sidebar
+#view-toggle-btn {
+  display: block;
+  width: 100%;
+  margin-bottom: 1.25rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid $dark-blue;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Righteous";
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  background: $blanched-almond;
+  color: $dark-blue;
+  text-align: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    background: darken($blanched-almond, 5%);
+  }
+
+  .toggle-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+    margin-right: 0.2rem;
+  }
+
+  .toggle-divider {
+    opacity: 0.35;
+    margin: 0 0.3rem;
+  }
+
+  .toggle-opt {
+    opacity: 0.45;
+
+    &.active {
+      opacity: 1;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+}
+
+// button border turns purple in instructor mode
+body.instructor-view #view-toggle-btn {
+  border-color: $magenta;
+  color: $magenta;
+
+  &:hover {
+    background: rgba(138, 22, 101, 0.06);
+  }
+}
+
+// for accessibility, if no TOC sidebar exists, fix to bottom-right
+#view-toggle-btn.toggle-btn-fallback {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: auto;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+// mobile accessibility
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 32px;
+  }
+
+  body {
+    font-size: 14px;
+  }
 }

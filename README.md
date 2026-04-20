@@ -6,7 +6,7 @@ Data in the Wild introduces students to data science through the R programming l
 
 The course is designed for students in the life sciences and assumes no prior programming experience. Lessons begin with the basics of coding in R and gradually build toward more advanced tools such as hypothesis testing, machine learning, regression, and population modeling.
 
-The course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and Ellen Bledsoe with support from the NSF Harnessing the Data Revolution program, and has been taught at the University of Arizona as part of the general education curriculum.
+The course was developed by Drs. Katy Prudic, Jeff Oliver, Keaton Wilson, and Ellen Bledsoe, and has been taught at the University of Arizona as part of the general education curriculum.
 
 ## Accessing Course Materials
 
@@ -59,7 +59,7 @@ quarto preview
 
 ## Support
 
-This course was developed with support from the National Science Foundation under the Harnessing the Data Revolution (HDR) Data Science Corps (DSC) program. Materials are openly available and designed to be adaptable for use at other institutions.
+This course was developed with support from the National Science Foundation under the Harnessing the Data Revolution (HDR) Data Science Corps (DSC) program, and the NSF-funded project "Building Capacity in Data Science through Biodiversity, Conservation, and General Education" (Awards [2122967](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2122967) and [2122991](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2122991)). Materials are openly available and designed to be adaptable for use at other institutions.
 
 ------------------------------------------------------------------------
 
