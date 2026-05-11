@@ -24,13 +24,20 @@ By the end of this module, students will be able to:
 
 ## Lessons & Assignments
 
-Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
+### Lessons
+
+Each lesson page displays content in **student view** by default. Use the toggle button in the top right corner of the page to switch to **instructor view**, which reveals embedded answer keys and instructor notes. The QMD file, PDF, and any associated data can be downloaded from each lesson's page in either view.
 
 -   [2.1: Good Food Gone Bad](module2_1.qmd)
 -   [2.2: Plotting with `ggplot2`](module2_2.qmd)
 -   [2.3: Data Visualization](module2_3.qmd)
 -   [2.4: Exploring `geom` Functions](module2_4.qmd)
 -   [2.5: Module 2 Wrap-Up](module2_5.qmd)
+
+### Assignments
+
+Assignment pages are publicly available in student view only. The QMD file, PDF, and any associated data can be downloaded from each assignment's page. Instructor versions with answer keys are only available to educators. To request access, visit the [Instructors page](../../instructors.qmd).
+
 -   Assignment 1: Scatter Plots
 -   Assignment 2: From Data to Plot
 -   Assignment 3: Final Project Kickoff
@@ -39,4 +46,4 @@ Downloads for each lesson and assignment - including the QMD file, PDF, and any 
 
 To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
 
-**Links are not yet live!**
+**Links are not yet live.**

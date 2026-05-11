@@ -13,6 +13,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction to Population Growth
 
+## Learning Outcomes
+
+-   Students will be able to distinguish between exponential and logistic population growth models.
+-   Students will be able to interpret the intrinsic rate of increase (`r`) and carrying capacity (`K`) and explain their ecological significance.
+-   Students will be able to use `filter()` and `ggplot2` to explore and visualize population data.
+-   Students will be able to evaluate which fish population characteristics make a population a sustainable fishing target.
+
 Let's use descriptive statistics and data visualization to better understand population dynamics.
 
 ### Exponential Growth
@@ -41,7 +48,7 @@ We use the following equation to calculate the population size:
 
 As a reminder, this is what each type of population growth model looks like:
 
-![](assets/exp_and_logisitc.png){width="75%" fig-align="center"}
+![](assets/exp_and_logistic.png){width="75%" fig-align="center"}
 
 # What Population Factors Matter?
 
@@ -58,14 +65,25 @@ Let's look at fish data from around our station in Antarctica over the past 20 y
 
 These aren't necessarily our targets for fishing, particularly since it would be difficult and potentially disruptive to fish in the bay. Right now our goal is just to learn so we know what to look for when we are making our decision to conduct sustainable fishing.
 
-![Adapted from Figure 2 from Zheng et al. (2022)](assets/fish_data_fish.png){fig-align="center"}
+![Adapted from Figure 2 from Zhang et al. (2022)](assets/fish_data_fish.png){fig-align="center"}
 
-As always, first we load the `tidyverse` and read in the data.
+As always, first we load the `tidyverse` and read in the data: "fish_pops.csv" as `fish_pops`.
+
+```{r}
+#| message: false
+#| warning: false
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
 
 ```{r}
 library(tidyverse)
 fish_pops <- read_csv("data/fish_pops.csv")
 ```
+:::
 
 ### Largest Population
 
@@ -86,11 +104,13 @@ popB <- fish_pops %>%
 popB
 ```
 
-**What type of growth is the population exhibiting?**\
-*Answer: Exponential.*
+**What type of growth is the population exhibiting?**
 
-**Why is there no carrying capacity in this population data set? What does this mean about the resources Population B needs?**\
-*Answer: Exponential models assume unlimited resources, so no carrying capacity (K) is included.*
+**Why is there no carrying capacity in this population data set? What does this mean about the resources Population B needs?**
+
+::: instructor-only
+**Answers:** - Growth type: exponential - No carrying capacity because exponential models assume unlimited resources. Population B is not yet limited by available resources.
+:::
 
 ### Exponential Growth Populations
 
@@ -122,8 +142,11 @@ popA <-fish_pops %>%
 popA
 ```
 
-**What do you notice about Population A that is different than Population B?**\
-*Answer: The intrinsic growth rate (r) for Population A is negative.*
+**What do you notice about Population A that is different than Population B?**
+
+::: instructor-only
+**Answer:** The intrinsic growth rate (r) for Population A is negative.
+:::
 
 The intrinsic rate of increase (r) for Population A is negative. Let's see what that means for Population A and plot it by itself:
 
@@ -135,17 +158,23 @@ ggplot(popA, aes(x = year, y = N)) +
   theme_light()
 ```
 
-**What has happened to this population?**\
-*Answer: Population A crashes and reaches zero.*
+**What has happened to this population?**
+
+::: instructor-only
+**Answer:** Population A crashes and reaches zero. A negative r means more individuals are dying than being born, so the population declines until it goes extinct.
+:::
 
 Even with "exponential growth", the population has crashed (gone to 0), because *r* is negative. It took approximately 7 years for this to happen.
 
-**Between Population A and Population B, which is a better target population for fishing? Why?**\
-*Answer: Population B, because r \> 0 and it grows quickly.*
+**Between Population A and Population B, which is a better target population for fishing? Why?**
 
-**Logistic growth populations**
+::: instructor-only
+**Answer:** Population B: r \> 0 and it grows quickly, meaning it can recover from harvesting pressure. Population A is already declining and would collapse under any additional pressure.
+:::
 
-Ok, so we can't rely only on the type of growth as a way to make our fishing decisions. But, we're still curious about our populations that are limited by resources (i.e., exhibiting logistic growth).
+### Logistic Growth Populations
+
+Okay, so we can't rely only on the type of growth as a way to make our fishing decisions. But, we're still curious about our populations that are limited by resources (i.e., exhibiting logistic growth).
 
 ```{r}
 log_pops <- fish_pops %>%
@@ -165,8 +194,11 @@ ggplot(log_pops, aes(x = year, y = N, color = population))+
   theme_light()
 ```
 
-**Which population gets the largest?**\
-*Answer: Population D*
+**Which population gets the largest?**
+
+::: instructor-only
+**Answer:** Population D.
+:::
 
 ### Finding the Carrying Capacity
 
@@ -174,13 +206,20 @@ When we have a logistic growth model, we often will want to find the carrying ca
 
 **What values does each population level off at?**
 
--   Population C: *20*
+-   Population C:
+-   Population D:
 
--   Population D: *100*
+::: instructor-only
+**Answers:** Pop C: 20 Pop D: 100 (carrying capacity (K) values in the data)
+:::
 
-These are the carrying capacities. If you look back at the data, you will see Population C has a carrying capacity of 20 individuals, whereas Population D has a carrying capacity of 100 individuals. **Which population do you think might be the best candidate to fish between these two?** *Answer: Population D is more abundant and has a higher carrying capacity.*
+**Which population do you think might be the best candidate to fish between these two?**
 
-**A review of what we have learned**
+::: instructor-only
+**Answer:** Population D. It is more abundant and has a higher carrying capacity, meaning it can support more individuals and better withstand fishing.
+:::
+
+### A Review of What We Have Learned
 
 The following factors are important to know about a population before fishing:
 

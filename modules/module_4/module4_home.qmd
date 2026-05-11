@@ -21,16 +21,22 @@ By the end of this module, students will be able to:
 -   add a regression line to a `ggplot2` scatter plot using `geom_smooth()`
 -   explain when and why multiple regression is preferable to simple linear regression
 -   run and interpret a multiple regression with more than one independent variable
--   select the appropriate statistical test for a given research question and dataset
 
 ## Lessons & Assignments
 
-Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
+### Lessons
+
+Each lesson page displays content in **student view** by default. Use the toggle button in the top right corner of the page to switch to **instructor view**, which reveals embedded answer keys and instructor notes. The QMD file, PDF, and any associated data can be downloaded from each lesson's page in either view.
 
 -   [4.1: Combining Datasets (Joins & Binds)](module4_1.qmd)
 -   [4.2: K-Nearest Neighbor](module4_2.qmd)
 -   [4.3: Roads and Regressions](module4_3.qmd)
 -   [4.4: Multiple Regression](module4_4.qmd)
+
+### Assignments
+
+Assignment pages are publicly available in **student view only**. The QMD file, PDF, and any associated data can be downloaded from each assignment's page. Instructor versions with answer keys are only available to educators. To request access, visit the [Instructors page](../../instructors.qmd).
+
 -   Assignment 1: Linear Regression
 -   Assignment 2: More Regressions
 -   Assignment 3: Multiple Regressions
@@ -40,4 +46,4 @@ Downloads for each lesson and assignment - including the QMD file, PDF, and any 
 
 To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
 
-**Links are not yet live!**
+**Links are not yet live.**

@@ -13,15 +13,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Intro to `ggplot2`
 
+## Learning Outcomes
+
+-   Students will be able to describe the structure of a `ggplot2` plot.
+-   Students will be able to build a scatter plot using `ggplot2` by adding layers.
+-   Students will be able to label axes and apply a theme to improve plot readability.
+
 So far, we've used the base R plotting syntax. While quick plots in base R can still be really useful ways to do preliminary data exploration and visualization, we often want plots that go beyond the basics without too much additional effort. This is where `ggplot2` comes in and really shines!
 
 ## Example
 
-Before we get into the nitty-gritty of how `ggplot2` works, Let's run an example using the data about our sick crew members from earlier.
+Before we get into the nitty-gritty of how `ggplot2` works, let's run an example using the data about our sick crew members from earlier.
 
 First, we need to load in both the `tidyverse` package and our data. We can remind ourselves what the data look like using the `head()` function.
 
-```{r, message = FALSE}
+```{r}
+#| message: false
 # load package
 library(tidyverse)
 
@@ -30,17 +37,17 @@ sick <- read_csv("data/sick_data.csv")
 head(sick)
 ```
 
-Here is code to make a scatter plot of the relationship between percent fish in diets and how many trips to the doctor.
+Here is code to make a scatter plot of the relationship between proportion of fish in diets and how many trips to the doctor.
 
 ```{r}
 ggplot(sick, aes(x = perc_fish, y = doctor_trips)) +
   geom_point() +
-  labs(x = "Percent Fish in Diet",
+  labs(x = "Proportion of Fish in Diet",
        y = "Number of Trips to the Doctor") +
   theme_light()
 ```
 
-Nice, right? In the next few classes, we will really start to see the power of `ggplot`. For now, though, let's focus on how this works.
+Nice, right? In the next few lessons, we will really start to see the power of `ggplot2`. For now, though, let's focus on how this works.
 
 ## `ggplot2`
 
@@ -56,54 +63,58 @@ The `gg` in `ggplot2` stands for "Grammar of Graphics." The "grammar" part is ba
 
 The design is that you work iteratively, building up layer upon layer until you have your final plot.
 
-The typical structure looks like this:
-
-| `ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +`
-| `<GEOM_FUNCTION>()`
-
-Let's iteratively build up to the plot we have made above:
-
 1)  Specify the data
 
-```{r fig.width=4.5, fig.height=3}
+```{r}
+#| fig-width: 4.5
+#| fig-height: 3
 ggplot(data = sick)
 
-# ggplot always starts by drawing a blank coordinate system. Nothing will appear until you add at least one geometric layer. (geom())
+# ggplot() always starts by drawing a blank coordinate system.
+# Nothing will appear until you add at least one geometric layer (a geom function).
 ```
 
-As we've previously seen, most plots that we make display data in some way relative to two different axes: the x-axis (horizontal) and the y-axis (vertical).
+Most plots display data relative to two axes: the x-axis (horizontal) and the y-axis (vertical).
 
 You will definitely want to memorize which axis is which!
 
 2)  Specify the x-axis (horizontal) and the y-axis (vertical) in the `aes()` function.
 
-```{r fig.width=4.5, fig.height=3}
+```{r}
+#| fig-width: 4.5
+#| fig-height: 3
 ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips))
 ```
 
 3)  Add the type of plot we want using a `geom` function. For a scatter plot, we use `geom_point()`.
 
-```{r fig.width=4.5, fig.height=3}
+```{r}
+#| fig-width: 4.5
+#| fig-height: 3
 ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips)) +
   geom_point()
 ```
 
 4)  Clean up the axis labels with the `labs()` function so they are more easily interpreted.
 
-```{r fig.width=4.5, fig.height=3}
+```{r}
+#| fig-width: 4.5
+#| fig-height: 3
 ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips)) +
   geom_point() +
-  labs(x = "Percent Fish in Diet",
+  labs(x = "Proportion of Fish in Diet",
        y = "Number of Trips to the Doctor") 
 ```
 
 5)  Choose a `theme` function to make the plot more aesthetically pleasing.
 
-```{r fig.width=4.5, fig.height=3}
+```{r}
+#| fig-width: 4.5
+#| fig-height: 3
 # theme_bw(), theme_classic(), and theme_light() are my favorites
 ggplot(sick, aes(x = perc_fish, y = doctor_trips)) +
   geom_point() +
-  labs(x = "Percent Fish in Diet",
+  labs(x = "Proportion of Fish in Diet",
        y = "Number of Trips to the Doctor") +
   theme_light()
 ```
@@ -117,3 +128,26 @@ In Summary:
 -   we specify the type of plot, or `geom` using one of many possible geom functions
 -   we use the `labs()` function to clean up the labels
 -   we add a `theme` function to make it more visually readable
+
+## Let's Practice
+
+Using the `sick` data, build a `ggplot2` scatter plot that shows the relationship between the proportion of plants in a crew member's diet (`perc_plant`) and their number of doctor trips (`doctor_trips`). Make sure to label your axes clearly and apply a theme.
+
+```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
+ggplot(sick, aes(x = perc_plant, y = doctor_trips)) +
+  geom_point() +
+  labs(x = "Proportion of Plants in Diet",
+       y = "Number of Trips to the Doctor") +
+  theme_light()
+```
+
+**Instructor Note:** The plant plot shows the inverse pattern from the fish plot, higher plant consumption pairs with fewer doctor visits. Since `perc_fish` and `perc_plant` sum to 1, this is expected. This is a good moment to point out that both plots tell the same story from opposite angles, and to ask students which variable they think is actually driving the illness.
+:::

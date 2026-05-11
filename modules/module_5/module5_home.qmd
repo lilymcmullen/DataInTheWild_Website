@@ -27,11 +27,18 @@ By the end of this module, students will be able to:
 
 ## Lessons & Assignments
 
-Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
+### Lessons
+
+Each lesson page displays content in **student view** by default. Use the toggle button in the top right corner of the page to switch to **instructor view**, which reveals embedded answer keys and instructor notes. The QMD file, PDF, and any associated data can be downloaded from each lesson's page in either view.
 
 -   [5.1: Population Growth](module5_1.qmd)
 -   [5.2: Sustainable Fishing](module5_2.qmd)
 -   [5.3: Comparing Populations](module5_3.qmd)
+
+### Assignments
+
+Assignment pages are publicly available in **student view only**. The QMD file, PDF, and any associated data can be downloaded from each assignment's page. Instructor versions with answer keys are only available to educators. To request access, visit the [Instructors page](../../instructors.qmd).
+
 -   Assignment 1: Scientific Literature & Abstract Writing *(writing assignment)*
 -   Assignment 2: Choosing a Bay to Fish
 -   Assignment 3: Comparing Populations
@@ -40,4 +47,4 @@ Downloads for each lesson and assignment - including the QMD file, PDF, and any 
 
 To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
 
-**Links are not yet live!**
+**Links are not yet live.**

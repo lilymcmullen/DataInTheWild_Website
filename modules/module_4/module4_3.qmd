@@ -13,6 +13,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Roads and Regressions
 
+## Learning Outcomes
+
+-   Students will be able to create a scatter plot with a line of best fit using `geom_smooth()`.
+-   Students will be able to calculate and interpret a correlation coefficient and R-squared value.
+-   Students will be able to run a linear regression using `lm()` and interpret the output including slope, intercept, and p-value.
+-   Students will be able to use regression results to inform a data-driven decision.
+
 ## The Scenario
 
 In this module, we have tried to figure out which bays we should prioritize for fishing based on the following data sets:
@@ -64,12 +71,23 @@ For this lesson, we are going to focus on two: *nitrogen (N) content* and *soil 
 
 ### Set-Up
 
-As usual, we start with loading our packages and our data.
+As usual, we start with loading tidyverse and our data. Read in "data/hairgrass_data.csv" and save it as an object called `hairgrass_data`.
 
-```{r message=FALSE}
+```{r}
+#| message: false
+#| warning: false
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
 library(tidyverse)
 hairgrass_data <- read_csv("data/hairgrass_data.csv")
 ```
+:::
 
 Let's take a look at the data in the data set. What does each row represent?
 
@@ -84,12 +102,14 @@ Let's start by investigating any relationship between hair grass density and nit
 
 First, we should spend a little time thinking about our variables. Spend a few minutes in small groups discussing the answer to the questions below.
 
--   Which columns are we interested in right now? soil_nitrogen, hairgrass_density
+-   Which columns are we interested in right now?
 -   Which one is the independent variable and which is the dependent variable?
-    -   independent: soil_nitrogen
-    -   dependent: hairgrass_density
--   Are the variables categorical or continuous? both are continuous
--   Which type of data visualization should we use? scatterplot
+-   Are the variables categorical or continuous?
+-   Which type of data visualization should we use?
+
+::: instructor-only
+**Answers:** - soil_nitrogen and hairgrass_density - independent = soil_nitrogen, dependent = hairgrass_density - both continuous - scatter plot
+:::
 
 Next, calculate the mean (`mean()`) and standard deviation (`sd()`) for the nitrogen content.
 
@@ -135,7 +155,7 @@ ggplot(hairgrass_data, aes(soil_nitrogen, hairgrass_density)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "N Content",
-       y = "Hairgrass Density (per m^2)") +
+       y = "Hairgrass Density (per 25 m^2)") +
   theme_bw()
 
 # method = "lm" is required!
@@ -160,7 +180,7 @@ It is also important to recognize that the correlation coefficient has nothing t
 
 ![](assets/steepness.jpeg){width="50%"}
 
-Based on the hairgrass plot we did above, do you expect the correlation coefficient to be positive or negative? For this class, we'll say that any `r` value with 0.1 of 0 means there is no relationship.
+Based on the hairgrass plot we did above, do you expect the correlation coefficient to be positive or negative? For this class, we'll say that any `r` value within 0.1 of 0 means there is no relationship.
 
 To calculate the correlation coefficient, we need to go back to base R and indicate which columns we are referencing with the `$` operator. We use the `cor()` function.
 
@@ -185,6 +205,10 @@ r_nitrogen^2
 
 How would we interpret this `r^2` value?
 
+::: instructor-only
+**Instructor Note:** r = 0.595. a moderate positive relationship. r\^2 = 0.354, meaning nitrogen content explains about 35% of the variation in hairgrass density. This is a meaningful relationship for ecological data.
+:::
+
 One way to think of the `r^2` value that might be helpful is to convert it from a proportion to a percentage—what *percentage* of the variation in the dependent variable is explained by the independent variable?
 
 To convert the proportion to a percentage, we can multiply the value by 100.
@@ -201,7 +225,7 @@ Since we are using linear regressions in this course, the regression model will 
 
 -   `y` = dependent variable (y-axis)
 -   `x` = independent variable (x-axis)
--   `m` = slope of the line is the slope
+-   `m` = slope of the line
 -   `b` = y-intercept
 
 When we have a line with the specific slope and y-intercept, this equation lets us calculate the expected y-axis value for any given point on the x-axis.
@@ -217,6 +241,10 @@ What is the null hypothesis? What is the alternative hypothesis?
 **Alternative Hypothesis** ($H_{A}$): There is a relationship between hair grass density and nitrogen content.
 
 What do you think this means for the slopes?
+
+::: instructor-only
+**Instructor Note:** The null hypothesis of no relationship corresponds to a slope of 0. If there's no relationship, the line of best fit would be flat. The alternative hypothesis implies a non-zero slope (either positive or negative).
+:::
 
 ### Regression Analysis
 
@@ -249,9 +277,55 @@ This means our equation for the line of best fit is: y = 1.8x + 84.24 and there 
 
 ## Soil pH
 
-Let's do the same series of steps to determine how soil pH impacts hair grass densities. Work on this in your small groups, and we will go over it in about 10 minutes.
+Let's do the same series of steps to determine how soil pH impacts hair grass densities.
+
+Work on this in your small groups.
+
+::: instructor-only
+**Instructor Note:** Work in small groups for about 10 minutes, then review as a class.
+:::
 
 Start with summarizing the data: mean and standard deviation.
+
+```{r}
+# Write your code here
+
+```
+
+Visualize the data. Remember to add in the line of best fit using `ggplot2`. Also add labels and a theme.
+
+```{r}
+# Write your code here
+
+```
+
+Calculate the correlation coefficient (`r`). What does this tell us?
+
+```{r}
+# Write your code here
+
+```
+
+How much variation does soil pH explain in the hair grass density data?
+
+```{r}
+# Write your code here
+
+```
+
+Write out the model equation for our question about soil pH (without values).
+
+Run the regression model and write out the equation for the line of best fit.
+
+```{r}
+# Write your code here
+
+```
+
+Interpret the results of the regression. What do we conclude about the relationship between soil pH and hair grass density, and why?
+
+::: instructor-only
+**Answers:**
 
 ```{r}
 hairgrass_data %>% 
@@ -259,36 +333,29 @@ hairgrass_data %>%
             sd_pH = sd(soil_ph))
 ```
 
-Visualize the data. Remember to add in the line of best fit using `ggplot2`. Also add labels and a theme for practice.
-
 ```{r}
 ggplot(hairgrass_data, aes(soil_ph, hairgrass_density)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "Soil pH",
-       y = "Hairgrass Density per m^2") + 
+       y = "Hairgrass Density (per 25 m^2)") + 
   theme_bw()
 ```
 
-Calculate the correlation coefficient (`r`)? What does this tell us?
-
 ```{r}
 r_ph <- cor(x = hairgrass_data$soil_ph, y = hairgrass_data$hairgrass_density)
+r_ph
 ```
 
-How much variation does soil pH explain in the hair grass density data?
+r = -0.131. a weak negative relationship, barely outside the "no relationship" threshold of 0.1.
 
 ```{r}
 r_ph^2
 ```
 
-Write out the model for our question about soil pH (without values)?
+`r^2` = 0.017. soil pH explains only about 1.7% of the variation in hairgrass density.
 
-```{r}
-# hairgrass density  = m(soil_ph) + b
-```
-
-Run the regression model and write out the equation for the line of best fit.
+Model form: hairgrass_density = m(soil_ph) + b
 
 ```{r}
 ph_model <- lm(hairgrass_density ~ soil_ph, data = hairgrass_data)
@@ -297,12 +364,23 @@ summary(ph_model)
 
 Equation for line of best fit: y = -4.648x + 150.24
 
-Interpret the results of the regression (our p-value cutoff is still = 0.05). What do we conclude about the relationship between soil pH and hair grass density? Why?
+p = 0.0421, which is less than 0.05, so we reject the null hypothesis. There is a statistically significant relationship between soil pH and hairgrass density.
 
-Because p \< 0.05 for the regression model, we reject the null hypothesis and conclude that there is a relationship between soil pH and hairgrass density.
+However, look at `r^2` = 0.017. That means soil pH explains only 1.7% of the variation in hairgrass density. The relationship is real but extremely weak.
+
+**A p-value tells us whether a relationship exists, r\^2 tells us how strong it is. Here, the relationship technically exists but is far too weak to be a meaningful predictor. Nitrogen (r\^2 = 0.354, explaining 35% of variation) is a way better predictor of where hairgrass thrives.**
+:::
 
 ## Data-driven Decision Making
 
 The reason we are using regression analysis is to inform where we should (or should not) build our road so we don't harm the sensitive hair grass or take away their prime habitat.
 
 What do results above for nitrogen content and soil pH mean for the road we are building?
+
+::: instructor-only
+**Instructor Note:** Nitrogen content is by far the stronger predictor. r\^2 = 0.354, meaning it explains 35% of the variation in hairgrass density (p \< 2.2e-16). Higher nitrogen strongly predicts higher hairgrass density. **Road planning should prioritize avoiding high-nitrogen areas.**
+
+Soil pH is statistically significant (p = 0.0421) but practically very weak. r\^2 = 0.017 means it explains only 1.7% of the variation. While the negative slope suggests more acidic soils have slightly higher density, this relationship is too weak to be a reliable guide on its own.
+
+**p \< 0.05 tells us a relationship exists, but r\^2 tells us whether it is actually strong enough to be useful.** Soil pH passes the significance threshold but fails the usefulness test.
+:::

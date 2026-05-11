@@ -53,10 +53,11 @@ All elements in a vector must be the same type (all numbers, all text, etc.).
 ```{r}
 weight_kg <- c(3, 2, 4, 9, 7, 3, 6)
 weight_kg
+```
 
+```{r}
 animals <- c("cat", "rat", "bat", "rat")
 animals
-# R does everything in vectors
 ```
 
 ## Data classes
@@ -302,7 +303,7 @@ sd(plants[plants$nitrogen == "N", 1])
 
 ## Helpful Functions
 
-Below are some functions that I often find very helpful when working with vectors and data frames:
+Below are some particularly useful functions when working with vectors and data frames:
 
 -   `str()`: shows the structure of the object (e.g., rows and columns)
 -   `head()` and `tail()`: shows the first six and last six rows, respectively

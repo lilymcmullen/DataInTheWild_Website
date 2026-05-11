@@ -13,6 +13,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # What is causing the food poisoning?
 
+## Learning Outcomes
+
+-   Students will be able to apply descriptive statistics and data visualization skills to investigate a problem.
+-   Students will be able to create a new variable using `mutate()`.
+-   Students will be able to use `group_by()` and `summarize()` to compare groups.
+-   Students will be able to select and interpret appropriate plot types to identify patterns across environmental variables.
+
 At the beginning of Module 2, we set out to discover what was causing food poisoning among our colleagues at our Antarctic base. Let's put everything we've learned about descriptive statistics and data visualization to use to try to hunt down what the problem is.
 
 ## Set-up
@@ -21,7 +28,8 @@ Let's load the package and data we will need.
 
 ### Packages
 
-```{r message = FALSE}
+```{r}
+#| message: false
 library(tidyverse)
 ```
 
@@ -30,6 +38,7 @@ library(tidyverse)
 First, we need our dataset!
 
 ```{r}
+#| message: false
 sick_fish <- read_csv("data/fish_sick_data.csv") 
 ```
 
@@ -41,7 +50,15 @@ head(sick_fish)
 
 ## Which Fish?
 
-Last class, we plotted the number of sick fish. Let's remind ourselves what that looked like. Make a plot that compares the numbers of sick fish per species. We actually have a few options!
+In the previous lesson, we plotted the number of sick fish. Let's remind ourselves what that looked like. Make a plot that compares the numbers of sick fish per species. We actually have a few options!
+
+```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
 
 ```{r}
 ggplot(sick_fish, aes(num_sick, fill = species)) +
@@ -51,6 +68,7 @@ ggplot(sick_fish, aes(num_sick, fill = species)) +
        fill = "Species") +
   theme_classic()
 ```
+:::
 
 ### Density
 
@@ -58,7 +76,7 @@ Wait a second! Take a look back at the data. There is a "number of fish" column,
 
 We should probably take into account how many fish there are in the tank to begin with. 12 sick fish out of 50 is probably a bigger deal than 12 sick fish out of 100!
 
-What we need to do is calculate a density of fish--number of sick fish / number of total fish.
+What we need to do is calculate a density: the number of sick fish divided by the total number of fish in the tank.
 
 ```{r}
 # take into account the number of fish in the tank: density of sick fish
@@ -76,11 +94,22 @@ Work in small groups to do the following:
 -   make a plot that compares the distributions of sick fish numbers for both species (you have multiple options here!)
 
 ```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
 sick_fish %>% 
   group_by(species) %>% 
   summarize(mean_sick_fish = mean(density),
             sd_sick_fish = sd(density))
+```
 
+```{r}
+# boxplot option
 ggplot(sick_fish, aes(species, density, color = species)) +
   geom_boxplot() + 
   geom_jitter(alpha = 0.5, width = 0.1) +
@@ -88,44 +117,85 @@ ggplot(sick_fish, aes(species, density, color = species)) +
        y = "Density of Sick Fish in Tanks",
        color = "Species") +
   theme_light()
-
-# histogram
-ggplot(sick_fish, aes(density, fill = species)) +
-  geom_histogram(alpha = 0.5, bins = 15)
-
 ```
 
-Uh oh...the trout densities look even worse than just the number of sick fish. We need to take a closer look at what is going on in the trout tanks!
+```{r}
+# histogram option
+ggplot(sick_fish, aes(density, fill = species)) +
+  geom_histogram(alpha = 0.5, bins = 15)
+```
+
+**Instructor Note:** Trout have a mean sick fish density of 0.193, roughly 5.7× higher than tilapia (0.034). The boxplot makes this immediately visible.
+:::
+
+Uh oh... the trout densities look even worse than just the number of sick fish.
 
 We should create a data frame that only contains trout to work with for the rest of our analyses. Take a few minutes to work on that; call it `sick_trout`.
 
 ```{r}
-sick_trout <- sick_fish %>% 
-  filter(species == "trout")
+# Write your code here
+
 ```
 
-## What Environmental Factor?
+::: instructor-only
+**Answer:**
 
-Let's talk about fish physiology for a minute.
+```{r}
+sick_trout <- sick_fish %>% 
+  filter(species == "trout")
+sick_trout
+```
+:::
+
+## What Environmental Factor?
 
 Take a look back at the data frame. Which columns are environmental variables that could be driving the issues?
 
 Are those columns numeric or categorical? What plot type have we talked about that might help us find a relationship between density and each of these variables (one at a time...)?
 
-In small groups, make plots using `density` column in the `sick_trout` data to try to figure out which environmental factor is causing problems in the trout. Treat your variables as numeric.
+::: instructor-only
+**Instructor Note:** The environmental columns in the trout data are `avg_daily_temp`, `num_fish`, `day_length`, and `tank_volume`.
+
+All are numeric, so scatter plots with `density` on the y-axis are the right choice.
+:::
+
+In small groups, make plots using the `density` column in the `sick_trout` data to try to figure out which environmental factor is causing problems in the trout.
 
 ```{r}
-ggplot(sick_trout, aes(x = num_fish, y = density)) +
-  #geom_smooth(method = 'lm', se = FALSE) +
-  geom_point() 
+# Write your code here
 
-ggplot(sick_trout, aes(x = avg_daily_temp, y = density)) +
-  #geom_smooth(method = 'lm', se = FALSE) +
-  geom_point()
-
-ggplot(sick_trout, aes(day_length, density)) +
-  #geom_smooth(method = 'lm', se = FALSE) +
-  geom_point() 
 ```
 
 What do we think is the environmental driver causing issues with the trout?
+
+::: instructor-only
+**Answer:**
+
+```{r}
+ggplot(sick_trout, aes(x = num_fish, y = density)) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point() +
+  labs(x = "Number of Fish in Tank", y = "Density of Sick Fish") +
+  theme_light()
+
+ggplot(sick_trout, aes(x = avg_daily_temp, y = density)) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point() +
+  labs(x = "Average Daily Temperature (°C)", y = "Density of Sick Fish") +
+  theme_light()
+
+ggplot(sick_trout, aes(x = day_length, y = density)) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point() +
+  labs(x = "Day Length", y = "Density of Sick Fish") +
+  theme_light()
+```
+
+**Instructor Note:** The clearest signal is in `avg_daily_temp`, there is a positive relationship between temperature and sick fish density. As temperature increases, density tends to increase. This makes biological sense: rainbow trout are cold-water fish and even modest temperature increases toward the upper end of their tolerance range stress their immune function.
+
+`day_length` shows essentially no relationship
+
+`num_fish` shows a slight negative trend, as the number of fish in a tank increases, density of sick fish decreases slightly. This is likely a dilution effect in the density calculation (more total fish in the denominator) rather than a real biological pattern, and students should note that the scatter is wide.
+
+Temperature is looking like the primary driver. Close by asking: what would you recommend to the Antarctic base team? This sets up the transition into Module 3.
+:::

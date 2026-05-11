@@ -13,6 +13,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Sustainable Fishing
 
+## Learning Outcomes
+
+-   Students will be able to explain why logistic growth populations are preferable targets for sustainable fishing.
+-   Students will be able to fit a logistic growth model using the `drc` package and extract the carrying capacity estimate.
+-   Students will be able to calculate the maximum sustainable yield (MSY) from a carrying capacity estimate.
+-   Students will be able to add a horizontal reference line to a `ggplot2` plot using `geom_hline()`.
+
 ## Applying Principles of Population Growth
 
 We have decided that the Antarctic toothfish (*Dissostichus mawsoni*) may be a good candidate for our fishing.
@@ -29,13 +36,23 @@ Let's keep exploring our fish populations to help us understand what we should b
 
 ## Set-Up
 
-As usual, we start with loading our packages and our data.
+As usual, we start with loading our packages and our data. Read in "fish_pops.csv" as `fish`.
+
+```{r}
+#| message: false
+#| warning: false
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
 
 ```{r}
 library(tidyverse)
-
 fish <- read_csv("data/fish_pops.csv")
 ```
+:::
 
 Let's take a look at the data and remind ourselves what the data look like.
 
@@ -47,7 +64,7 @@ head(fish)
 
 Let's remind ourselves about exponential growth and logistic growth.
 
-**Expotential growth** takes births and deaths (in the form of the intrinsic growth rate, `r`) into account:
+**Exponential growth** takes births and deaths (in the form of the intrinsic growth rate, `r`) into account:
 
 ![](assets/clipboard-4205079346.png){width="83" fig-align="center"}
 
@@ -57,7 +74,7 @@ Let's remind ourselves about exponential growth and logistic growth.
 
 This is what each type of population growth model looks like:
 
-![](assets/exp_and_logisitc.png){width="75%" fig-align="center"}
+![](assets/exp_and_logistic.png){width="75%" fig-align="center"}
 
 ### Which Population to Fish?
 
@@ -86,10 +103,12 @@ While the dataset contains carrying capacity estimates, those are only visual es
 
 To do so, we are actually going to use a new package, `drc`.
 
-This package will let us fit a logistic model and provide an estimate of the asymptote of the curve, or the value where the curve levels off and not longer increases. This is our estimate of `K`, the carrying capacity of the population.
+This package will let us fit a logistic model and provide an estimate of the asymptote of the curve, or the value where the curve levels off and no longer increases. This is our estimate of `K`, the carrying capacity of the population.
 
-```{r message=FALSE}
-# load the drc package; text when you load it is fine (as long as it doesn't say error)
+```{r}
+#| message: false
+#| warning: false
+# load the drc package; any loading messages in your console are fine
 library(drc)
 ```
 
@@ -97,7 +116,21 @@ Now, we are going to use a function from the `drc` package called `drm()` to fit
 
 It works very similarly to the inferential statistics models from Module 3 except instead of finding a straight line of best fit, this line of best fit is allowed to curve like the logistic growth model.
 
-What kind of growth do we think we have based on this plot? Logistic
+Let's take a look at the data to confirm what type of growth we're working with.
+
+```{r}
+ggplot(log_pop, aes(x = year, y = N)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Year", y = "Population") +
+  theme_bw()
+```
+
+What kind of growth is this population exhibiting?
+
+::: instructor-only
+**Answer:** Logistic. The population increases quickly at first, then levels off as it approaches the carrying capacity.
+:::
 
 ```{r}
 # Fit the model to the data
@@ -106,7 +139,7 @@ What kind of growth do we think we have based on this plot? Logistic
 model <- drm(N ~ year, data = log_pop, fct = LL.4())
 ```
 
-This time, unlike with the linear model, we are interested not in a p-value but in the estimate of a specific value from the model--the carrying capacity.
+This time, unlike with the linear model, we are interested not in a p-value but in the estimate of a specific value from the model: the carrying capacity.
 
 To get all of the estimated values, we will use a function called `coef`, which is short for "coefficient," to give us the estimates from the `model` object.
 
@@ -147,7 +180,7 @@ ggplot(log_pop, aes(x = year, y = N)) + # Plot the original data points (year vs
   theme_bw()
 ```
 
-To add the a line representing the carrying capacity, we can use `geom_hline()` to add a horizontal line where the y-intercept is equal to the carrying capacity.
+To add a line representing the carrying capacity, we can use `geom_hline()` to add a horizontal line where the y-intercept is equal to the carrying capacity.
 
 This is very similar to how we used `geom_vline()` to add a vertical line to histograms to represent the mean value.
 

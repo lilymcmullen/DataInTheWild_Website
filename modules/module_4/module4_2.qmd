@@ -13,6 +13,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # K-Nearest Neighbors
 
+## Learning Outcomes
+
+-   Students will be able to explain the general concept of K-Nearest Neighbors classification.
+-   Students will be able to describe the purpose of training and testing data in machine learning.
+-   Students will be able to interpret the output of a KNN model including the confusion matrix and predictions.
+-   Students will be able to scale data and explain why scaling is necessary for distance-based algorithms.
+
 ## Machine Learning
 
 Now, we're going to work through an example of machine learning, which is used in a variety of ways in data science, across industries and disciplines.
@@ -21,7 +28,7 @@ Machine learning is a subfield of artificial intelligence (AI). Machine learning
 
 Remember, we have 50 unlabeled collars, and we want to be able to predict who made them so we can increase the safety of our fishers. We need to throw out any collars that we think were made by Budget Collars LLC, and only incorporate new collars from our unlabeled batch that we think were made by Collarium Inc.
 
-Given the data we have from the collars we know were created by Budget Collars LLC and Collarium Inc, our goal is to train a model on collars with known makers to then apply to our unknown collars.
+Given the data we have from the collars we know were created by Budget Collars LLC and Collarium Inc., our goal is to train a model on collars with known makers to then apply to our unknown collars.
 
 ## KNN in R
 
@@ -33,13 +40,13 @@ You don't need to know the inner-workings of the model or even the code below; a
 
 ### How does KNN work?
 
-Let's start with watch [a video](https://www.youtube.com/watch?v=MDniRwXizWo&ab_channel=AugmentedStartups) that does a nice job explaining the basics of KNN.
+Let's start by watching [a video](https://www.youtube.com/watch?v=MDniRwXizWo&ab_channel=AugmentedStartups) that does a nice job explaining the basics of KNN.
 
 What are your takeaways?
 
 ### Visualizing
 
-Creating plots that visualize KNN is pretty complicated, so we won't be doing that as a class. However, you can find a nice interactive data visualization [here](http://vision.stanford.edu/teaching/cs231n-demos/knn/).
+Creating plots that visualize KNN is pretty complicated, so we won't be doing that in this lesson. However, you can find a nice interactive data visualization [here](http://vision.stanford.edu/teaching/cs231n-demos/knn/).
 
 Play around with the data visualization. Can you figure out what it is telling you?
 
@@ -53,10 +60,25 @@ First, we need our data!
 
 ### Data Cleaning and Prepping
 
-```{r message=FALSE}
+Load the tidyverse and read in "data/all_collar_data.csv", saving it as `full_collars`.
+
+```{r}
+#| message: false
+#| warning: false
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
+#| message: false
+#| warning: false
 library(tidyverse)
 full_collars <- read_csv("data/all_collar_data.csv")
 ```
+:::
 
 Next, we need to scale our data.
 
@@ -94,7 +116,7 @@ Right now, we have 3 collar categories because we haven't separated the unknown 
 
 ### Known and Unknown Labels
 
-Before we continue, we need to make separate data frames to work with, one with collars with known makers and one with collars with unknown labels
+Before we continue, we need to make separate data frames to work with, one with collars with known makers and one with collars with unknown labels.
 
 ```{r}
 # we also need to remove the collar_id labels
@@ -113,7 +135,7 @@ labeled_collars <- knn_data %>%
 
 ### Training and Testing Data
 
-First, we need to train and test our model. We will do that with the data with known collars makers.
+First, we need to train and test our model. We will do that with the data with known collar makers.
 
 Note: this is where the code starts getting a bit complicated. It's ok if you aren't entirely clear on what everything is doing.
 
@@ -141,6 +163,8 @@ Now that we have training and testing data, we can perform the first phase of KN
 We want to know how many nearest neighbors we should use and how well our model works on the testing data. We will use the `caret` package to run these analyses.
 
 ```{r}
+#| message: false
+#| warning: false
 #loading package to do knn
 library(caret)
 
@@ -151,7 +175,7 @@ knn_training_model <- train(maker ~ ., data = training, method = "knn")
 knn_training_model # best k value is 5
 ```
 
-Ok, we have determined that our best k value is 5. Now we can use our training model on the testing data to see if it makes any mistakes. We use the `predict` function from `caret` to do this.
+Okay, we have determined that our best k value is 5. Now we can use our training model on the testing data to see if it makes any mistakes. We use the `predict` function from `caret` to do this.
 
 ```{r}
 # making predictions with the test data
@@ -180,4 +204,6 @@ new_labels <- bind_cols(unknown_collar_ids, knn_predict)
 new_labels
 ```
 
-Typically, you would want to replace the columns in the entire dataframe, but we will end here for today :) Our goal of labeling our unlabeled collars is complete! We will deploy any that are now labeled as Collarium LLC.
+Typically, you would want to replace the columns in the entire dataframe, but we will end here for today :)
+
+Our goal of labeling our unlabeled collars is complete! We will deploy any that are now labeled as Collarium Inc.

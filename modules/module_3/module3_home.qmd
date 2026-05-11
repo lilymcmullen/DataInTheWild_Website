@@ -19,14 +19,22 @@ By the end of this module, students will be able to:
 -   run a t-test using the `t.test()` function and interpret the output, including t-value, p-value, and confidence interval
 -   run a one-way ANOVA using the `aov()` and `summary()` functions and interpret the F-value and p-value
 -   run a Tukey's HSD post hoc test using `TukeyHSD()` and interpret pairwise comparisons
+-   add a vertical reference line to a `ggplot2` plot using `geom_vline()`
 
 ## Lessons & Assignments
 
-Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
+### Lessons
+
+Each lesson page displays content in **student view** by default. Use the toggle button in the top right corner of the page to switch to **instructor view**, which reveals embedded answer keys and instructor notes. The QMD file, PDF, and any associated data can be downloaded from each lesson's page in either view.
 
 -   [3.1: Leopard Seals](module3_1.qmd)
 -   [3.2: T-Tests](module3_2.qmd)
 -   [3.3: Comparing (Multiple) Means](module3_3.qmd)
+
+### Assignments
+
+Assignment pages are publicly available in student view only. The QMD file, PDF, and any associated data can be downloaded from each assignment's page. Instructor versions with answer keys are only available to educators. To request access, visit the [Instructors page](../../instructors.qmd).
+
 -   Assignment 1: Comparing Two Means
 -   Assignment 2: Comparing Multiple Means
 
@@ -34,4 +42,4 @@ Downloads for each lesson and assignment - including the QMD file, PDF, and any 
 
 To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
 
-**Links are not yet live!**
+**Links are not yet live.**

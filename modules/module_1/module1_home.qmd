@@ -20,16 +20,24 @@ By the end of this module, students will be able to:
 -   subset vectors and data frames using both index- and condition-based approaches
 -   use functions and interpret function arguments in R
 -   use core `tidyverse` tools such as `select()`, `filter()`, `mutate()`, `summarize()`, and `group_by()` to explore and organize data
+-   use the pipe operator (`%>%`) to chain `tidyverse` functions together
 
 ## Lessons & Assignments
 
-Downloads for each lesson and assignment - including the QMD file, PDF, and any data - are available on their individual pages.
+### Lessons
+
+Each lesson page displays content in **student view** by default. Use the toggle button in the top right corner of the page to switch to **instructor view**, which reveals embedded answer keys and instructor notes. The QMD file, PDF, and any associated data can be downloaded from each lesson's page in either view.
 
 -   [1.1: Introduction to R and RStudio](module1_1.qmd)
 -   [1.2: Intro to Coding in R](module1_2.qmd)
 -   [1.3: Introduction to the `tidyverse`](module1_3.qmd)
+
+### Assignments
+
+Assignment pages are publicly available in **student view only**. The QMD file, PDF, and any associated data can be downloaded from each assignment's page. Instructor versions with answer keys are only available to educators. To request access, visit the [Instructors page](../../instructors.qmd).
+
 -   [Assignment 1: Getting to Know the Team](assignments/a1/m1a1.qmd)
--   [Assignment 2: Getting to Know Your Antarctic Home](assignments/a2/m1a2.qmd) Another assignment?
+-   [Assignment 2: Getting to Know Your Antarctic Home](assignments/a2/m1a2.qmd)
 
 ## GitHub
 

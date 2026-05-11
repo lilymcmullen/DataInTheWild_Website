@@ -43,6 +43,7 @@ First we're going to pull in the data and give it a quick inspection/exploration
 As usual, we start by calling the `tidyverse`.
 
 ```{r}
+#| message: false
 library(tidyverse)
 ```
 
@@ -60,6 +61,14 @@ Let's talk about the data we have:
 -   How many variables (columns) do we have?
 
 Which variables are we particularly interested in? Are they continuous or categorical? Does it matter?
+
+::: instructor-only
+**Instructor Note:** Each row represents one team member. The character columns are `last`, `first`, `sex`, and `specialties`; the numeric columns are `age`, `height_cm`, `weight_kg`, `perc_fish`, `perc_plant`, and `doctor_trips`.
+
+The key variables for this lesson are `perc_fish`, `perc_plant`, and `doctor_trips`. Point out that `perc_fish` and `perc_plant` are **proportions** (0 to 1), not percentages (0 to 100). Row 1 shows `perc_fish = 0.994` and `perc_plant = 0.006`, which sum to 1. Students may call them "percent" informally, which is fine, but make sure they understand the scale when interpreting plots.
+
+`doctor_trips` is a count (discrete) but is treated as continuous for the purposes of scatter plots here. This is worth a brief mention if students ask.
+:::
 
 ### Group Discussion
 
@@ -119,7 +128,7 @@ Combining data visualization with descriptive statistics is a great way to under
 
 There are two main ways to make data visualizations in R: through base R, which is the syntax we learned in our first week of coding, and through `ggplot2`, which is a package in the `tidyverse`.
 
-For the majority of the semester, we will be plotting in with `ggplot2`, which is a fun and powerful tool. However, to plot even a simple plot, `ggplot2` takes some explanation. We will talk about `ggplot2` in our *next class* but for today, let's first make some quick-and-dirty plots in *base R*.
+For the majority of this course, we will be plotting with `ggplot2`, which is a fun and powerful tool. However, to plot even a simple plot, `ggplot2` takes some explanation. We will cover `ggplot2` in the next lesson. For now, let's make some quick plots in *base R*.
 
 ### Histograms
 
@@ -180,8 +189,14 @@ Create a scatter plot to determine whether there is a correlation between the pe
 ```{r}
 plot(x = sick$perc_fish, y = sick$doctor_trips)
 ```
-
-**Instructor Note:** Students should observe a positive relationship, crew members with more fish in their diet tend to have more doctor visits. This is the key finding of the lesson: fish appears to be the culprit. Use "How do we interpret this plot?" as a class discussion prompt before moving on. Ask students: what would this plot look like if there were no relationship? What if plants were the culprit instead?
 :::
 
-How do we interpret this plot?
+How do we interpret this plot? What does the pattern tell us about the relationship between fish consumption and illness?
+
+::: instructor-only
+**Instructor Note:** The plot shows a clear positive relationship. Team members with a low proportion of fish in their diet have low doctor visits. As fish proportion increases, doctor visits jump.
+
+Key discussion questions: - What would this plot look like if there were *no* relationship? (Points scattered randomly with no directional trend) - What would it look like if *plants* were the culprit instead? (The pattern would flip, high `perc_plant` values would pair with high doctor trips, but since `perc_fish` and `perc_plant` sum to 1, this plot would actually show the opposite pattern) - Does this plot prove fish is contaminated? (No, it shows correlation, not causation. We haven't done any statistical testing yet. This is a good preview of what Module 3 will cover)
+
+Close by connecting back to the research question students wrote at the start of the lesson. Did their data support or contradict what they predicted?
+:::

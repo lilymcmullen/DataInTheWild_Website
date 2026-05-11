@@ -13,6 +13,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Comparing (Multiple) Means
 
+## Learning Outcomes
+
+-   Students will be able to explain when to use an ANOVA versus a t-test.
+-   Students will be able to write null and alternative hypotheses for an ANOVA.
+-   Students will be able to run an ANOVA using `aov()` and interpret the output.
+-   Students will be able to run a Tukey HSD post hoc test and interpret pairwise comparisons.
+
 So far in this module, we have discussed comparing the means of two groups in multiple ways: numerically, visually, and statistically. Specifically, we learned about running t-tests to statistically compare the means of two groups.
 
 What if we have more than 2 groups, though? Often, we have 3, 4, 12...any number of groups that we might want to compare against each other. How do we do that?
@@ -23,7 +30,7 @@ What is an ANOVA? It stands for **AN**alysis **O**f **VA**riance.
 
 Why is it called that? Well, ANOVAs compare the amount of variability in the data *between* and *within* groups. In plainer terms, it is looking at how different the data in each group are from each other (within) and also how different the groups are from the other groups (between).
 
-The group of statistical tests called ANOVAs are extensions of the t-test, using the same concepts but allowing us to compare the means of more than two groups at a time. There are lots of different types of ANOVAs, but we are going to stick with the most simple version.
+The group of statistical tests called ANOVAs are extensions of the t-test, using the same concepts but allowing us to compare the means of more than two groups at a time. There are lots of different types of ANOVAs, but we are going to stick with the simplest version.
 
 ### When to use an ANOVA
 
@@ -46,20 +53,37 @@ Like t-tests, ANOVAs are another example of statistical hypothesis testing. We a
 
 ## Let's Run an Example
 
-Last week, we ran t-tests on the battery life and signal distance variables in order to determine if there was a statistically significant difference between two groups (the collar makers).
+In the previous lesson, we ran t-tests on the battery life and signal distance variables in order to determine if there was a statistically significant difference between two groups (the collar makers).
 
 What if our large mammal team had deployed collars from *three* different companies rather than just two? How would we compare the means numerically, visually, and statistically? Let's find out.
 
-First up, in small groups, work through the set-up, numeric, and visual sections. We'll spend 15-20 minutes on this.
+In small groups, work through the set-up, numeric, and visual sections.
+
+::: instructor-only
+**Instructor Note:** Plan for 15–20 minutes on the set-up, numeric, and visual sections before bringing the class back together for the ANOVA section.
+:::
 
 ### Set-Up
 
 First, as always, we need to load the `tidyverse` and the read in our collars data. This time, use the file `more_collars.csv`.
 
 ```{r}
+#| message: false
+#| warning: false
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
+#| message: false
+#| warning: false
 library(tidyverse)
 collars <- read_csv("data/more_collars.csv")
 ```
+:::
 
 ### Conceptual
 
@@ -86,6 +110,14 @@ Let's calculate some summary values for our data to get some preliminary informa
 Calculate the means and the standard deviations (`sd()`) for the battery life and the signal distance for *each* collar maker.
 
 ```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
 summary_stats <- collars %>% 
   group_by(maker) %>% 
   summarise(mean_battery = mean(battery_life),
@@ -95,6 +127,7 @@ summary_stats <- collars %>%
 
 summary_stats
 ```
+:::
 
 Let's examine the data. Do you think the collar companies are all different from each other? Are there pairs of companies that look more similar?
 
@@ -105,19 +138,34 @@ As always, we love (\<3) visualizing our data, especially as a form of data expl
 First, explore the distribution of battery life by maker using a multiple histogram (no need to add a line for the mean, but you can if you really want to!).
 
 ```{r}
-# battery life
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
 ggplot(collars, aes(battery_life, fill = maker)) +
   geom_histogram(alpha = 0.5, position = "identity") +
-  labs(x = "Battery Life", 
+  labs(x = "Battery Life (days)", 
        y = "Frequency",
        fill = "Collar Maker") +
   theme_bw()
 ```
+:::
 
-Let's do a different type of visualization for signal distance. What type of data visualization have we covered that does a good job of showing both central tendency (median, in this case) and variation (middle 50% and 95% confidence intervals) in one continuous variable?
+Now let's do a different type of visualization for signal distance. What type of data visualization have we covered that does a good job of showing both central tendency (median, in this case) and the spread of the data (the middle 50% and the overall range) in one continuous variable?
 
 ```{r}
-# signal distance
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
 ggplot(collars, aes(maker, signal_distance)) +
   geom_boxplot() +
   geom_jitter(width = 0.1, alpha = 0.5) +
@@ -125,8 +173,13 @@ ggplot(collars, aes(maker, signal_distance)) +
        y = "Signal Distance") +
   theme_classic()
 ```
+:::
 
 Based on the numbers and your visualizations, what is your prediction? Are the 3 groups different *enough*, whatever that means?
+
+::: instructor-only
+**Instructor Note:** Accept any reasonable prediction here. The goal is to get students thinking about statistical vs. practical significance before running the test. Revisit their predictions after the ANOVA results are in.
+:::
 
 ### Statistic
 
@@ -151,19 +204,30 @@ We want to pay attention to the following:
 -   `F-value`: this is our test statistic. It determines our `p-value` (you don't need to know how)
 -   `Pr(>F)`: this is our `p-value`, which has roughly the same meaning as with a t-test.
     -   We want to know if this value is larger or smaller than our cut-off value. We will stick with 0.05.
-    -   The notation here, `Pr(>F)`, is saying "What is the probability of us getting an F-value larger than the one we have by change alone?" If that probability is less that 0.05 (or 5%), then we reject the null hypothesis that the means are the same.
+    -   The notation here, `Pr(>F)`, is saying "What is the probability of us getting an F-value larger than the one we have by chance alone?" If that probability is less than 0.05 (or 5%), then we reject the null hypothesis that the means are the same.
 -   `***`: the asterisks are reiterating what the p-value tells us, indicating just how small the p-value is.
 
 What is our conclusion? Are these means different?
 
 #### Practice
 
-How about for signal life? What is your interpretation of these results?
+How about for signal distance? What is your interpretation of these results?
+
+```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
 
 ```{r}
 signal_model <- aov(data = collars, signal_distance ~ maker)
 summary(signal_model)
 ```
+
+**Instructor Note:** The result should also be significant. Ask students to state a conclusion in plain language before moving to pairwise comparisons.
+:::
 
 ### Pairwise Comparisons
 
@@ -186,20 +250,43 @@ What do these different columns represent?
 
 How should we interpret these results?
 
--   Are Collarium and Bugdet significantly different in battery life? **Yes (p \< 0.05)**
--   Are Darn Tuff and Budget significantly different in battery life? **Yes (p \< 0.05)**
--   Are Darn Tuff and Collarium significantly different in battery life? **No (p \> 0.05)**
+-   Are Collarium and Budget significantly different in battery life?
+-   Are Darn Tuff and Budget significantly different in battery life?
+-   Are Darn Tuff and Collarium significantly different in battery life?
+
+::: instructor-only
+**Answers:**
+
+-   Collarium vs. Budget: **Yes (p \< 0.05)**
+-   Darn Tuff vs. Budget: **Yes (p \< 0.05)**
+-   Darn Tuff vs. Collarium: **No (p \> 0.05)**
+:::
 
 #### Practice
 
 In your groups, run the Tukey's HSD test for signal distance and interpret the results.
 
 ```{r}
-TukeyHSD(signal_model)
+# Write your code here
+
 ```
 
 How should we interpret these results?
 
--   Are Collarium and Budget significantly different in signal distance? **Yes (p \< 0.05)**
--   Are Darn Tuff and Budget significantly different in signal distance? **Yes (p \< 0.05)**
--   Are Darn Tuff and Collarium significantly different in signal distance? **Yes (p \< 0.05)**
+-   Are Collarium and Budget significantly different in signal distance?
+-   Are Darn Tuff and Budget significantly different in signal distance?
+-   Are Darn Tuff and Collarium significantly different in signal distance?
+
+::: instructor-only
+**Answers:**
+
+```{r}
+TukeyHSD(signal_model)
+```
+
+-   Collarium vs. Budget: **Yes (p \< 0.05)**
+-   Darn Tuff vs. Budget: **Yes (p \< 0.05)**
+-   Darn Tuff vs. Collarium: **Yes (p \< 0.05)**
+
+**Instructor Note:** Unlike battery life, all three makers differ significantly in signal distance. This means every pairwise combination is statistically different — no two makers are comparable in terms of signal range.
+:::

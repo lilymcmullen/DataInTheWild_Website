@@ -13,11 +13,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Comparing Populations
 
+## Learning Outcomes
+
+-   Students will be able to add logistic growth model curves to a `ggplot2` visualization using `predict()` and `geom_line()`.
+-   Students will be able to estimate and compare carrying capacities across multiple populations.
+-   Students will be able to select and run an appropriate statistical test to compare mean population sizes across groups.
+-   Students will be able to make a data-driven recommendation about which population to fish.
+
 Throughout this module, we have learned how populations demonstrating exponential growth and logistic growth differ from one another, both conceptually and visually.
 
 While we have fit models to some of these populations (specifically, logistic growth models), we have done so in order to estimate the carrying capacity of the population rather than to use inferential statistics to determine if the populations are statistically significantly different from one another.
 
-In today's lesson, we are going to learn how to (a) add those logistic growth models to our data visualizations and (b) compare populations statistically.
+In this lesson, we are going to learn how to (a) add those logistic growth models to our data visualizations and (b) compare populations statistically.
 
 ## Set Up
 
@@ -25,16 +32,24 @@ As always, we need to start by loading the packages we are going to use along wi
 
 First, let's load our packages. We are going to be using both the `tidyverse` and `drc` packages in this lesson, so we need to load both of them.
 
+Then, load in our data "comparing_populations.csv" as `pops`.
+
+```{r}
+#| message: false
+#| warning: false
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
 ```{r}
 library(tidyverse)
 library(drc)
-```
-
-Next, we want to bring in our dataset.
-
-```{r}
 pops <- read_csv("data/comparing_populations.csv")
 ```
+:::
 
 We can use the `head()` function to take a look at the data. What data do we have?
 
@@ -70,6 +85,12 @@ Based on the plot, what do you notice about these populations?
 
 Given your answers to the questions above, what might be a good next step?
 
+::: instructor-only
+**Instructor Note:** All three populations show logistic growth. The NE population appears to reach the highest abundance, SW the lowest, with SE in between.
+
+Students should suggest fitting logistic models to each population to estimate carrying capacities, then running a statistical test to compare them.
+:::
+
 ## Numerically
 
 When comparing different categories or groups (in this case, comparing different populations), we typically compare them both visually and numerically before conducting statistical tests.
@@ -77,6 +98,12 @@ When comparing different categories or groups (in this case, comparing different
 Since we have already made visual comparisons, let's compare the populations numerically.
 
 Typically, we have compared groups with measures of central tendency and measures of variability. Do you think that is what we should do here? Why or why not?
+
+::: instructor-only
+**Instructor Note:** Not quite, calculating a mean across all time points would mix the growth phase with the stable phase and give a misleading number.
+
+A better approach is to compare the carrying capacities from the logistic models. Once we restrict to the leveled-off period (year 15+), then comparing means with an ANOVA makes sense.
+:::
 
 ### Separate Populations
 
@@ -87,13 +114,13 @@ Unlike our typical procedure, in order to fit logistic models to each population
 We can use the `filter` function to select each population, one at a time.
 
 ```{r}
-pop_NE <- pops |> 
+pop_NE <- pops %>% 
   filter(population == "NE")
 
-pop_SE <- pops |> 
+pop_SE <- pops %>% 
   filter(population == "SE")
 
-pop_SW <- pops |> 
+pop_SW <- pops %>% 
   filter(population == "SW")
 ```
 
@@ -101,7 +128,7 @@ pop_SW <- pops |>
 
 Now that we have data frames for each of the populations, we can fit the logistic model to each population and determine the estimate of the carrying capacity for each.
 
-As we run the code to fit the model to each population, we might receive some warnings: "Warning :NaNs produced". Don't worry--that's ok! Keep going!
+As we run the code to fit the model to each population, we might receive some warnings: "Warning :NaNs produced". Don't worry, that's ok! Keep going!
 
 ```{r}
 # NE population
@@ -173,14 +200,14 @@ If we compare these numbers to the numbers in the `abund` column of `pop_NE`, we
 Let's use the `mutate` function to add these model values to each dataframe.
 
 ```{r}
-pop_NE <- pop_NE |> 
+pop_NE <- pop_NE %>% 
   mutate(logistic_model = predict(model_NE))
 pop_NE
 
-pop_SE <- pop_SE |> 
+pop_SE <- pop_SE %>% 
   mutate(logistic_model = predict(model_SE))
 
-pop_SW <- pop_SW |> 
+pop_SW <- pop_SW %>% 
   mutate(logistic_model = predict(model_SW))
 ```
 
@@ -223,16 +250,23 @@ What type of statistical test should we use to answer that question?
 
 What would the null and alternative hypotheses be for that statistical test?
 
+::: instructor-only
+**Instructor Note:** An ANOVA. We have one numeric dependent variable (abundance) and one categorical independent variable (population) with three groups.
+
+-   **Null hypothesis:** The mean abundance is the same across all three populations during the leveled-off period.
+-   **Alternative hypothesis:** At least one population has a significantly different mean abundance.
+:::
+
 ### Filtering the Data
 
 To most accurately compare the populations, we likely want to restrict the comparison to when the populations (or the models of best fit, at least) are fairly leveled off.
 
-(Again, this is more of an estimation than an exact science, though there are more precise--and complicated--tools that could be used.)
+(Again, this is more of an estimation than an exact science, though there are more precise and complicated tools that could be used.)
 
 A rough estimation would be that the models mostly level off around year 15; let's filter our data to include only abundance from year 15 and later.
 
 ```{r}
-pops_15_25 <- pops_models |> 
+pops_15_25 <- pops_models %>% 
   filter(year >= 15)
 pops_15_25
 ```
@@ -254,11 +288,29 @@ TukeyHSD(model_aov)
 
 How do we interpret these results? What are our conclusions?
 
+::: instructor-only
+**Instructor Note:** The ANOVA is significant (p = 0.000704), meaning at least one population differs from the others. The Tukey HSD breaks it down:
+
+-   NE vs SE: not significantly different (p = 0.355)
+-   NE vs SW: significantly different (p = 0.0006) NE has higher abundance
+-   SE vs SW: significantly different (p = 0.021) SE has higher abundance
+
+Conclusion: SW is significantly lower in abundance than both NE and SE. NE and SE are statistically similar to each other, but NE has a slightly higher carrying capacity.
+:::
+
 ## Data-Driven Decision Making
 
 Our ultimate goal in this module has been to determine which population of fish is best for fishing sustainably. We are prioritizing large, stable populations.
 
 Given those requirements and what our numeric, visual, and statistical tests have told us, which of these populations would be the best for us to harvest? Why?
+
+::: instructor-only
+**Instructor Note:** NE is the best choice, it has the highest carrying capacity and is significantly more abundant than SW.
+
+SE is also a reasonable choice since it is not statistically different from NE and has a substantially higher carrying capacity than SW.
+
+SW should be avoided: it is significantly less abundant than the other two and has the lowest carrying capacity, so it is least able to withstand fishing pressure.
+:::
 
 ## References
 

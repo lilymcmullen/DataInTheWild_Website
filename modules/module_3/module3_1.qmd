@@ -13,13 +13,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction to the Problem
 
+## Learning Outcomes
+
+-   Students will be able to use `group_by()` and `summarize()` to compare summary statistics across groups.
+-   Students will be able to build and interpret histograms and scatter plots using `ggplot2`.
+-   Students will be able to add a vertical line to a `ggplot2` plot using `geom_vline()` with a secondary data frame.
+-   Students will be able to describe the trade-off between signal distance and battery life in wildlife tracking collars.
+
 ## The Challenge
 
 Given the issues with our farmed fish, we will need to supplement our diets with some fish that are wild-caught for a while. These fish are caught by members of Team Antarctica, but there is quite a bit of risk involved.
 
 ![](assets/seal2.jpeg){width="50%"}
 
-One of the main hazards to these fishing teams are [leopard seals](https://en.wikipedia.org/wiki/Leopard_seal). They're apex predators in this ecosystem and are quite large, averaging 2.4--3.5 m (7.9--11.5 ft) in length and 200-600 kilograms (440-1,320 lb) in weight. Due to their large size and predatory nature, they can cause serious injury, especially when large schools of fish are involved ([a researcher was killed by a leopard seal in Antarctica in 2003](https://www.theguardian.com/uk/2003/jul/24/science.highereducation)).
+One of the main hazards to these fishing teams is [leopard seals](https://en.wikipedia.org/wiki/Leopard_seal). They're apex predators in this ecosystem and are quite large, averaging 2.4--3.5 m (7.9--11.5 ft) in length and 200-600 kilograms (440-1,320 lb) in weight. Due to their large size and predatory nature, they can cause serious injury, especially when large schools of fish are involved ([a researcher was killed by a leopard seal in Antarctica in 2003](https://www.theguardian.com/uk/2003/jul/24/science.highereducation)).
 
 ![](assets/seal3.jpeg){width="50%"}
 
@@ -35,9 +42,10 @@ We've been tasked with determining why the units are failing and if we can tie i
 
 ## The Data
 
-Our data on collars is in a file called "collar_data.csv."
+Our data on collars is in a file called "collar_data.csv." We are calling it `collars`.
 
-```{r message = FALSE}
+```{r}
+#| message: false
 library(tidyverse)
 collars <- read_csv("data/collar_data.csv")
 ```
@@ -57,8 +65,17 @@ Let's practice. Write some code to do the following:
     -   battery life
     -   signal distance
 -   do this for both manufacturers
+-   save the result as an object called `bat_life_and_signal` (we will use it later!)
 
-```{r summarize}
+```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
+
+```{r}
 bat_life_and_signal <- collars %>%
   group_by(maker) %>%
   summarize(bat_life_mean = mean(battery_life),
@@ -67,8 +84,17 @@ bat_life_and_signal <- collars %>%
             signal_sd = sd(signal_distance)) 
 bat_life_and_signal
 ```
+:::
 
 We also might want to count up how many collar failures are attributed to each maker.
+
+```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
 
 ```{r}
 collars %>% 
@@ -80,6 +106,9 @@ collars %>%
   count(fail)
 ```
 
+**Instructor Note:** Budget Collars LLC has 16 failures compared to just 4 for Collarium Inc. Budget Collars LLC is clearly the problem maker.
+:::
+
 Looks like one of these makers is definitely the one having some problems!
 
 ## Visualizing the Data
@@ -88,7 +117,7 @@ After summarizing our data, our next step in our data exploration is usually dat
 
 ### One Continuous Variable at a Time
 
-What types of plots can we use to explore one continuous variable (and one categorical variable--in this case, maker)?
+What types of plots can we use to explore one continuous variable (and one categorical variable, in this case, maker)?
 
 -   multiple histogram
 -   box-and-whisker plot
@@ -115,7 +144,8 @@ We will use the `geom_vline()` function to add a vertical line onto our plot at 
 
 Let's take a look at the help file for `geom_vline()` to see what arguments it takes. Scroll down to the "Aesthetics" section.
 
-```{r, eval=FALSE}
+```{r}
+#| eval: false
 ?geom_vline
 ```
 
@@ -144,7 +174,15 @@ ggplot(collars, aes(battery_life, fill = maker)) +
 
 #### Group Challenge!
 
-Make the same plot that we made above expect for the signal distance.
+Make the same plot that we made above except for the signal distance.
+
+```{r}
+# Write your code here
+
+```
+
+::: instructor-only
+**Answer:**
 
 ```{r}
 ggplot(collars, aes(signal_distance, fill = maker)) +
@@ -156,10 +194,11 @@ ggplot(collars, aes(signal_distance, fill = maker)) +
        fill = "Maker") +
   theme_light()
 ```
+:::
 
 ### Two Continuous Variables at a Time
 
-We've explored both battery life and signal distance individually. Now let's bring them together into one plot to see what the relationship between them is like. What type of plot will be use for that?
+We've explored both battery life and signal distance individually. Now let's bring them together into one plot to see what the relationship between them is like. What type of plot will we use for that?
 
 ```{r}
 ggplot(collars, aes(x = signal_distance, y = battery_life, color = maker)) +
@@ -169,3 +208,11 @@ ggplot(collars, aes(x = signal_distance, y = battery_life, color = maker)) +
 How do we interpret this plot? What is it telling us about the relationship between signal distance and battery life? What is it telling us about that relationship between the two collar makers?
 
 As it turns out, this trade-off between signal distance and battery length is very real when it comes to wildlife tracking! Why do you think that is?
+
+::: instructor-only
+**Instructor Note:** The plot shows two distinct clusters with almost no overlap. Collarium Inc. (teal) has higher battery life and lower signal distance. Budget Collars LLC (pink) has lower battery life and higher signal distance.
+
+Budget Collars LLC appears to have designed their collars for longer signal range at the cost of battery life. The reason students should suspect is that transmitting a signal over a longer distance requires more power, which drains the battery faster.
+
+This also sets up a key question for the next lesson. Is the difference in battery life between the two makers statistically meaningful, or could it be due to chance?
+:::

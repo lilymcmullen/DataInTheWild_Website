@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 -   Students will be able to load packages.
 -   Students will be able to use some functions of the tidyverse: select, filter, the pipe, mutate, summarize, and group by.
--   Students will compare and contrast base R and tidyverse methodology for sub-setting data frames.
+-   Students will compare and contrast base R and tidyverse methodology for subsetting data frames.
 -   Students will be able to use tidyverse functions to summarize real-world data.
 
 ## The `tidyverse`: What is it?
@@ -26,7 +26,7 @@ Different programming languages have different syntax (language structure). The 
 
 Until now, all of the coding we have done is in the original R language, which is often called "base R." The syntax in the `tidyverse` is often pretty different from base R. Both are useful, and many people often combine them, which is why we start with base R.
 
-That said, we will be primarily using the `tidyverse` for the rest of the semester.
+That said, we will be primarily using the `tidyverse` for the rest of the course.
 
 ### Wait, what is a package??
 
@@ -36,7 +36,7 @@ You *install* a package once, but you *load* it with `library()` every time you 
 
 ### Explore the `tidyverse`
 
-If you want to learn more about the tidyverse, head over to [www.tidyverse.org](www.tidyverse.org) and browse the site. Below is a brief summary of *some* of the packages I think you might find the most useful.
+If you want to learn more about the tidyverse, head over to [www.tidyverse.org](www.tidyverse.org) and browse the site. Below is a brief summary of *some* of the packages that are particularly useful for this course.
 
 -   `tidyr`: creating data that is consistent in form/shape
 -   `dplyr`: creating data that is clean, easily wrangled, and summarized
@@ -50,7 +50,7 @@ If you want to learn more about the tidyverse, head over to [www.tidyverse.org](
 
 ### Download and Install
 
-In most scenarios, you will need to download a package from the internet onto your computer before you can use it in RStudio. However, with Posit Cloud, I've already done this step for you!
+In most scenarios, you will need to download a package from the internet onto your computer before you can use it in RStudio. However, with Posit Cloud, this step has already been done for you!
 
 For future reference, though:
 
@@ -94,7 +94,7 @@ climate_df <- read_csv("data/global_temps.csv")
 climate_df
 ```
 
-The `tidyverse` converts 2D data into something called a tibble! For our intents and purposes, it is basically the same as a data frame (and I'll probably call it a data frame, in reality).
+The `tidyverse` converts 2D data into something called a tibble! For our intents and purposes, it is basically the same as a data frame (and we'll use the terms interchangeably).
 
 As a quick reminder, *columns* represent variables and are vertical. *Rows* represent observations and are horizontal.
 
@@ -120,7 +120,7 @@ First, let's remind ourselves how we would accomplish this in base R.
 climate_df[,1:2]
 ```
 
-The `select()` function does the same thing but with more power (and, in my opinion, more easily). The first argument in the function is the data frame. Any following arguments are the columns we want to select.
+The `select()` function does the same thing but with more power and more readable syntax. The first argument in the function is the data frame. Any following arguments are the columns we want to select.
 
 ```{r}
 # first argument is the data frame, then the columns
@@ -143,7 +143,7 @@ Write a line of code to select the following data from the `climate_df`: average
 
 ```
 
-::: {.instructor-only}
+::: instructor-only
 **Answer:**
 
 ```{r}
@@ -162,7 +162,7 @@ It is important to remember that the computer interprets everything literally. W
 climate_df[climate_df$AverageTemperature > 25, ]
 ```
 
-The code above is, in my opinion, a bit unwieldy. Filter feels more intuitive. We still need the double equal signs, though!
+The code above is a bit unwieldy. Filter feels more intuitive. We still need the double equal signs, though!
 
 ```{r}
 # filter
@@ -184,7 +184,7 @@ us_df <- filter(climate_df, AverageTemperature > 25)
 
 ## Let's practice using `select()` and `filter()`
 
-Work with the climate data we've been using this class period. Construct a small set of code that does the following:
+Work with the climate data we've been using in this lesson. Construct a small set of code that does the following:
 
 1.  Slims down the full data frame to one that has the date, average temperatures, and the city names. Assign this to an object called `slim`.
 2.  Filters the data for Paris with an average temperature less than 22.
@@ -195,7 +195,7 @@ Work with the climate data we've been using this class period. Construct a small
 
 ```
 
-::: {.instructor-only}
+::: instructor-only
 **Answer:**
 
 ```{r}
@@ -204,7 +204,7 @@ filtered <- filter(slim, City == "Paris", AverageTemperature < 22)
 cold_paris <- filtered
 ```
 
-**Instructor Note:** Students haven't learned the pipe yet so the unpiped version is correct here. 
+**Instructor Note:** Students haven't learned the pipe yet so the unpiped version is correct here.
 :::
 
 ## The Pipe `%>%`
@@ -221,6 +221,10 @@ This is helpful for a lot of reasons, including:
 2.  makes things more human-readable (in addition to computer-readable)
 
 The shortcut for typing a pipe is `Ctrl` + `Shift` + `M` (or `Cmd` + `Shift` + `M` on a Mac)
+
+::: instructor-only
+**Instructor Note:** Newer versions of RStudio (2022 and later) default this shortcut to the native pipe `|>` instead of `%>%`. Both work for everything in this course, but if students get `|>` when they expected `%>%`, go to **Tools → Global Options → Code** and check "Use native pipe operator" - uncheck it to default back to `%>%`, or reassure students that `|>` is fine to use. It's worth deciding which one you want the class to use and making it consistent.
+:::
 
 ```{r}
 climate_df %>% 
@@ -243,7 +247,7 @@ In small groups, use pipes to create a new data frame called `warm_nigeria` that
 
 ```
 
-::: {.instructor-only}
+::: instructor-only
 **Answer:**
 
 ```{r}
@@ -257,7 +261,7 @@ warm_nigeria <- climate_df %>%
 
 ## Turning Data into Information with `summarize()`
 
-Like we have talked about in previous classes, some of the best ways for us to understand our data is through what we call summary statistics such as the mean (average), standard deviation, minimums, maximums, etc. Fortunately, the `tidyverse` has a handy-dandy function to make this easy to do with data frames.
+Some of the best ways to understand data are through what we call summary statistics such as the mean (average), standard deviation, minimums, maximums, etc. Fortunately, the `tidyverse` has a handy-dandy function to make this easy to do with data frames.
 
 The `summarize()` function creates a new data frame with columns and values we give it.
 
@@ -274,9 +278,7 @@ climate_df %>%
 
 Wait a second! Those are some weird values!
 
-`NA` is used to represent missing data. So what is happening here? We know that there are numbers to calculate these values.
-
-It is important to note that if any of the values in the column that you are trying to summarize are missing (`NA`), you might get some wonky values, like you did above.
+`NA` is how R represents missing data. The problem is that even one `NA` in a column causes `mean()` and `sd()` to return `NA` by default. R won't assume you want to ignore the missing values without being told to.
 
 Fortunately, `mean()` and `sd()` and some other functions have an argument to remove the missing values: `na.rm = TRUE`
 
@@ -316,7 +318,7 @@ Practice using the combination of `group_by()` and `summarize()` to calculate th
 
 ```
 
-::: {.instructor-only}
+::: instructor-only
 **Answer:**
 
 ```{r}
@@ -366,7 +368,7 @@ Write some code that uses the `round()` function to create a new column of avera
 
 ```
 
-::: {.instructor-only}
+::: instructor-only
 **Answer:**
 
 ```{r}

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Check-in (5 minutes)
 
-Let's all sign-up for [Posit Cloud!](https://posit.cloud/) We use Posit Cloud as our coding environment so everyone has access to R and RStudio through a web browser.
+Let's all sign up for [Posit Cloud!](https://posit.cloud/) We use Posit Cloud as our coding environment so everyone has access to R and RStudio through a web browser.
 
 ## RStudio Mini-tour
 
@@ -78,7 +78,8 @@ A quick shortcut for adding a code chunk is `Ctrl + Alt + i` (`Cmd + Opt + i` on
 Let's work with an example code chunk.
 
 ```{r}
-# The `#` symbol is used to write a comment. Comments are notes to yourself or others reading your code. R does not run anything written after `#` on a line.
+# The `#` symbol is used to write a comment. 
+# Comments are notes to yourself or others reading your code. R does not run anything written after `#` on a line.
 
 432 - 11     # subtraction
 
