@@ -1,0 +1,136 @@
+---
+title: "Module 3, Assignment 1: Comparing Two Means"
+author: "your name here"
+date: today
+format: html
+execute:
+  eval: false
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Assignment Details
+
+### Purpose
+
+The goal of this assignment is to assess your ability to compare means numerically, visually, and statistically
+
+### Task
+
+Write R code which produces the correct answers and correctly interpret the results of visualizations and statistical tests.
+
+### Criteria for Success
+
+-   Code is within the provided code chunks
+-   Code chunks run without errors
+-   Code produces the correct result
+    -   Code that produces the correct answer will receive full credit
+    -   Code attempts with logical direction will receive partial credit
+-   Written answers address the questions in sufficient detail
+
+# Assignment Questions
+
+In this assignment, we're going to explore another data set on wind turbines that generate a significant portion of the energy for us down here in Antarctica.
+
+### Set-Up
+
+Let's load the `tidyverse` and read in the data set called `wind_turbines.csv`. Call the data `turbines`.
+
+```{r}
+#| message: false
+
+```
+
+1.  Explore the data set, either through the environment or through code. Answer the following questions (2 points):
+
+    a.  How many turbine companies are represented in the data?
+    b.  What do the data in each row of data represent?
+
+```{r}
+# optional; only if you want space for coding
+```
+
+### Numeric
+
+2.  Generate a summary of the data set that calculates the average required [wind speed]{.underline} and mean [power output]{.underline} for each wind turbine company. Save this as a data frame called `turbine_summary`. (2 points)
+
+```{r}
+
+```
+
+### Visual
+
+3.  Create a multiple histogram plot for the [power output]{.underline} variable. (3 points)
+
+    -   be sure to have a histogram for each turbine producer; the color and/or the fill should be determined by the maker of the turbine. They should also be transparent and not stacked vertically.
+    -   set the number of bins to 10
+    -   add in vertical lines for the mean values in the same color as the turbine makers (remember to reference the correct data frame!)
+    -   make sure the x-axis, y-axis, and legend labels are capitalized and easier to understand
+    -   use the `theme_classic()` function
+
+```{r}
+
+```
+
+4.  Generate a box-and-whisker plot that compares the required [wind speed]{.underline} between different turbine makers (3 points).
+
+    The plot should:
+
+    -   have capitalized and more descriptive axis labels (hint: wind speed is measured in km/hr, kilometers per hour.)
+    -   show raw data points in addition to the boxes. The points should be jittered.
+    -   use the `theme_classic()` function
+
+```{r}
+
+```
+
+### Statistic
+
+5.  Write a null hypothesis and an alternative hypothesis for each question we are asking. (2 points)
+
+Is there a significant difference in the [power output]{.underline} from turbines from the different companies?
+
+-   **Null Hypothesis** (H~0~):\
+-   **Alternative Hypothesis** (H~A~):
+
+Is there a significant difference in the required [wind speeds]{.underline} for turbines from different companies?
+
+-   **Null Hypothesis** (H~0~):\
+-   **Alternative Hypothesis** (H~A~):
+
+6.  Based on the mean values in the `turbine_summary` data frame and the plots you've created above, [predict the outcome]{.underline} of each t-test that we will run: (1) comparing wind speeds between turbine companies and (2) comparing power outputs between companies. (This question graded for completion, not accuracy; 2 points)
+
+    Explain your reasoning (1-2 sentences for each t-test is fine).
+
+    *Answer:*
+
+7.  Perform a t-test to determine if there is a significant difference in the [power output]{.underline} between turbine makers. (1 point)
+
+```{r}
+
+```
+
+8.  In 2-3 sentences, interpret the output from Question 7. Focus on what the p-value is in reference to the cutoff of 0.05, what that means, and whether that means we reject or fail to reject the null hypothesis. (2 points)
+
+    *Answer:*
+
+9.  Perform another t-test, this time to determine whether the required [wind speed]{.underline} differs significantly between manufacturers. (1 point)
+
+```{r}
+
+```
+
+10. In 2-3 sentences, interpret the output from Question 9; focus on the same ideas as in Question 8. (2 points)
+
+    *Answer:*
+
+# Turning in Your Assignment
+
+1.  Make sure your name is filled in at the top of the document.
+2.  Click the **Render** button at the top of this document. This will produce an HTML file that opens in a new tab and also saves to the Files panel on the bottom-right of your screen.
+3.  To download the HTML file from Posit Cloud, click the empty box to the left of it in the Files panel.
+4.  Click the blue gear at the top of the Files panel and choose Export.
+5.  Put your last name at the front of the file name when prompted, then click Download. The file is now in your Downloads folder.

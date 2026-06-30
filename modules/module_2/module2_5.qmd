@@ -1,6 +1,6 @@
 ---
 title: "2.5: Module 2 Wrap-Up"
-author: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format:
   html:
     toc: true
@@ -159,43 +159,53 @@ Are those columns numeric or categorical? What plot type have we talked about th
 All are numeric, so scatter plots with `density` on the y-axis are the right choice.
 :::
 
-In small groups, make plots using the `density` column in the `sick_trout` data to try to figure out which environmental factor is causing problems in the trout.
+In small groups, make plots using the `density` column in the `sick_trout` data to try to figure out which environmental factor is causing problems in the trout. Make one plot per variable so you can look at each relationship on its own.
 
 ```{r}
 # Write your code here
 
 ```
 
-What do we think is the environmental driver causing issues with the trout?
-
 ::: instructor-only
 **Answer:**
 
 ```{r}
-ggplot(sick_trout, aes(x = num_fish, y = density)) +
-  geom_smooth(method = "lm", se = FALSE) +
-  geom_point() +
-  labs(x = "Number of Fish in Tank", y = "Density of Sick Fish") +
-  theme_light()
-
 ggplot(sick_trout, aes(x = avg_daily_temp, y = density)) +
-  geom_smooth(method = "lm", se = FALSE) +
   geom_point() +
   labs(x = "Average Daily Temperature (°C)", y = "Density of Sick Fish") +
   theme_light()
 
-ggplot(sick_trout, aes(x = day_length, y = density)) +
-  geom_smooth(method = "lm", se = FALSE) +
+ggplot(sick_trout, aes(x = num_fish, y = density)) +
   geom_point() +
-  labs(x = "Day Length", y = "Density of Sick Fish") +
+  labs(x = "Number of Fish in Tank", y = "Density of Sick Fish") +
+  theme_light()
+
+ggplot(sick_trout, aes(x = day_length, y = density)) +
+  geom_point() +
+  labs(x = "Day Length (hours)", y = "Density of Sick Fish") +
+  theme_light()
+
+ggplot(sick_trout, aes(x = tank_volume, y = density)) +
+  geom_point() +
+  labs(x = "Tank Volume", y = "Density of Sick Fish") +
   theme_light()
 ```
+:::
 
-**Instructor Note:** The clearest signal is in `avg_daily_temp`, there is a positive relationship between temperature and sick fish density. As temperature increases, density tends to increase. This makes biological sense: rainbow trout are cold-water fish and even modest temperature increases toward the upper end of their tolerance range stress their immune function.
+What do we think is the environmental driver causing issues with the trout?
+
+::: instructor-only
+**Instructor Note:** This is a discussion question, so keep it open and let students reason from their plots. Use the points below to guide the conversation rather than handing over the answer.
+
+`avg_daily_temp` shows a positive relationship between temperature and sick fish density. As temperature goes up, density tends to go up. This makes biological sense, since rainbow trout are cold-water fish and even modest warming toward the upper end of their tolerance range stresses their immune function.
+
+`num_fish` shows a slight negative trend: as the number of fish in a tank goes up, density drops a little. This is most likely a dilution effect in the density calculation (more total fish in the denominator) rather than a real biological pattern, and the scatter is wide.
 
 `day_length` shows essentially no relationship
 
-`num_fish` shows a slight negative trend, as the number of fish in a tank increases, density of sick fish decreases slightly. This is likely a dilution effect in the density calculation (more total fish in the denominator) rather than a real biological pattern, and students should note that the scatter is wide.
+`tank_volume` is nearly constant across the trout tanks (everything sits right around 400). There is no variation to drive anything, which means we can rule it out as a cause.
 
-Temperature is looking like the primary driver. Close by asking: what would you recommend to the Antarctic base team? This sets up the transition into Module 3.
+Temperature is the primary driver.
+
+Students haven't learned how to fit a trend line yet, but if you want to make the pattern more obvious you can add `geom_smooth(method = "lm")` to the temperature plot as a preview of the regression work coming in Module 3. Close by asking what they would recommend to the Antarctic base team, which sets up that transition.
 :::

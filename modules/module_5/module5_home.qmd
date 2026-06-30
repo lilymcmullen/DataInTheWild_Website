@@ -29,22 +29,24 @@ By the end of this module, students will be able to:
 
 ### Lessons
 
-Each lesson page displays content in **student view** by default. Use the toggle button in the top right corner of the page to switch to **instructor view**, which reveals embedded answer keys and instructor notes. The QMD file, PDF, and any associated data can be downloaded from each lesson's page in either view.
+| Lesson | QMD | Data Files | View PDF |
+|:---------------|:---------------|:---------------------|:-----------------|
+| [5.1: Population Growth](module5_1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/module5_1.qmd) | [fish_pops.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/fish_pops.csv) | [Open](module5_1.qmd) |
+| [5.2: Sustainable Fishing](module5_2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/module5_2.qmd) | [fish_pops.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/fish_pops.csv) | [Open](module5_2.qmd) |
+| [5.3: Comparing Populations](module5_3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/module5_3.qmd) | [comparing_populations.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/comparing_populations.csv) | [Open](module5_3.qmd) |
 
--   [5.1: Population Growth](module5_1.qmd)
--   [5.2: Sustainable Fishing](module5_2.qmd)
--   [5.3: Comparing Populations](module5_3.qmd)
+: {tbl-colwidths="\[40,15,30,15\]"}
 
 ### Assignments
 
-Assignment pages are publicly available in **student view only**. The QMD file, PDF, and any associated data can be downloaded from each assignment's page. Instructor versions with answer keys are only available to educators. To request access, visit the [Instructors page](../../instructors.qmd).
+| Assignment | QMD | Data Files | View PDF |
+|:-------------------|:---------------|:-------------------|:----------------|
+| [M5A1: Literature Search and Abstract Writing](assignments/m5a1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a1.qmd) | None | [Open](assignments/m5a1.qmd) |
+| [M5A2: Choosing a Bay to Fish](assignments/m5a2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a2.qmd) | [fish_abund_2010-2024.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/fish_abund_2010-2024.csv) | [Open](assignments/m5a2.qmd) |
+| [M5A3: Comparing Populations](assignments/m5a3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a3.qmd) | [toothfish.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/toothfish.csv) | [Open](assignments/m5a3.qmd) |
 
--   Assignment 1: Scientific Literature & Abstract Writing *(writing assignment)*
--   Assignment 2: Choosing a Bay to Fish
--   Assignment 3: Comparing Populations
+: {tbl-colwidths="\[40,15,30,15\]"}
 
 ## GitHub
 
-To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
-
-**Links are not yet live.**
+To clone the entire course, visit the [course GitHub repository](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website).

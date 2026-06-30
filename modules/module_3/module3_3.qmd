@@ -1,6 +1,6 @@
 ---
 title: "3.3: Comparing (Multiple) Means"
-author: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format:
   html:
     toc: true
@@ -60,7 +60,7 @@ What if our large mammal team had deployed collars from *three* different compan
 In small groups, work through the set-up, numeric, and visual sections.
 
 ::: instructor-only
-**Instructor Note:** Plan for 15–20 minutes on the set-up, numeric, and visual sections before bringing the class back together for the ANOVA section.
+**Instructor Note:** Plan for 15-20 minutes on the set-up, numeric, and visual sections before bringing the class back together for the ANOVA section.
 :::
 
 ### Set-Up
@@ -89,19 +89,28 @@ collars <- read_csv("data/more_collars.csv")
 
 What questions are we trying to answer about these collars?
 
--   Which variable is the independent variable? What about the dependent variable?
+-   Does the *battery life* differ by collar maker?
+-   Does the *signal distance* differ by collar maker?
 
-Let's write out our hypotheses.
+For each question, identify the independent and dependent variables, then write out the null and alternative hypotheses.
 
-First, for battery life:
+*Answer:*
 
-**Null hypothesis**: There is no difference in the average battery life between the three collar makers.\
-**Alternative hypothesis**: There is a difference in the average battery life between the three collar makers.
+::: instructor-only
+**Answers:**
 
-Next, for signal distance:
+For both questions, the independent variable is the collar maker (categorical), and the dependent variable is the measurement being compared (battery life or signal distance), which is numeric.
 
-**Null hypothesis**: There is no difference in the average signal distance between the three collar makers.\
-**Alternative hypothesis**: There is a difference in the average signal distance between the three collar makers.
+For battery life:
+
+**Null hypothesis** ($H_{0}$): There is no difference in the average battery life between the three collar makers.\
+**Alternative hypothesis** ($H_{A}$): There is a difference in the average battery life between the three collar makers.
+
+For signal distance:
+
+**Null hypothesis** ($H_{0}$): There is no difference in the average signal distance between the three collar makers.\
+**Alternative hypothesis** ($H_{A}$): There is a difference in the average signal distance between the three collar makers.
+:::
 
 ### Numeric
 
@@ -288,5 +297,5 @@ TukeyHSD(signal_model)
 -   Darn Tuff vs. Budget: **Yes (p \< 0.05)**
 -   Darn Tuff vs. Collarium: **Yes (p \< 0.05)**
 
-**Instructor Note:** Unlike battery life, all three makers differ significantly in signal distance. This means every pairwise combination is statistically different — no two makers are comparable in terms of signal range.
+**Instructor Note:** Unlike battery life, all three makers differ significantly in signal distance. This means every pairwise combination is statistically different, no two makers are comparable in terms of signal range.
 :::

@@ -68,7 +68,7 @@ Let's remind ourselves about exponential growth and logistic growth.
 
 ![](assets/clipboard-4205079346.png){width="83" fig-align="center"}
 
-**Logistic growth** includes the intrinsic growth rate and another important factor—resources. The resources determine the maximum number of individuals a population can have, which we call the carrying capacity (`K`):
+**Logistic growth** includes the intrinsic growth rate and another important factor: resources. The resources determine the maximum number of individuals a population can have, which we call the carrying capacity (`K`):
 
 ![](assets/clipboard-3779797644.png){width="130" fig-align="center"}
 
@@ -80,7 +80,7 @@ This is what each type of population growth model looks like:
 
 We've previously discussed what factors we want to focus on when we are deciding which population to fish. Ideally, we want to target both a large population and a stable population.
 
-At first glance, a population that is growing exponentially seems ideal—and it is, in some ways.
+At first glance, a population that is growing exponentially seems ideal, and it is, in some ways.
 
 But in reality, all populations will *eventually* hit some capacity on resources. Populations that are currently demonstrating exponential growth either haven't yet hit their carrying capacity or have dramatically overshot their carrying capacity, which can lead to a huge crash or a smaller crash with boom and bust cycles until it evens out around the carrying capacity.
 

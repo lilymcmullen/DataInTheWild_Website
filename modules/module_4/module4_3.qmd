@@ -32,7 +32,7 @@ Based on our results from Assignment 2, we made a decision about which two bays 
 
 **Our Goal: build a road while minimizing our impact on the delicate antarctic ecosystem.**
 
-Our first order of business is to make sure that we avoid areas with that are well-suited for [Antarctica hair grass](https://oceanwide-expeditions.com/blog/the-plants-of-antarctic) (*Deschamsia antarctica*), one of only two flowering species of plants on the continent.
+Our first order of business is to make sure that we avoid areas that are well-suited for [Antarctica hair grass](https://oceanwide-expeditions.com/blog/the-plants-of-antarctic) (*Deschampsia antarctica*), one of only two flowering species of plants on the continent.
 
 ![](assets/hairgrass_indiv.jpeg){width="50%"}
 
@@ -59,7 +59,7 @@ Our botanists collected data for the following variables:
 -   *percent rock*: how rocky the location is; rocks in soil impact water drainage and temperature
 -   *max windspeed (knots per hour)*: extreme wind can pose a challenge to plants of all types
 -   *average summer temperature (C)*: temperature in the growing season
--   *penguin density*: the number of penguins per the sample quadrant penguin poop increases nitrogen and phosphorus content in the system but penguins may trample the plants
+-   *penguin density*: the number of penguins per the sample quadrant: penguin poop increases nitrogen and phosphorus content in the system but penguins may trample the plants
 
 This data is based on this article: [Parnikoza, et al. 2007](https://doi.org/10.1016/j.polar.2007.10.002)
 
@@ -197,7 +197,7 @@ When we have a dependent variable and an independent variable, the R-squared val
 
 Sometimes we don't have obvious dependent and independent variables, but we can still use similar language ($R^2$ tells us how much of the variation in the data is explained).
 
-To calculate R-squared, we square the correlation coefficient value we calculated above. It is always positive because we are squaring it `r` value; that means that R-squared values range from 0 to 1. The closer to 1, the more variation is explained.
+To calculate R-squared, we square the correlation coefficient value we calculated above. It is always positive because we are squaring the `r` value; that means that R-squared values range from 0 to 1. The closer to 1, the more variation is explained.
 
 ```{r}
 r_nitrogen^2

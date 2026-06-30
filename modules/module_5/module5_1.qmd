@@ -36,7 +36,7 @@ We can calculate by how many individuals the population will change in a given t
 
 ### Logistic Growth
 
-Populations that show logistic growth start out in the same way as populations with exponential growth–driven by *per capita* birth and death rates.
+Populations that show logistic growth start out in the same way as populations with exponential growth, driven by *per capita* birth and death rates.
 
 After a while, though, limited resources also start to come into play. When calculating the change in the size of the population (`N`), we also need to take into account the maximum number of individuals the population can sustainably support, called the [carrying capacity]{.underline}, `K`.
 

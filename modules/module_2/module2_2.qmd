@@ -1,6 +1,6 @@
 ---
 title: "2.2: Plotting with `ggplot2`"
-authors: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format:
   html:
     toc: true
@@ -63,6 +63,18 @@ The `gg` in `ggplot2` stands for "Grammar of Graphics." The "grammar" part is ba
 
 The design is that you work iteratively, building up layer upon layer until you have your final plot.
 
+Every `ggplot2` plot is built from the same few pieces. You start with the `ggplot()` function, tell it which data to use and how to map your variables to the axes inside `aes()`, then add a layer with `+` to choose the kind of plot:
+
+```{r}
+#| eval: false
+ggplot(data = your_data, aes(x = x_variable, y = y_variable)) +
+  geom_type()
+```
+
+Here, `your_data` is the data frame you're plotting, `x_variable` and `y_variable` are the columns you want on each axis, and `geom_type()` is the kind of plot (for example, `geom_point()` for a scatter plot). Every extra piece, like axis labels or a theme, gets added as another layer with `+`.
+
+Let's build up to the plot above one step at a time.
+
 1)  Specify the data
 
 ```{r}
@@ -75,6 +87,8 @@ ggplot(data = sick)
 ```
 
 Most plots display data relative to two axes: the x-axis (horizontal) and the y-axis (vertical).
+
+![](assets/axes.png){fig-align="center"}
 
 You will definitely want to memorize which axis is which!
 
@@ -111,7 +125,7 @@ ggplot(data = sick, mapping = aes(x = perc_fish, y = doctor_trips)) +
 ```{r}
 #| fig-width: 4.5
 #| fig-height: 3
-# theme_bw(), theme_classic(), and theme_light() are my favorites
+# theme_bw(), theme_classic(), and theme_light() are good options
 ggplot(sick, aes(x = perc_fish, y = doctor_trips)) +
   geom_point() +
   labs(x = "Proportion of Fish in Diet",

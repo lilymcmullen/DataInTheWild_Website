@@ -1,6 +1,6 @@
 ---
 title: "2.4: Exploring `geom` Functions"
-author: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format:
   html:
     toc: true
@@ -41,8 +41,8 @@ fish <- read_csv("data/fish_sick_data.csv")
 First, let's remind ourselves of the general structure of how we make plots using the `ggplot2` syntax.
 
 ```{r}
-# ggplot(data = <DATA>, mapping = aes(x = <COLUMN1>, y = <COLUMN2>)) +
-  # geom_function() +
+# ggplot(data = your_data, aes(x = x_variable, y = y_variable)) +
+  # geom_type() +
   # labs() +
   # theme()
 ```
@@ -199,7 +199,7 @@ So what does the box represent? And the whiskers?
 
 -   the **box** represents the *middle 50% of the values* in the data set.
 -   the line that runs through the middle of the box represents the *median (**middle value**)* of the data
--   the **whiskers** extend to 1.5 times the height of the box (the interquartile range) in each direction, giving a sense of the overall spread of the data
+-   the **whiskers** extend from each edge of the box out to the farthest data point that still falls within 1.5 times the box height (the interquartile range), giving a sense of the overall spread of the data
 -   values that fall outside of the whiskers can be considered outliers and are plotted individually
 
 ### Layering
@@ -310,7 +310,9 @@ ggplot(fish, aes(avg_daily_temp, fill = species)) +
 **Instructor Note:** Categorical variable (species) goes on the x-axis and the numeric variable goes on the y-axis.
 :::
 
-Finished? Let's add another variable. Now, we want to plot average daily temperatures, the number of sick fish, and the fish species. Work through the same steps as above — how many variables are there, what types are they, and which plot type makes sense?
+Finished? Let's add another variable. Now, we want to plot average daily temperatures, the number of sick fish, and the fish species. Work through the same steps as above.
+
+How many variables are there, what types are they, and which plot type makes sense?
 
 ```{r}
 # Write your code here

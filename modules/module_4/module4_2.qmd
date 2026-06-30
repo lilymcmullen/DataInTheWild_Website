@@ -34,15 +34,29 @@ Given the data we have from the collars we know were created by Budget Collars L
 
 K-nearest neighbors (KNN) is a classification algorithm (e.g., it attempts to predict labels or "classes"). It uses the classes of the nearest neighbors to a new data point (the number of neighbors = k) to predict the class of the new data point.
 
-![](assets/nearest_neighbor.png)
+![](assets/nearest_neighbor.gif)
 
 You don't need to know the inner-workings of the model or even the code below; all you need to know is the overall concept of how K-nearest neighbors works and what the results mean.
 
-### How does KNN work?
+### The Basic Idea
 
-Let's start by watching [a video](https://www.youtube.com/watch?v=MDniRwXizWo&ab_channel=AugmentedStartups) that does a nice job explaining the basics of KNN.
+At its simplest, KNN labels a new collar by looking at the known collars most similar to it and going with the majority. "Similar" just means close in our measurements. For example, two collars with nearly the same battery life and signal distance are near each other, while two collars with very different values are far apart.
 
-What are your takeaways?
+The "k" is how many neighbors we look at. With `k = 5`, we look at the 5 closest known collars; with `k = 9`, the 9 closest. Look back at the diagram above, the white point is the new collar, and with `k = 1` it takes the label of the single closest point.
+
+That's the whole idea you need for this lesson! Here's how we set it up in R:
+
+::: instructor-only
+**Instructor Note:**
+
+Some additional information about KNN:
+
+To classify a new, unlabeled point, KNN finds the `k` already-labeled points closest to it (by straight-line distance) and takes a majority vote of their labels. The choice of `k` is a trade-off: a very small `k` can be thrown off by a single unusual neighbor, while a large `k` smooths over local detail and can blur the boundary between groups.
+
+Because everything depends on distance, the features must be on the same scale first, otherwise a variable with big numbers (like signal distance, \~4000) would dominate one with small numbers (like battery life, \~100), no matter how informative each actually is. That's why we scale both before running the model.
+
+If you'd like a video to show or watch yourself, [this one](https://www.youtube.com/watch?v=gs9E7E0qOIc) gives a basic overview of KNN.
+:::
 
 ### Visualizing
 
@@ -60,17 +74,7 @@ First, we need our data!
 
 ### Data Cleaning and Prepping
 
-Load the tidyverse and read in "data/all_collar_data.csv", saving it as `full_collars`.
-
-```{r}
-#| message: false
-#| warning: false
-# Write your code here
-
-```
-
-::: instructor-only
-**Answer:**
+Load the tidyverse and read in `data/all_collar_data.csv`, saving it as `full_collars`.
 
 ```{r}
 #| message: false
@@ -78,7 +82,6 @@ Load the tidyverse and read in "data/all_collar_data.csv", saving it as `full_co
 library(tidyverse)
 full_collars <- read_csv("data/all_collar_data.csv")
 ```
-:::
 
 Next, we need to scale our data.
 
@@ -98,7 +101,6 @@ knn_data <- full_collars %>%
   dplyr::select(-battery_life, -signal_distance, -fail:-weight) %>% 
   # make the maker column a factor (categorical)
   mutate(maker = as.factor(maker))
-
 ```
 
 Let's summarize and plot the scaled data to see what it looks like. Let's focus on battery life.
@@ -112,7 +114,11 @@ ggplot(knn_data, aes(battery_scaled, fill = maker)) +
   geom_histogram()
 ```
 
-Right now, we have 3 collar categories because we haven't separated the unknown collars. Let's do that.
+Take a look at where the two known makers sit: Budget collars (red) lean toward lower battery life and Collarium collars (teal) toward higher, but the two overlap quite a bit through the middle rather than splitting into clean groups.
+
+Keep that overlap in mind, because it will make the model's job harder later on.
+
+Right now, we have 3 collar categories because we haven't separated the unknown collars. Let's do that next.
 
 ### Known and Unknown Labels
 
@@ -147,7 +153,7 @@ Note: this is where the code starts getting a bit complicated. It's ok if you ar
 # since randomly choosing, we will use set.seed() to make sure everyone is getting the same values
 set.seed(411)
 
-# randomly select 30 row positions (70%) to pull out
+# randomly select 30 row positions (30% of the data) to pull out for testing
 rows_to_pull <- sample(1:100, 30)
 rows_to_pull
 
@@ -172,18 +178,22 @@ library(caret)
 # training the model and finding the best k value
 set.seed(411)
 knn_training_model <- train(maker ~ ., data = training, method = "knn")
-knn_training_model # best k value is 5
+knn_training_model
 ```
 
-Okay, we have determined that our best k value is 5. Now we can use our training model on the testing data to see if it makes any mistakes. We use the `predict` function from `caret` to do this.
+The output above shows that `caret` tested several values of `k` and kept the one with the highest accuracy, here, `k = 9`. Now we can use this trained model on our 30 testing collars to see how well it does. Because we know who really made those collars, we can count exactly how many the model gets right. We use the `predict` function from `caret` to do this.
 
 ```{r}
 # making predictions with the test data
 knn_predict_test <- predict(knn_training_model, testing)
-confusionMatrix(knn_predict_test, testing$maker) # no mistakes!
+confusionMatrix(knn_predict_test, testing$maker)
 ```
 
-Great, our model didn't make any mistakes! It is probably ready to apply to our collars of unknown origin.
+Look at the accuracy and the confusion matrix above. Our model got most of the testing collars right, about 83% (25 out of 30), but it did make a few mistakes: in this run it labeled four Collarium collars as Budget and one Budget collar as Collarium.
+
+That isn't a failure, it's what we should expect. Back in Module 3 we saw that Budget and Collarium collars overlap quite a bit in both battery life and signal distance, so some individual collars are genuinely hard to tell apart from those two measurements alone.
+
+Let's apply it to our collars of unknown origin.
 
 ### Predicting the Unknown Collar Makers
 
@@ -200,10 +210,18 @@ We have predictions! Our last step is to recombine our data so that the collars 
 
 ```{r}
 # let's bind the columns together
-new_labels <- bind_cols(unknown_collar_ids, knn_predict)
+new_labels <- bind_cols(unknown_collar_ids, predicted_maker = knn_predict)
 new_labels
 ```
 
-Typically, you would want to replace the columns in the entire dataframe, but we will end here for today :)
+Typically, you would want to replace the columns in the entire data frame, but we will end here for today :)
 
-Our goal of labeling our unlabeled collars is complete! We will deploy any that are now labeled as Collarium Inc.
+We now have a predicted maker for each unknown collar. Keeping in mind that the model isn't perfect, we would deploy the ones it labeled as Collarium Inc.
+
+::: instructor-only
+**Instructor Note:** The model is about 83% accurate, and we're using it to decide which collars to deploy.
+
+Is 83% good enough for a decision like this? What would make us more confident, more training data, more measurements per collar, or a different model?
+
+There's no single right answer. The goal is for students to think about models and their accuracy.
+:::

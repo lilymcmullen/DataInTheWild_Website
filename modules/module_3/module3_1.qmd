@@ -1,6 +1,6 @@
 ---
 title: '3.1: Leopard Seals'
-author: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format:
   html:
     toc: true
@@ -26,13 +26,13 @@ Given the issues with our farmed fish, we will need to supplement our diets with
 
 ![](assets/seal2.jpeg){width="50%"}
 
-One of the main hazards to these fishing teams is [leopard seals](https://en.wikipedia.org/wiki/Leopard_seal). They're apex predators in this ecosystem and are quite large, averaging 2.4--3.5 m (7.9--11.5 ft) in length and 200-600 kilograms (440-1,320 lb) in weight. Due to their large size and predatory nature, they can cause serious injury, especially when large schools of fish are involved ([a researcher was killed by a leopard seal in Antarctica in 2003](https://www.theguardian.com/uk/2003/jul/24/science.highereducation)).
+One of the main hazards to these fishing teams is [leopard seals](https://en.wikipedia.org/wiki/Leopard_seal). They're apex predators in this ecosystem and are quite large, averaging 2.4-3.5 m (7.9-11.5 ft) in length and 200-600 kilograms (440-1,320 lb) in weight. Due to their large size and predatory nature, they can cause serious injury, especially when large schools of fish are involved ([a researcher was killed by a leopard seal in Antarctica in 2003](https://www.theguardian.com/uk/2003/jul/24/science.highereducation)).
 
 ![](assets/seal3.jpeg){width="50%"}
 
 One way we're working to remove some of this danger is by working with data from large mammal researchers. They have been tracking leopard seals using radio collars, one of many ways to track wildlife.
 
-They have radio collared on a number of seals that live in areas that could be fished. Fishing boats are equipped with radios that can detect the presence of seals in the area and avoid high-risk sites.
+They have radio collared a number of seals that live in areas that could be fished. Fishing boats are equipped with radios that can detect the presence of seals in the area and avoid high-risk sites.
 
 In recent months, a problem has arisen. Some of the collars are failing, leading to some very close calls! While attempting to untangle a net, one team member was pulled into the water when a seal lunged at some fish trapped in the net.
 
@@ -106,7 +106,7 @@ collars %>%
   count(fail)
 ```
 
-**Instructor Note:** Budget Collars LLC has 16 failures compared to just 4 for Collarium Inc. Budget Collars LLC is clearly the problem maker.
+**Instructor Note:** Budget Collars LLC has 16 failures compared to just 3 for Collarium Inc. Budget Collars LLC is clearly the problem maker.
 :::
 
 Looks like one of these makers is definitely the one having some problems!
@@ -210,9 +210,9 @@ How do we interpret this plot? What is it telling us about the relationship betw
 As it turns out, this trade-off between signal distance and battery length is very real when it comes to wildlife tracking! Why do you think that is?
 
 ::: instructor-only
-**Instructor Note:** The plot shows two distinct clusters with almost no overlap. Collarium Inc. (teal) has higher battery life and lower signal distance. Budget Collars LLC (pink) has lower battery life and higher signal distance.
+**Instructor Note:** The two makers overlap quite a bit, but Collarium Inc. (teal) sits toward higher battery life and lower signal distance, while Budget Collars LLC (pink) sits toward lower battery life and higher signal distance. The overall relationship is a weak negative one (correlation around -0.26), so point students toward the trend, not a sharp split.
 
-Budget Collars LLC appears to have designed their collars for longer signal range at the cost of battery life. The reason students should suspect is that transmitting a signal over a longer distance requires more power, which drains the battery faster.
+The takeaway is the trade-off. Sending a signal over a longer distance takes more power, which drains the battery faster. Budget Collars LLC seems to have favored signal range at the cost of battery life, which fits with their higher failure count from earlier in the lesson.
 
-This also sets up a key question for the next lesson. Is the difference in battery life between the two makers statistically meaningful, or could it be due to chance?
+This sets up the next lesson! The two makers differ in average battery life, but is that difference real, or could it just be due to chance?
 :::

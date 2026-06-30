@@ -26,24 +26,27 @@ By the end of this module, students will be able to:
 
 ### Lessons
 
-Each lesson page displays content in **student view** by default. Use the toggle button in the top right corner of the page to switch to **instructor view**, which reveals embedded answer keys and instructor notes. The QMD file, PDF, and any associated data can be downloaded from each lesson's page in either view.
+| Lesson | QMD | Data Files | View PDF |
+|:---------------|:---------------|:---------------------|:-----------------|
+| [4.1: Combining Datasets](module4_1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/module4_1.qmd) | [collar_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/collar_data.csv), [new_collars.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/new_collars.csv), [old_collars_new_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/old_collars_new_data.csv) | [Open](module4_1.qmd) |
+| [4.2: KNN and Accuracy](module4_2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/module4_2.qmd) | [all_collar_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/all_collar_data.csv) | [Open](module4_2.qmd) |
+| [4.3: Roads and Regressions](module4_3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/module4_3.qmd) | [hairgrass_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/hairgrass_data.csv) | [Open](module4_3.qmd) |
+| [4.4: Multiple Regression](module4_4.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/module4_4.qmd) | [site_changes.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/site_changes.csv) | [Open](module4_4.qmd) |
+| [4.5: Writing Functions](module4_5.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/module4_5.qmd) | [hairgrass_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/hairgrass_data.csv) | [Open](module4_5.qmd) |
 
--   [4.1: Combining Datasets (Joins & Binds)](module4_1.qmd)
--   [4.2: K-Nearest Neighbor](module4_2.qmd)
--   [4.3: Roads and Regressions](module4_3.qmd)
--   [4.4: Multiple Regression](module4_4.qmd)
+: {tbl-colwidths="\[40,15,30,15\]"}
 
 ### Assignments
 
-Assignment pages are publicly available in **student view only**. The QMD file, PDF, and any associated data can be downloaded from each assignment's page. Instructor versions with answer keys are only available to educators. To request access, visit the [Instructors page](../../instructors.qmd).
+| Assignment | QMD | Data Files | View PDF |
+|:-------------------|:---------------|:-------------------|:----------------|
+| [M4A1: Phosphorus and Hair Grass](assignments/m4a1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/assignments/m4a1.qmd) | [hairgrass_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/hairgrass_data.csv) | [Open](assignments/m4a1.qmd) |
+| [M4A2: Exploring Environmental Variables](assignments/m4a2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/assignments/m4a2.qmd) | [hairgrass_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/hairgrass_data.csv) | [Open](assignments/m4a2.qmd) |
+| [M4A3: Comparing Populations](assignments/m4a3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/assignments/m4a3.qmd) | [nonvascular_plants.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/data/nonvascular_plants.csv) | [Open](assignments/m4a3.qmd) |
+| [M4A4: Practice for the Final](assignments/m4a4.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_4/assignments/m4a4.qmd) | None (uses palmerpenguins R package) | [Open](assignments/m4a4.qmd) |
 
--   Assignment 1: Linear Regression
--   Assignment 2: More Regressions
--   Assignment 3: Multiple Regressions
--   Assignment 4: Final Project Practice
+: {tbl-colwidths="\[40,15,30,15\]"}
 
 ## GitHub
 
-To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
-
-**Links are not yet live.**
+To clone the entire course, visit the [course GitHub repository](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website).

@@ -1,6 +1,6 @@
 ---
 title: "1.1: Introduction to R and RStudio"
-authors: "Keaton Wilson, Ellen Bledsoe"
+author: "Ellen Bledsoe, Keaton Wilson, Lily McMullen"
 format:
   html:
     toc: true
@@ -32,21 +32,21 @@ Let's start with a brief live demo of RStudio. As you follow along, pay attentio
 2.  The difference between the **Console** (runs code immediately) versus a **script or Quarto file** (lets you save and organize your work).
 
 ::: instructor-only
-**Instructor Note:** Perform a live-coding mini-tour using your own Posit Cloud project so students see a realistic setup. Cover:
+**Instructor Note:** Do a mini-tour of the coding environment. Cover:
 
-1.  Walk through each panel: script/editor (top-left), console (bottom-left), environment/history (top-right), files/plots/help (bottom-right).
-2.  Demonstrate running code in the Console vs. a chunk in a `.qmd` file, emphasizing that the Console doesn't save your work.
+1.  Each panel: script/editor (top-left), console (bottom-left), environment/history (top-right), files/plots/help (bottom-right).
+2.  Running code in the Console vs. a chunk in a `.qmd` file, emphasizing that the Console doesn't save your work, and code must be in chunks within the `.qmd` to run.
 :::
 
 ## Using R as a Calculator
 
 ### Using the Console
 
-You can do basic math in the Console (the bottom left part of the screen). The Console only understands R code, but it can also be treated as a calculator! Hence, we can type in some numbers and mathematical symbols.
+You can do basic math in the Console (the bottom left part of the screen). The Console only understands R code, but it can also be treated as a calculator! So we can type in some numbers and mathematical symbols.
 
 Try multiplying 5 and 3 in the Console (hint: \* means multiply). Hit `Enter` to run that line of code.
 
-### Quarto Documents and Code Chunks
+## Quarto Documents and Code Chunks
 
 Quarto (`.qmd`) is a file format that lets us incorporate text and code into one document seamlessly. In fact, it is the file format for this document!
 

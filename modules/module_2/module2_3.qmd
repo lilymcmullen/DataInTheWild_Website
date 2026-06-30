@@ -1,6 +1,6 @@
 ---
 title: "2.3: Data Visualization"
-authors: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format:
   html:
     toc: true
@@ -46,7 +46,7 @@ In this course, our main take-away from this website is the use of visual cues t
 
 In groups, discuss as many types of visualizations as you can think of. It's okay if you don't know what they are called! Make a quick list or draw them out if you prefer.
 
-Types of data visualizations:
+[This website](https://www.data-to-viz.com/) is an amazing reference for data visualization methods and when to use what. It also has examples of each type plotted in `ggplot2`.
 
 We will talk more about how to choose the right visualization for your data now and also in the rest of the module.
 
@@ -111,7 +111,7 @@ For each one, consider:
 ::: instructor-only
 **Instructor Note:** These figures share several problems that are worth talking about:
 
--   Truncated axes exaggerate differences by not starting the y-axis at zero. The GNH gender gap looks dramatic visually but is only 0.079 on a 0–1 scale.
+-   Truncated axes exaggerate differences by not starting the y-axis at zero. The GNH gender gap looks dramatic visually but is only 0.079 on a 0-1 scale.
 -   Pie charts make proportion comparison difficult because humans are poor at judging angles. A bar chart is almost always clearer.
 -   3D effects are adding visual distortion without adding information. 3D bars and cylinders make it impossible to accurately read values off an axis.
 -   Showing too many groups in the same overlapping plot makes it impossible to find meaning from any of them.

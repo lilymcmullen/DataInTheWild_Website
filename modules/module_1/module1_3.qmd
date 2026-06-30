@@ -1,6 +1,6 @@
 ---
 title: "1.3: Introduction to the `tidyverse`"
-authors: "Keaton Wilson, Ellen Bledsoe"
+author: "Ellen Bledsoe, Keaton Wilson, Lily McMullen"
 format:
   html:
     toc: true
@@ -98,7 +98,7 @@ The `tidyverse` converts 2D data into something called a tibble! For our intents
 
 As a quick reminder, *columns* represent variables and are vertical. *Rows* represent observations and are horizontal.
 
-![](assets/row_column.png)
+![](assets/row_column.png){fig-align="center" width="50%"}
 
 Let's take a look at our tibble (AKA data frame).
 
@@ -223,7 +223,7 @@ This is helpful for a lot of reasons, including:
 The shortcut for typing a pipe is `Ctrl` + `Shift` + `M` (or `Cmd` + `Shift` + `M` on a Mac)
 
 ::: instructor-only
-**Instructor Note:** Newer versions of RStudio (2022 and later) default this shortcut to the native pipe `|>` instead of `%>%`. Both work for everything in this course, but if students get `|>` when they expected `%>%`, go to **Tools → Global Options → Code** and check "Use native pipe operator" - uncheck it to default back to `%>%`, or reassure students that `|>` is fine to use. It's worth deciding which one you want the class to use and making it consistent.
+**Instructor Note:** Newer versions of RStudio (2022 and later) default this shortcut to the native pipe `|>` instead of `%>%`. Both work for everything in this course, but if students get `|>` when they expected `%>%`, go to Tools -\> Global Options -\> Code and check "Use native pipe operator". Uncheck it to default back to `%>%`, or tell students that `|>` is fine to use. It's worth deciding which one you want the class to use and making it consistent.
 :::
 
 ```{r}
@@ -265,7 +265,7 @@ Some of the best ways to understand data are through what we call summary statis
 
 The `summarize()` function creates a new data frame with columns and values we give it.
 
-The first part of the argument in the `summarize` function (before the `=`) is the name of the new column we want to create. After the `=` is code that produces the values we want the new column to contain.
+The first part of the argument in the `summarize` function (before the `=`) is the name of the new column we want to create. After the `=` is code that produces the values for that column.
 
 | `summarize(new_column_name = summary_function(column_to_summarize))`
 
@@ -327,9 +327,11 @@ city_min_max <- climate_df %>%
   summarize(min_temp = min(AverageTemperature, na.rm = TRUE),
             max_temp = max(AverageTemperature, na.rm = TRUE))
 ```
+:::
 
 Already accomplished this task? Try to figure out how you can keep the "Country" column in the final data frame. This is trickier than you might think!
 
+::: instructor-only
 ```{r}
 climate_df %>% 
   group_by(Country, City) %>% 

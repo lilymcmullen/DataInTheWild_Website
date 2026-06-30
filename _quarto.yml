@@ -1,9 +1,17 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - scripts/
 
 execute:
   freeze: auto
+
+render:
+  - "**/*.qmd"
+  - "!**/*_key.qmd"
+  - "!**/*_outputs.qmd"
+  - "!**/*_output.qmd"
 
 website:
   title: "Data In The Wild"
@@ -22,7 +30,7 @@ website:
     contents:
       - text: "Home"
         href: index.qmd
-      
+
       - text: "Contact Us"
         href: https://github.com/BiodiversityDataScienceCorp
 
@@ -38,10 +46,10 @@ website:
           - modules/module_1/module1_1.qmd
           - modules/module_1/module1_2.qmd
           - modules/module_1/module1_3.qmd
-          - text: "Assignment 1"
-            href: modules/module_1/assignments/a1/m1a1.qmd
           - text: "Assignment 2"
-            href: modules/module_1/assignments/a2/m1a2.qmd
+            href: modules/module_1/assignments/m1a2.qmd
+          - text: "Assignment 3"
+            href: modules/module_1/assignments/m1a3.qmd
 
       - section: "Module 2"
         contents:
@@ -53,11 +61,11 @@ website:
           - modules/module_2/module2_4.qmd
           - modules/module_2/module2_5.qmd
           - text: "Assignment 1"
-            href: modules/module_2/assignments/a1/m2a1.qmd
+            href: modules/module_2/assignments/m2a1.qmd
           - text: "Assignment 2"
-            href: modules/module_2/assignments/a2/m2a2.qmd
+            href: modules/module_2/assignments/m2a2.qmd
           - text: "Assignment 3"
-            href: modules/module_2/assignments/a3/m2a3.qmd
+            href: modules/module_2/assignments/m2a3.qmd
 
       - section: "Module 3"
         contents:
@@ -67,9 +75,9 @@ website:
           - modules/module_3/module3_2.qmd
           - modules/module_3/module3_3.qmd
           - text: "Assignment 1"
-            href: modules/module_3/assignments/a1/m3a1.qmd
+            href: modules/module_3/assignments/m3a1.qmd
           - text: "Assignment 2"
-            href: modules/module_3/assignments/a2/m3a2.qmd
+            href: modules/module_3/assignments/m3a2.qmd
 
       - section: "Module 4"
         contents:
@@ -79,14 +87,15 @@ website:
           - modules/module_4/module4_2.qmd
           - modules/module_4/module4_3.qmd
           - modules/module_4/module4_4.qmd
+          - modules/module_4/module4_5.qmd
           - text: "Assignment 1"
-            href: modules/module_4/assignments/a1/m4a1.qmd
+            href: modules/module_4/assignments/m4a1.qmd
           - text: "Assignment 2"
-            href: modules/module_4/assignments/a2/m4a2.qmd
+            href: modules/module_4/assignments/m4a2.qmd
           - text: "Assignment 3"
-            href: modules/module_4/assignments/a3/m4a3.qmd
+            href: modules/module_4/assignments/m4a3.qmd
           - text: "Assignment 4"
-            href: modules/module_4/assignments/a4/m4a4.qmd
+            href: modules/module_4/assignments/m4a4.qmd
 
       - section: "Module 5"
         contents:
@@ -96,11 +105,11 @@ website:
           - modules/module_5/module5_2.qmd
           - modules/module_5/module5_3.qmd
           - text: "Assignment 1"
-            href: modules/module_5/assignments/a1/m5a1.qmd
+            href: modules/module_5/assignments/m5a1.qmd
           - text: "Assignment 2"
-            href: modules/module_5/assignments/a2/m5a2.qmd
+            href: modules/module_5/assignments/m5a2.qmd
           - text: "Assignment 3"
-            href: modules/module_5/assignments/a3/m5a3.qmd
+            href: modules/module_5/assignments/m5a3.qmd
 
       - text: "Final Project"
         href: modules/final_project/FinalProject.qmd
@@ -129,7 +138,19 @@ format:
     page-layout: full
     include-in-header:
       text: |
-        <script src="/scripts/pdf-button.js"></script>
-        <script src="/scripts/toggle-view.js"></script>
+        <script>
+          (function () {
+            // GitHub Pages serves this project under /DataInTheWild_Website/.
+            // Local `quarto preview` (and a custom domain) serve it from the root.
+            // Detect which, so the scripts load from the right place in either case.
+            var repo = "/DataInTheWild_Website";
+            var base = window.location.pathname.indexOf(repo + "/") === 0 ? repo : "";
+            ["toggle-view", "course-data", "downloads-list"].forEach(function (name) {
+              var s = document.createElement("script");
+              s.src = base + "/scripts/" + name + ".js";
+              document.head.appendChild(s);
+            });
+          })();
+        </script>
 
 editor: visual

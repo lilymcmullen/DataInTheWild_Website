@@ -13,9 +13,9 @@ This page is for instructors who are interested in teaching with, adapting, or l
 
 The lesson pages on this site have two modes: **Student View** and **Instructor View**. Student View is the default, coding challenge answers and instructor notes are hidden. Instructor View reveals both!
 
-Look for the **View: Student** | **Instructor** toggle in the upper-right sidebar on any lesson page (and this page!).
+Look for the **View: Student** \| **Instructor** toggle in the upper-right sidebar on any lesson page (and this page!).
 
-::: {.instructor-only}
+::: instructor-only
 ## Instructor View reveals...
 
 -   **Answers** to all in-class coding challenges, shown after each prompt
@@ -60,9 +60,7 @@ The free tier of Posit Cloud has limits on compute hours per month. For a full-s
 
 ## Access Course Files
 
-> [\[GitHub repo\]](https://github.com/BiodiversityDataScienceCorp)
-
-Contains:
+The \[GitHub\](<https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website>) contains:
 
 -   All lesson `.qmd` files (instructor and student versions)
 -   All assignment `.qmd` files (student versions)

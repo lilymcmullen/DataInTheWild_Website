@@ -128,7 +128,9 @@ They don't match up data based on unique identifiers; instead they match up data
 How should we go about combining our three datasets? Come up with a plan that you think will work.
 
 ::: instructor-only
-**Instructor Note:** The correct order is: (1) left_join collars with old_collars_new_data on collar_id and maker to add antenna_length and weight to existing collars, then (2) bind_rows to append new_collars.
+**Instructor Note:** Use the same plan from the Diagramming section.
+
+Join first, then bind. The common mistake is trying to `bind_rows()` everything first. If they do, point out that binding just stacks rows without matching on `collar_id`, so the old collars' new measurements (`antenna_length`, `weight`) would no longer line up with the right collars.
 :::
 
 ## Task 1: Combine Our Data
@@ -167,6 +169,8 @@ Let's take a look at our new data frame! Have we correctly accomplished our firs
 head(full)
 tail(full)
 ```
+
+You'll notice the new collars show `NA` for `maker`, that's expected. We don't know who made them yet, and predicting that missing `maker` is exactly what we'll do with KNN in the next lesson.
 
 ### Saving our New Data
 

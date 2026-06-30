@@ -57,7 +57,14 @@
 
     const toc = document.getElementById('quarto-margin-sidebar');
     if (toc) {
-      toc.insertBefore(btn, toc.firstChild);
+      const block = document.createElement('div');
+      block.className = 'view-block';
+      const heading = document.createElement('div');
+      heading.className = 'view-heading';
+      heading.textContent = 'View';
+      block.appendChild(heading);
+      block.appendChild(btn);
+      toc.insertBefore(block, toc.firstChild);
     } else {
       btn.classList.add('toggle-btn-fallback');
       document.body.appendChild(btn);
@@ -65,12 +72,18 @@
     return btn;
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function init() {
     // Only show the toggle on lesson pages and the instructors page
     if (!isTogglePage()) return;
 
     const saved = localStorage.getItem(STORAGE_KEY) || 'student';
     createButton();
     setView(saved);
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();

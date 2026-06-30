@@ -1,6 +1,6 @@
 ---
 title: "2.1: Good Food Gone Bad"
-authors: "Keaton Wilson, Ellen Bledsoe"
+author: "Keaton Wilson, Ellen Bledsoe, Lily McMullen"
 format:
   html:
     toc: true
@@ -196,7 +196,13 @@ How do we interpret this plot? What does the pattern tell us about the relations
 ::: instructor-only
 **Instructor Note:** The plot shows a clear positive relationship. Team members with a low proportion of fish in their diet have low doctor visits. As fish proportion increases, doctor visits jump.
 
-Key discussion questions: - What would this plot look like if there were *no* relationship? (Points scattered randomly with no directional trend) - What would it look like if *plants* were the culprit instead? (The pattern would flip, high `perc_plant` values would pair with high doctor trips, but since `perc_fish` and `perc_plant` sum to 1, this plot would actually show the opposite pattern) - Does this plot prove fish is contaminated? (No, it shows correlation, not causation. We haven't done any statistical testing yet. This is a good preview of what Module 3 will cover)
+Key discussion questions:
+
+\- What would this plot look like if there were *no* relationship? (Points scattered randomly with no directional trend)
+
+\- What would it look like if *plants* were the culprit instead? (The pattern would flip, high `perc_plant` values would pair with high doctor trips, but since `perc_fish` and `perc_plant` sum to 1, this plot would actually show the opposite pattern)
+
+\- Does this plot prove fish is contaminated? (No, it shows correlation, not causation. We haven't done any statistical testing yet. This is a good preview of what Module 3 will cover)
 
 Close by connecting back to the research question students wrote at the start of the lesson. Did their data support or contradict what they predicted?
 :::

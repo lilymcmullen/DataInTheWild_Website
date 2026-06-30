@@ -1,6 +1,6 @@
 ---
 title: "1.2: Intro to Coding in R"
-authors: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format:
   html:
     toc: true
@@ -132,13 +132,13 @@ animals[animals == "cat"]
 
 ## Functions
 
-[Functions]{.underline} are pre-written bits of codes that perform specific tasks for us. Functions are always followed by parentheses.
+[Functions]{.underline} are pre-written bits of code that perform specific tasks for us. Functions are always followed by parentheses.
 
 Anything you type into the parentheses are called [arguments]{.underline}. Arguments are pieces of information that we give to a function so it performs its task the way we want it to. To add more than one argument, you separate them with a comma.
 
 ```{r}
 ## Functions
-weight_kg_mean <- mean(weight_kg)   # average of the mass_kg vector from above
+weight_kg_mean <- mean(weight_kg)   # average of the weight_kg vector from above
 weight_kg_mean
 
 # separate arguments with commas
@@ -173,6 +173,8 @@ Let's practice! Write a few lines of code that do the following:
 
 ```
 
+Finished early? See if you can condense your code down any further or turn around and help out a neighbor.
+
 ::: instructor-only
 **Answer:** 6
 
@@ -191,9 +193,9 @@ last_three
 sum(last_three)
 ```
 
-Already finished? See if you can condense your code down any further or turn around and help out a neighbor.
-
 ```{r}
+# more condensed version
+six_to_one <- seq(6,1)
 sum(six_to_one[4:6])
 ```
 :::

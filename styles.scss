@@ -16,7 +16,6 @@ $olive: #55733D;
 $saddlebrown: #8B4513;
 $slate-grey: #C6E2FF;
 
-// Base document colors
 $navbar-bg: $dark-blue;
 $navbar-fg: $blanched-almond;
 $navbar-hl: $slate-grey;
@@ -66,7 +65,7 @@ a {
   font-family: "Righteous";
 }
 
-// Hide navbar logo on desktop — sidebar logo takes over
+// Hide navbar logo on desktop, bc sidebar logo takes over
 @media (min-width: 992px) {
   .navbar-brand img {
     display: none;
@@ -101,25 +100,6 @@ a {
   object-fit: contain;
   display: block;
   margin: 1em auto;
-}
-
-// pdf download button
-
-.toc-pdf-button {
-  display: block;
-  margin-top: 1rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  text-align: center;
-  font-family: "Righteous";
-  background: $magenta;
-  color: $blanched-almond !important;
-  text-decoration: none;
-
-  &:hover {
-    background: darken($magenta, 10%);
-    text-decoration: none;
-  }
 }
 
 // instructor/student toggle
@@ -165,11 +145,26 @@ body.instructor-view .instructor-only {
   z-index: 999;
 }
 
+// view block (student/instructor toggle)
+// mirrors the downloads block so the two sidebar sections match
+
+.view-block {
+  margin-bottom: 1.25rem;
+}
+
+.view-heading {
+  font-family: "Righteous";
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: $dark-blue;
+  margin-bottom: 0.5rem;
+}
+
 // toggle button, sits lh side of rh sidebar
 #view-toggle-btn {
   display: block;
   width: 100%;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0;
   padding: 0.5rem 0.75rem;
   border: 2px solid $dark-blue;
   border-radius: 8px;
@@ -228,6 +223,48 @@ body.instructor-view #view-toggle-btn {
   width: auto;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+// downloads block (source .qmd, data .csv, save as PDF)
+// sits in the rh sidebar; all actions share one consistent button style
+
+.downloads-block {
+  margin-bottom: 1.25rem;
+}
+
+.downloads-heading {
+  font-family: "Righteous";
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: $dark-blue;
+  margin-bottom: 0.5rem;
+}
+
+.download-action {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid $dark-blue;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Righteous";
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  background: $blanched-almond;
+  color: $dark-blue;
+  transition: border-color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    background: darken($blanched-almond, 5%);
+    border-color: $magenta;
+    color: $magenta;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 // mobile accessibility

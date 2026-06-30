@@ -25,21 +25,23 @@ By the end of this module, students will be able to:
 
 ### Lessons
 
-Each lesson page displays content in **student view** by default. Use the toggle button in the top right corner of the page to switch to **instructor view**, which reveals embedded answer keys and instructor notes. The QMD file, PDF, and any associated data can be downloaded from each lesson's page in either view.
+| Lesson | QMD | Data Files | View PDF |
+|:---------------|:---------------|:---------------------|:-----------------|
+| [3.1: Intro to Linear Regression](module3_1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/module3_1.qmd) | [collar_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/collar_data.csv) | [Open](module3_1.qmd) |
+| [3.2: More Linear Regression](module3_2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/module3_2.qmd) | [collar_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/collar_data.csv) | [Open](module3_2.qmd) |
+| [3.3: ANOVA and Comparisons](module3_3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/module3_3.qmd) | [more_collars.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/more_collars.csv) | [Open](module3_3.qmd) |
 
--   [3.1: Leopard Seals](module3_1.qmd)
--   [3.2: T-Tests](module3_2.qmd)
--   [3.3: Comparing (Multiple) Means](module3_3.qmd)
+: {tbl-colwidths="\[40,15,30,15\]"}
 
 ### Assignments
 
-Assignment pages are publicly available in student view only. The QMD file, PDF, and any associated data can be downloaded from each assignment's page. Instructor versions with answer keys are only available to educators. To request access, visit the [Instructors page](../../instructors.qmd).
+| Assignment | QMD | Data Files | View PDF |
+|:-------------------|:---------------|:-------------------|:----------------|
+| [M3A1: Wind Turbine Analysis](assignments/m3a1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/assignments/m3a1.qmd) | [wind_turbines.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/wind_turbines.csv) | [Open](assignments/m3a1.qmd) |
+| [M3A2: Comparing Fish and Seal Populations](assignments/m3a2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/assignments/m3a2.qmd) | [fish.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/fish.csv), [seals.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/seals.csv) | [Open](assignments/m3a2.qmd) |
 
--   Assignment 1: Comparing Two Means
--   Assignment 2: Comparing Multiple Means
+: {tbl-colwidths="\[40,15,30,15\]"}
 
 ## GitHub
 
-To clone the entire course or download multiple files at once, visit the [course GitHub repository]().
-
-**Links are not yet live.**
+To clone the entire course, visit the [course GitHub repository](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website).
