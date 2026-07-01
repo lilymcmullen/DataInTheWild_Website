@@ -1,7 +1,6 @@
 ---
 title: "Module 3, Assignment 1: Comparing Two Means"
-author: "your name here"
-date: today
+author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:
   eval: false

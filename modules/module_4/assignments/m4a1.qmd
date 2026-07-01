@@ -1,6 +1,6 @@
 ---
 title: "Module 4 Assignment 1"
-author: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:
   eval: false

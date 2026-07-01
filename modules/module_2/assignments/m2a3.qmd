@@ -1,7 +1,6 @@
 ---
 title: "Module 2, Assignment 3: Final Project Kickoff"
-author: "your name here"
-date: today
+author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:
   eval: false
@@ -171,7 +170,7 @@ Let's get to know our data a little better.
 
 8.  Produce a histogram plot (just one, not multiple on the same plot).
 
-    Write 1-2 sentences describing what information you can gather from plot. (2 points for plot, 1 for description)
+    Write 1-2 sentences describing what information you can gather from the plot. (2 points for plot, 1 for description)
 
 ```{r}
 #| warning: false
@@ -182,7 +181,7 @@ Let's get to know our data a little better.
 
 9.  Create a multiple histogram plot. Make sure we can see each histogram plot (make sure one isn't blocking another by modifying the transparency and position).
 
-    Write 1-2 sentences describing what information you can gather from plot. (2 points for plot, 1 for description)
+    Write 1-2 sentences describing what information you can gather from the plot. (2 points for plot, 1 for description)
 
 ```{r}
 #| warning: false
@@ -193,7 +192,7 @@ Let's get to know our data a little better.
 
 10. Create a box-and-whisker plot. Changing the color of the boxes is optional. Make sure to add points to the plot.
 
-    Write 1-2 sentences describing what information you can gather from plot. (2 points for plot, 1 for description)
+    Write 1-2 sentences describing what information you can gather from the plot. (2 points for plot, 1 for description)
 
 ```{r}
 #| warning: false
@@ -204,7 +203,7 @@ Let's get to know our data a little better.
 
 11. Create a scatter plot.
 
-    Write 1-2 sentences describing what information you can gather from plot. (2 points for plot, 1 for description)
+    Write 1-2 sentences describing what information you can gather from the plot. (2 points for plot, 1 for description)
 
 ```{r}
 #| warning: false

@@ -1,7 +1,6 @@
 ---
 title: "Module 2, Assignment 1: Scatter Plots"
-author: "your name here"
-date: today
+author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:
   eval: false

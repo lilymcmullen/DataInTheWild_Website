@@ -97,7 +97,7 @@ team_data <- read.csv("data/team_antarctica.csv")
 
 ```
 
-6.  Using what you know about subsetting data frames, write a line of code that returns the parka color for Unique ID 4. (Hint: count the columns!)
+6.  Using what you know about subsetting data frames, write a line of code that returns the parka color for the team member in row 4. (Hint: count the columns!)
 
 ```{r}
 # Write your code here

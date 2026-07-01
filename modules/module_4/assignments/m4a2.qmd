@@ -160,7 +160,7 @@ Now that you've written out your research question above, read in your chosen da
 
 *Answer*:
 
-14. Based on your answers to Questions 12 and 13 above and other information about your chosen dataset, determine which statistical analysis you should perform to answer your question. In 1-2 sentence, explain how you know.
+14. Based on your answers to Questions 12 and 13 above and other information about your chosen dataset, determine which statistical analysis you should perform to answer your question. In 1-2 sentences, explain how you know.
 
 *Answer*:
 

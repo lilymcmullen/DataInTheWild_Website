@@ -29,10 +29,6 @@ Write R code which produces the correct answers and correctly interpret the resu
     -   Code attempts with logical direction will receive partial credit
 -   Written answers address the questions in sufficient detail
 
-### Due Date
-
-November 21 at 4pm MST
-
 ------------------------------------------------------------------------
 
 # Assignment Questions
