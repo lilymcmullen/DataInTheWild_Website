@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ellen Bledsoe, Lily McMullen">
 
-<title>Data In The Wild - 3.2: T-Tests</title>
+<title>3.2: T-Tests – Data In The Wild</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +22,7 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -59,17 +61,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<link href="../../images/bdsc-logo-hex.png" rel="icon" type="image/png">
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-97470b426a7f4d6219aeefc531e5c9dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -79,177 +82,247 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
+<script>
+  (function () {
+    // GitHub Pages serves this project under /DataInTheWild_Website/.
+    // Local `quarto preview` (and a custom domain) serve it from the root.
+    // Detect which, so the scripts load from the right place in either case.
+    var repo = "/DataInTheWild_Website";
+    var base = window.location.pathname.indexOf(repo + "/") === 0 ? repo : "";
+    ["toggle-view", "course-data", "downloads-list"].forEach(function (name) {
+      var s = document.createElement("script");
+      s.src = base + "/scripts/" + name + ".js";
+      document.head.appendChild(s);
+    });
+  })();
+</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/bdsc-logo-hex.png" alt="" class="navbar-logo">
+    <img src="../../images/bdsc-logo-hex.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/bdsc-logo-hex.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Data In The Wild</span>
     </a>
   </div>
-        <div class="quarto-navbar-tools ms-auto">
+        <div class="quarto-navbar-tools tools-end">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../modules/module_3/module3_1.html">Module 3</a></li><li class="breadcrumb-item"><a href="../../modules/module_3/module3_2.html">3.2: T-Tests</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../modules/module_3/module3_home.html">Module 3</a></li><li class="breadcrumb-item"><a href="../../modules/module_3/module3_2.html">3.2: T-Tests</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
       <a href="../../index.html" class="sidebar-logo-link">
-      <img src="../../images/bdsc-logo-hex.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="../../images/bdsc-logo-hex.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../../images/bdsc-logo-hex.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/BiodiversityDataScienceCorp" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contact Us</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../instructors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">For Instructors</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
- <span class="menu-text">Introduction</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Module 1</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data In The Wild</span></a>
+  <a href="../../modules/module_1/module1_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../structure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Course Structure</span></a>
+  <a href="../../modules/module_1/module1_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.1: Introduction to R and RStudio</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="https://github.com/BiodiversityDataScienceCorp" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Contact Us</span></a>
+  <a href="../../modules/module_1/module1_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.2: Intro to Coding in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_1/module1_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.3: Introduction to the <code>tidyverse</code></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_1/assignments/m1a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_1/assignments/m1a3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 3</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
- <span class="menu-text">Module 1</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Module 2</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../modules/module_1/module1_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">1.1: Introduction to RStudio</span></a>
+  <a href="../../modules/module_2/module2_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../modules/module_1/module1_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">1.2: Introduction to Coding</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../modules/module_1/module1_3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">1.3: 2-Dimensional Data and the <code>tidyverse</code></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
- <span class="menu-text">Module 2</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../modules/module_2/module2_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.1: Introduction to Descriptive Statistics and Data Visualization</span></a>
+ <span class="menu-text">2.1: Good Food Gone Bad</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../modules/module_2/module2_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.2: Writing Functions</span></a>
+ <span class="menu-text">2.2: Plotting with <code>ggplot2</code></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../modules/module_2/module2_3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.3: Plotting with <code>ggplot2</code></span></a>
+ <span class="menu-text">2.3: Data Visualization</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../modules/module_2/module2_4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.4: A Visualization Primer</span></a>
+ <span class="menu-text">2.4: Exploring <code>geom</code> Functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../modules/module_2/module2_5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.5: Sick Fish</span></a>
+ <span class="menu-text">2.5: Module 2 Wrap-Up</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../modules/module_2/module2_6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.6: Exploring <code>geom</code> Functions</span></a>
+  <a href="../../modules/module_2/assignments/m2a1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../modules/module_2/module2_7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.7: Wrap-Up</span></a>
+  <a href="../../modules/module_2/assignments/m2a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/assignments/m2a3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 3</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Module 3</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_3/module3_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../modules/module_3/module3_1.html" class="sidebar-item-text sidebar-link">
@@ -270,75 +343,168 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../modules/module_3/module3_4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.4: Combining Data (Joins and Binds)</span></a>
+  <a href="../../modules/module_3/assignments/m3a1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../modules/module_3/module3_5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.5: K-Nearest Neighbor</span></a>
+  <a href="../../modules/module_3/assignments/m3a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Module 4</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.1: Combining Datasets (Joins &amp; Binds)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.2: K-Nearest Neighbor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.3: Roads and Regressions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.4: Multiple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.5: Writing Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/assignments/m4a1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/assignments/m4a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/assignments/m4a3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/assignments/m4a4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Module 5</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../modules/module_4/module4_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.1: Roads and Regressions</span></a>
+  <a href="../../modules/module_5/module5_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../modules/module_4/module4_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.2: Multiple Regression</span></a>
+  <a href="../../modules/module_5/module5_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5.1: Population Growth</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../modules/module_4/module4_3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.3: Using Functions to Automate Tasks</span></a>
+  <a href="../../modules/module_5/module5_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5.2: Sustainable Fishing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/module5_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5.3: Comparing Populations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/assignments/m5a1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/assignments/m5a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/assignments/m5a3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 3</span></a>
   </div>
 </li>
       </ul>
   </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
- <span class="menu-text">Resources</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/final_project/FinalProject.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Final Project</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Learn More!</span></a>
+ <span class="menu-text">Resources</span></a>
   </div>
 </li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#comparing-two-means" id="toc-comparing-two-means" class="nav-link active" data-scroll-target="#comparing-two-means">Comparing Two Means</a></li>
+  <li><a href="#comparing-two-means" id="toc-comparing-two-means" class="nav-link active" data-scroll-target="#comparing-two-means">Comparing Two Means</a>
+  <ul class="collapse">
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
   <li><a href="#t-tests" id="toc-t-tests" class="nav-link" data-scroll-target="#t-tests">T-Tests</a>
   <ul class="collapse">
   <li><a href="#when-to-use-a-t-test" id="toc-when-to-use-a-t-test" class="nav-link" data-scroll-target="#when-to-use-a-t-test">When to Use a t-test</a></li>
@@ -346,31 +512,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#running-a-t-test" id="toc-running-a-t-test" class="nav-link" data-scroll-target="#running-a-t-test">Running a t-test</a></li>
   <li><a href="#interpreting-the-results-of-a-t-test" id="toc-interpreting-the-results-of-a-t-test" class="nav-link" data-scroll-target="#interpreting-the-results-of-a-t-test">Interpreting the Results of a t-test</a></li>
   </ul></li>
+  </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="module3_2.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</nav>
     </div>
 <!-- main -->
 <main class="content column-body" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../modules/module_3/module3_home.html">Module 3</a></li><li class="breadcrumb-item"><a href="../../modules/module_3/module3_2.html">3.2: T-Tests</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">3.2: T-Tests</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-body">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ellen Bledsoe, Lily McMullen </p>
+          </div>
+  </div>
     
   
     
   </div>
   
 
+
 </header>
 
-<section id="comparing-two-means" class="level2">
-<h2 class="anchored" data-anchor-id="comparing-two-means">Comparing Two Means</h2>
+
+<section id="comparing-two-means" class="level1">
+<h1>Comparing Two Means</h1>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h2>
+<ul>
+<li>Students will be able to identify appropriate independent and dependent variables for a t-test.</li>
+<li>Students will be able to write null and alternative hypotheses.</li>
+<li>Students will be able to run a t-test in R using <code>t.test()</code>.</li>
+<li>Students will be able to interpret t-test output including the t-statistic, p-value, and confidence interval.</li>
+</ul>
 <p>When we are comparing data from two groups, we often want to compare the mean values of the different groups to see if there are differences. We can do this in a number of ways:</p>
 <ul>
 <li>Numerically (descriptive statistics)</li>
@@ -378,36 +561,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Statistically (inferential statistics)</li>
 </ul>
 <p>In this course so far, we have done the first 2: by calculating the mean values of groups and by plotting histograms, density plots, and box-plots.</p>
-<p>Today, we will be exploring the statistical side, using inferential statistics. Once again, we will be using our collars data, focusing on the battery life and the signal distance.</p>
+<p>In this lesson, we will be exploring the statistical side using inferential statistics. Once again, we will be using our collars data, focusing on the battery life and the signal distance.</p>
 <p>Let’s get set-up by loading the tidyverse and reading in our data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load library</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>collars <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/collar_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="instructor-only">
+<p><strong>Answer:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>collars <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/collar_data.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 100 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): maker
+dbl (4): collar_id, battery_life, signal_distance, fail
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
 </div>
 <p>Let’s take a quick look at the data structure to remind ourselves what data we are using.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View first few rows</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(collars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View first few rows</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(collars)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
   collar_id maker          battery_life signal_distance  fail
       &lt;dbl&gt; &lt;chr&gt;                 &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;
-1         1 Collarium Inc.         141.           4171.     0
-2         2 Collarium Inc.         121.           4134.     0
-3         3 Collarium Inc.         126.           4277.     1
-4         4 Collarium Inc.         127.           4198.     0
-5         5 Collarium Inc.         141.           4173.     1
-6         6 Collarium Inc.         105.           4175.     0</code></pre>
+1         1 Collarium Inc.        110.            4188.     0
+2         2 Collarium Inc.         98.1           4166.     0
+3         3 Collarium Inc.        103.            4183.     0
+4         4 Collarium Inc.         97.8           4212.     0
+5         5 Collarium Inc.        120.            4158.     0
+6         6 Collarium Inc.        121.            4191.     0</code></pre>
 </div>
 </div>
 <p>Before we dive in, if you need a refresher on inferential statistics, check out <a href="https://docs.google.com/presentation/d/1N2fxiNa5mw_fVukXFPWMuynFcts3gD4SvMO4VKzyZFI/edit?usp=sharing">this powerpoint</a>.</p>
 </section>
 <section id="t-tests" class="level2">
 <h2 class="anchored" data-anchor-id="t-tests">T-Tests</h2>
-<p>When we have a categorical variable with 2 categories, the statistical test that we use to determine if the two categories are <em>statistically significantly different</em> from each other is called a <strong>t-test</strong>.</p>
+<p>When we have a categorical variable with 2 categories, the statistical tests we use to determine if the two categories are <em>statistically significantly different</em> from each other are called <strong>t-tests</strong>.</p>
 <section id="when-to-use-a-t-test" class="level3">
 <h3 class="anchored" data-anchor-id="when-to-use-a-t-test">When to Use a t-test</h3>
 <p>To run a t-test, the following things need to be true:</p>
@@ -428,31 +636,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="hypothesis-testing" class="level3">
 <h3 class="anchored" data-anchor-id="hypothesis-testing">Hypothesis Testing</h3>
 <p>The first step in running any statistical test (t-test or otherwise) is <em>hypothesis testing</em>.</p>
-<p>We build the our hypotheses around our independent and dependent variables.</p>
+<p>We build our hypotheses around our independent and dependent variables.</p>
 <p>In this case, we want to know if there is a <em>meaningful</em> (read: statistical) difference between each collar manufacturer in their average values for battery life. To start, let’s identify our independent and dependent variables:</p>
 <ul>
 <li><strong>Independent:</strong> Maker, categorical</li>
 <li><strong>Dependent:</strong> Battery_life, continuous/numerical</li>
 </ul>
 <p>Based on our question, we can now set up two different statistical hypotheses: the null hypothesis and the alternative hypothesis.</p>
-<p>The null hypothesis always states that there is no difference or no relationship. We can think of the null hypothesis as our starting place—this is our default assumption. The alternative hypothesis is, well, the alternative to the null hypothesis. For example:</p>
+<p>The null hypothesis always states that there is no difference or no relationship. We can think of the null hypothesis as our starting place or our default assumption. The alternative hypothesis is, well, the alternative to the null hypothesis. For example:</p>
 <ul>
 <li><strong>Null Hypothesis</strong> (<span class="math inline">\(H_{0}\)</span>): There is <em>no</em> difference in the means of battery life between the two collar makers</li>
-<li><strong>Alternative Hypothesis</strong> (<span class="math inline">\(H_{A}\)</span>): There <em>is</em> no difference in the means of battery life between the two collar makers</li>
+<li><strong>Alternative Hypothesis</strong> (<span class="math inline">\(H_{A}\)</span>): There <em>is</em> a difference in the mean battery life between the two collar makers</li>
 </ul>
 <p>How can we determine whether we should <em>not reject</em> (“accept”) or <em>reject</em> the null hypothesis? That’s where statistics come in.</p>
-<p><em>(Note: For reasons I won’t go into, we never accept the alternative hypothesis, we only reject the null hypothesis.)</em></p>
+<p><em>(Note: For statistical reasons beyond the scope of this course, we never say we “accept” the alternative hypothesis, we only say we “reject” or “fail to reject” the null hypothesis.)</em></p>
 </section>
 <section id="running-a-t-test" class="level3">
 <h3 class="anchored" data-anchor-id="running-a-t-test">Running a t-test</h3>
-<p>There is a set of statistical tools that can help us whether or not there is a difference between 2 means. This group of tools are called t-tests.</p>
+<p>There is a set of statistical tools that can help us determine whether or not there is a difference between 2 means. These tools are called t-tests.</p>
 <p>Let’s briefly remind ourselves of the logic here.</p>
 <ol type="1">
-<li>Our data are a <em>sample</em> of a larger <em>population</em> (think of the population as all of the collars ever produced by both companies).
-<ul>
-<li>Remember how we sampled our fish tank data for sick fish instead of getting data for every single tank? Same idea.</li>
-</ul></li>
-<li>We’re interested in the the difference in the means between the two groups.
+<li>Our data are a <em>sample</em> of a larger <em>population</em> (think of the population as all of the collars ever produced by both companies).</li>
+<li>We’re interested in the difference in the means between the two groups.
 <ul>
 <li>If they’re exactly the same, the difference in means would be 0.</li>
 <li>If they’re different, the difference between the means will be something either larger or smaller than 0.</li>
@@ -460,7 +665,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>However, because we only have data from a random <em>sample</em> of collars, there will be some variation in our numbers due to sampling error.</li>
 <li>We want to know if the difference in means is due to sampling error alone or due to an actual difference between manufacturers.</li>
 </ol>
-<p>The t-test allows us to determine if the means are different due to the random variation or if it represents an actual difference.</p>
+<p>The t-test helps us determine whether the observed difference in means is larger than what we would expect from random sampling variation alone.</p>
 <p>Let’s run some code to perform our first t-test!</p>
 <p>We use a function called <code>t.test()</code>.</p>
 <ul>
@@ -468,20 +673,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The second argument is the data frame we are referencing.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A t-test for battery life</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(battery_life <span class="sc">~</span> maker, <span class="at">data =</span> collars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A t-test for battery life</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(battery_life <span class="sc">~</span> maker, <span class="at">data =</span> collars)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
 data:  battery_life by maker
-t = -15.966, df = 89.015, p-value &lt; 2.2e-16
+t = -5.4807, df = 92.449, p-value = 3.646e-07
 alternative hypothesis: true difference in means between group Budget Collars LLC and group Collarium Inc. is not equal to 0
 95 percent confidence interval:
- -38.98179 -30.35307
+ -14.446256  -6.761484
 sample estimates:
 mean in group Budget Collars LLC     mean in group Collarium Inc. 
-                        86.79449                        121.46192 </code></pre>
+                        100.5891                         111.1929 </code></pre>
 </div>
 </div>
 <p>Thankfully, the code isn’t too onerous. Interpreting the results is a different matter, though…</p>
@@ -493,28 +698,31 @@ mean in group Budget Collars LLC     mean in group Collarium Inc.
 <li><code>t</code>: this is what we call the t-value, or t-statistic.
 <ul>
 <li>Here, it is a metric of how different the difference of the two means is from 0.</li>
-<li>Note that it doesn’t correspond <em>directly</em> to the difference — it is taking into account the actual difference as well as the variation in the data sets.</li>
-<li>Take home: big values (can be positive or negative) indicate a big difference from 0 while small values are mean the difference is close to 0.</li>
+<li>Note that it doesn’t correspond <em>directly</em> to the difference, it is taking into account the actual difference as well as the variation in the data sets.</li>
+<li>Take home: big values (can be positive or negative) indicate a big difference from 0 while small values mean the difference is close to 0.</li>
 </ul></li>
 <li><code>df</code>: stands for <em>degrees of freedom</em>
 <ul>
-<li>It’s a measure of your sample size and some other stuff — honestly, this is not something we’re really going to focus on here.</li>
+<li>It’s a measure of your sample size and some other stuff, honestly, this is not something we’re really going to focus on here.</li>
 </ul></li>
 <li><code>p-value</code>: a measure of certainty of the difference outlined in the <code>t-statistic</code> above
 <ul>
-<li>For the test above, our p-value is <em>very</em> small: 0.00000000000000022
+<li>For the test above, our p-value is <em>very</em> small: 0.0000003646.
 <ul>
-<li>Wait, how did I get from <code>2.2e-16</code> to 0.00000000000000022?</li>
-<li>The <code>e-16</code> means that we need to move the decimal space to the left 16 times, creating a very small number!</li>
+<li>Wait, how did I get from <code>3.646e-7</code> to 0.0000003646?
+<ul>
+<li>The <code>e-7</code> means that we need to move the decimal space to the left 7 times, creating a very small number!</li>
 <li>If the number after the <code>e</code> were positive (e.g., <code>e+5</code>), I would move the decimal 5 places to the right, creating a very big number.</li>
+</ul></li>
 </ul></li>
 <li>This means that there is an extremely low probability that the difference in means is due to random variation in our sample alone.</li>
 <li>There are a lot of benchmarks in different fields for what this value should be below to consider the difference <em>significant</em>; typically a p-value below 0.05 is considered significant.</li>
 </ul></li>
-<li><code>95 percent confidence interval</code>: this is the range that we can expect the test statistic (difference in means) to fall in 95% of the time given the data.
+<li><code>95 percent confidence interval</code>: this is the range that we can expect the difference in the two means to fall in 95% of the time given the data.
 <ul>
-<li>Our test statistic is the difference in means of Budget Collars and Collarium, or 86.8 - 121.5 = -34.7</li>
-<li>If we randomly sample a group of collars from the “population”, the difference in means will fall between -30.35 and -38.98 about 95% of the time</li>
+<li>The difference in means of Budget Collars and Collarium: 100.59 - 111.19 = -10.6</li>
+<li>If we randomly sample a group of collars from the “population”, the difference in means will fall between -14.4 and -6.8 about 95% of the time</li>
+<li>the values are negative because the smaller group (Budget Collars) is first, so we are subtracting the larger number (Collarium average) from the smaller number (Budget Collars average)</li>
 </ul></li>
 </ul>
 <p>Let’s quickly remind ourselves how p-values work:</p>
@@ -530,93 +738,118 @@ mean in group Budget Collars LLC     mean in group Collarium Inc.
 <h4 class="anchored" data-anchor-id="lets-practice">Let’s Practice!</h4>
 <p>We want to know if there is a significant difference in the average signal distances for the two companies.</p>
 <ol type="1">
-<li>Identify your independent and dependent variables.</li>
-</ol>
-<ul>
-<li><strong>Independent:</strong> maker, categorical</li>
-<li><strong>Dependent:</strong> signal_distance, continuous</li>
-</ul>
-<ol start="2" type="1">
-<li>Write out your null and alternative hypotheses.</li>
-</ol>
-<ul>
-<li><strong>Null Hypothesis</strong> (<span class="math inline">\(H_{0}\)</span>): there is <em>no</em> difference in average signal distance between collar makers</li>
-<li><strong>Alternative Hypothesis</strong> (<span class="math inline">\(H_{A}\)</span>): there <em>is</em> a difference in average signal distance between collar makers</li>
-</ul>
-<ol start="3" type="1">
-<li>Run the t-test</li>
+<li><p>Identify your independent and dependent variables.</p></li>
+<li><p>Write out your null and alternative hypotheses.</p></li>
+<li><p>Run the t-test.</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A t-test for signal distance</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(signal_distance <span class="sc">~</span> maker, <span class="at">data =</span> collars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="4" type="1">
+<li>Interpret the t-test:</li>
+</ol>
+<ul>
+<li>Is the p-value below our cut-off for significance (0.05)?</li>
+<li>Is our result statistically significant?</li>
+<li>Does that mean we should or should not reject the null hypothesis?</li>
+<li>So… is there a “real” difference in the means between the two companies or not?</li>
+</ul>
+<div class="instructor-only">
+<p><strong>Answers:</strong></p>
+<ol type="1">
+<li><p><strong>Independent:</strong> maker (categorical) | <strong>Dependent:</strong> signal_distance (numeric)</p></li>
+<li><p><strong>Null Hypothesis</strong> (<span class="math inline">\(H_{0}\)</span>): There is <em>no</em> difference in average signal distance between collar makers<br>
+<strong>Alternative Hypothesis</strong> (<span class="math inline">\(H_{A}\)</span>): There <em>is</em> a difference in average signal distance between collar makers</p></li>
+<li></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(signal_distance <span class="sc">~</span> maker, <span class="at">data =</span> collars)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
 data:  signal_distance by maker
-t = 15.837, df = 92.104, p-value &lt; 2.2e-16
+t = 7.322, df = 97.416, p-value = 7.055e-11
 alternative hypothesis: true difference in means between group Budget Collars LLC and group Collarium Inc. is not equal to 0
 95 percent confidence interval:
-  93.80549 120.70737
+ 37.26594 64.97933
 sample estimates:
 mean in group Budget Collars LLC     mean in group Collarium Inc. 
-                        4302.074                         4194.817 </code></pre>
+                        4255.095                         4203.972 </code></pre>
 </div>
 </div>
 <ol start="4" type="1">
-<li>Interpret the t-test</li>
+<li></li>
 </ol>
 <ul>
-<li>Is the p-value below our cut-off for significance (0.05)? <strong><em>Yes, p &lt; 0.05</em></strong></li>
-<li>Is our result statistically significant? <strong><em>Yes!</em></strong></li>
-<li>Does that mean we should or should not reject the null hypothesis? <strong><em>REJECT</em></strong></li>
-<li>So… is there a “real” difference in the means between the two companies or not? <strong><em>Yes, there is a real difference</em></strong></li>
+<li>p-value below 0.05? <strong>Yes</strong></li>
+<li>Statistically significant? <strong>Yes</strong></li>
+<li>Reject or fail to reject null? <strong>Reject</strong></li>
+<li>Real difference between companies? <strong>Yes</strong></li>
 </ul>
+<p><strong>Instructor Note:</strong> Students should note that signal distance IS significantly different between makers. Budget Collars LLC transmits farther on average (~4255) vs Collarium Inc.&nbsp;(~4204). Combined with the battery life result, this confirms the engineering trade-off seen visually in 3.1: Budget Collars LLC trades battery life for signal range.</p>
+</div>
 
 
+</section>
 </section>
 </section>
 </section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
@@ -624,205 +857,361 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
       return codeEl.innerText;
     }
-  });
-  clipboard.on('success', function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  });
-  function tippyHover(el, contentFn) {
-    const config = {
-      allowHTML: true,
-      content: contentFn,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start'
-    };
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      return note.innerHTML;
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
       });
     }
-  }
-});
-</script>
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left">Copyright 2024, University of Arizona | Last modified: 12 June 2024</div>   
+    <div class="nav-footer-left">
+<p>2026, University of Arizona &amp; Lewis &amp; Clark College</p>
+</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="https://quarto.org/">Made with Quarto</a>
+    <a class="nav-link" href="https://quarto.org/">
+<p>Made with Quarto</p>
+</a>
   </li>  
     <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website">
@@ -834,6 +1223,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
+
 
 
 

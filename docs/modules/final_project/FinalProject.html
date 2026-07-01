@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ellen Bledsoe">
+
+<title>Final Project – Data In The Wild</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-97470b426a7f4d6219aeefc531e5c9dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+  (function () {
+    // GitHub Pages serves this project under /DataInTheWild_Website/.
+    // Local `quarto preview` (and a custom domain) serve it from the root.
+    // Detect which, so the scripts load from the right place in either case.
+    var repo = "/DataInTheWild_Website";
+    var base = window.location.pathname.indexOf(repo + "/") === 0 ? repo : "";
+    ["toggle-view", "course-data", "downloads-list"].forEach(function (name) {
+      var s = document.createElement("script");
+      s.src = base + "/scripts/" + name + ".js";
+      document.head.appendChild(s);
+    });
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/bdsc-logo-hex.png" alt="" class="navbar-logo light-content">
+    <img src="../../images/bdsc-logo-hex.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Data In The Wild</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../modules/final_project/FinalProject.html">Final Project</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/bdsc-logo-hex.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../../images/bdsc-logo-hex.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/BiodiversityDataScienceCorp" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contact Us</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../instructors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">For Instructors</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Module 1</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_1/module1_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_1/module1_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.1: Introduction to R and RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_1/module1_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.2: Intro to Coding in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_1/module1_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.3: Introduction to the <code>tidyverse</code></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_1/assignments/m1a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_1/assignments/m1a3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Module 2</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/module2_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/module2_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.1: Good Food Gone Bad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/module2_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.2: Plotting with <code>ggplot2</code></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/module2_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.3: Data Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/module2_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.4: Exploring <code>geom</code> Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/module2_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.5: Module 2 Wrap-Up</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/assignments/m2a1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/assignments/m2a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_2/assignments/m2a3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Module 3</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_3/module3_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_3/module3_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.1: Leopard Seals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_3/module3_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.2: T-Tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_3/module3_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.3: Comparing (Multiple) Means</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_3/assignments/m3a1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_3/assignments/m3a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Module 4</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.1: Combining Datasets (Joins &amp; Binds)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.2: K-Nearest Neighbor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.3: Roads and Regressions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.4: Multiple Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/module4_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.5: Writing Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/assignments/m4a1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/assignments/m4a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/assignments/m4a3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_4/assignments/m4a4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Module 5</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/module5_home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/module5_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5.1: Population Growth</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/module5_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5.2: Sustainable Fishing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/module5_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5.3: Comparing Populations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/assignments/m5a1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/assignments/m5a2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/module_5/assignments/m5a3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment 3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../modules/final_project/FinalProject.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Final Project</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resources</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#final-assignment-details" id="toc-final-assignment-details" class="nav-link active" data-scroll-target="#final-assignment-details">Final Assignment Details</a>
+  <ul class="collapse">
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#task" id="toc-task" class="nav-link" data-scroll-target="#task">Task</a></li>
+  <li><a href="#criteria-for-success" id="toc-criteria-for-success" class="nav-link" data-scroll-target="#criteria-for-success">Criteria for Success</a></li>
+  <li><a href="#structure-guidelines" id="toc-structure-guidelines" class="nav-link" data-scroll-target="#structure-guidelines">Structure &amp; Guidelines</a>
+  <ul class="collapse">
+  <li><a href="#interpreting-statistical-results" id="toc-interpreting-statistical-results" class="nav-link" data-scroll-target="#interpreting-statistical-results">Interpreting Statistical Results</a></li>
+  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
+  <li><a href="#generative-ai-guidelines" id="toc-generative-ai-guidelines" class="nav-link" data-scroll-target="#generative-ai-guidelines">Generative AI Guidelines</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#lets-begin" id="toc-lets-begin" class="nav-link" data-scroll-target="#lets-begin">Let’s Begin!</a>
+  <ul class="collapse">
+  <li><a href="#set-up-5-points" id="toc-set-up-5-points" class="nav-link" data-scroll-target="#set-up-5-points">Set-Up (5 points)</a></li>
+  <li><a href="#understanding-the-data-12-points" id="toc-understanding-the-data-12-points" class="nav-link" data-scroll-target="#understanding-the-data-12-points">Understanding the Data (12 points)</a>
+  <ul class="collapse">
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration">Data Exploration</a></li>
+  <li><a href="#back-to-assignment-questions" id="toc-back-to-assignment-questions" class="nav-link" data-scroll-target="#back-to-assignment-questions">Back to Assignment Questions</a></li>
+  </ul></li>
+  <li><a href="#building-a-research-question-6-points" id="toc-building-a-research-question-6-points" class="nav-link" data-scroll-target="#building-a-research-question-6-points">Building a Research Question (6 points)</a></li>
+  <li><a href="#summarizing-our-data-6-points" id="toc-summarizing-our-data-6-points" class="nav-link" data-scroll-target="#summarizing-our-data-6-points">Summarizing Our Data (6 points)</a></li>
+  <li><a href="#data-visualization-18-points" id="toc-data-visualization-18-points" class="nav-link" data-scroll-target="#data-visualization-18-points">Data Visualization (18 points)</a></li>
+  <li><a href="#running-your-statistical-model-15-points" id="toc-running-your-statistical-model-15-points" class="nav-link" data-scroll-target="#running-your-statistical-model-15-points">Running Your Statistical Model (15 points)</a></li>
+  <li><a href="#expanding-our-horizons-6-points" id="toc-expanding-our-horizons-6-points" class="nav-link" data-scroll-target="#expanding-our-horizons-6-points">Expanding Our Horizons (6 points)</a></li>
+  <li><a href="#literature-search-6-points" id="toc-literature-search-6-points" class="nav-link" data-scroll-target="#literature-search-6-points">Literature Search (6 points)</a></li>
+  <li><a href="#communicating-your-results-6-points" id="toc-communicating-your-results-6-points" class="nav-link" data-scroll-target="#communicating-your-results-6-points">Communicating Your Results (6 points)</a></li>
+  <li><a href="#the-end" id="toc-the-end" class="nav-link" data-scroll-target="#the-end">The End!</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Final Project</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ellen Bledsoe </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><code>{#| include: false} knitr::opts_chunk$set(echo = TRUE)</code></p>
+<section id="final-assignment-details" class="level1">
+<h1>Final Assignment Details</h1>
+<section id="purpose" class="level3">
+<h3 class="anchored" data-anchor-id="purpose">Purpose</h3>
+<p>The goal of this final assignment is to assess your ability to integrate the many skills you have learned over the semester: filtering and summarizing data, choosing the appropriate data visualizations, and performing and interpreting the appropriate statistical tests.</p>
+</section>
+<section id="task" class="level3">
+<h3 class="anchored" data-anchor-id="task">Task</h3>
+<p>Write R code which produces the correct data, summaries, plots and analyses. Correctly interpret the results of these plots and analyses.</p>
+</section>
+<section id="criteria-for-success" class="level3">
+<h3 class="anchored" data-anchor-id="criteria-for-success">Criteria for Success</h3>
+<ul>
+<li>Code chunks run without errors</li>
+<li>Code produces the correct result
+<ul>
+<li>Code that produces the correct answer will receive <strong>full</strong> credit</li>
+<li>Code attempts with logical direction will receive <strong>partial</strong> credit</li>
+</ul></li>
+<li>Appropriate plot types are used to visualize the data</li>
+<li>Appropriate statistical tests are used to analyze the data</li>
+<li>Written answers address the questions in sufficient detail</li>
+</ul>
+<hr>
+</section>
+<section id="structure-guidelines" class="level2">
+<h2 class="anchored" data-anchor-id="structure-guidelines">Structure &amp; Guidelines</h2>
+<section id="interpreting-statistical-results" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-statistical-results">Interpreting Statistical Results</h3>
+<p>When I ask you to interpret statistical results, you should roughly follow these guidelines:</p>
+<ul>
+<li>the cut-off for our p-values is always 0.05 (<span class="math inline">\(\alpha = 0.05\)</span>)</li>
+<li>report the p-value that we are focused on in that question</li>
+<li>if there are multiple p-values of interest, report all of them</li>
+<li>state whether the p-value indicates a significant difference/relationship</li>
+<li>if applicable, state whether we should or should not reject the null hypothesis</li>
+</ul>
+</section>
+<section id="plotting" class="level3">
+<h3 class="anchored" data-anchor-id="plotting">Plotting</h3>
+<p>All plots should be made using <code>ggplot2</code>.</p>
+<p>Your options for plot types to choose from are:</p>
+<ul>
+<li>histogram</li>
+<li><u>multiple</u> histogram plot
+<ul>
+<li>use transparency (<code>alpha</code>)</li>
+<li>use <code>position = "identity"</code> with multiple groups to see the full distributions</li>
+</ul></li>
+<li>box-and-whisker plot
+<ul>
+<li>add points on top of the box plot to show the distribution of the points</li>
+</ul></li>
+<li>scatter plot
+<ul>
+<li>add the linear model to every scatter plot</li>
+</ul></li>
+</ul>
+<div class="line-block"><strong>NOTE! All plots should have modified axis labels and legend labels.</strong><br>
+In many cases, this might mean capitalizing the axis label and/or legend label. In other cases, you might want to put units in parentheses after the words (e.g., Body Mass (g)).</div>
+</section>
+<section id="generative-ai-guidelines" class="level3">
+<h3 class="anchored" data-anchor-id="generative-ai-guidelines">Generative AI Guidelines</h3>
+<p>While I do not recommend using generative AI to complete this assignment (throughout the semester, I’ve seen it cause more problems than not…), you are <em>technically</em> allowed to use it on the final.</p>
+<p>However, you <em>must</em> do so according to the guidelines I’ve set out for all other assignments this semester.</p>
+<div class="line-block"><strong>CAUTION!</strong> If you do use generative AI without following the course guidelines, you will receive a 0 for this final and you will not have the option to resubmit. Proceed wisely.</div>
+<p>You can find clear examples of these guidelines on D2L in <em>Syllabus &gt; Assignment Reminders</em>.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="lets-begin" class="level1">
+<h1>Let’s Begin!</h1>
+<p>Have you <em>actually</em> read through the “Structure &amp; Guidelines” section above?</p>
+<p>If so, proceed! If not, scroll back up…</p>
+<section id="set-up-5-points" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-5-points">Set-Up (5 points)</h2>
+<ol type="1">
+<li>First, we need to load the <code>tidyverse</code> package. (2 points)</li>
+</ol>
+<ol start="2" type="1">
+<li><p>As a reminder, there are 4 datasets that you can use to complete this final assignment:</p>
+<ul>
+<li>krill data from KrillBase -&gt; <code>krill.csv</code></li>
+<li>fur seal pups on Maiviken Island -&gt; <code>fur_seals.csv</code></li>
+<li>Gentoo penguins from Bird Island -&gt; <code>gentoos_and_temps.csv</code></li>
+<li>Chinstrap penguins from Signy Island -&gt; <code>chinstraps_on_signy.csv</code></li>
+</ul></li>
+</ol>
+<p>Which dataset have you chosen to work with for this final assignment? (1 point)</p>
+<p><em>Answer</em>:</p>
+<ol start="3" type="1">
+<li>Bring your chosen data into R to work with using the <code>read_csv</code> function. Remember to save it as an object. (2 points)</li>
+</ol>
+</section>
+<section id="understanding-the-data-12-points" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-the-data-12-points">Understanding the Data (12 points)</h2>
+<ol start="4" type="1">
+<li>Use a function (e.g., <code>head()</code> or <code>str()</code>) to look at your data. (3 points)</li>
+</ol>
+<ol start="5" type="1">
+<li>In 1-2 sentences, explain what the output from Question 4 is telling you about your dataset. The more detail, the better. (3 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+<section id="data-exploration" class="level3">
+<h3 class="anchored" data-anchor-id="data-exploration">Data Exploration</h3>
+<p>Now, spend some time really getting to know your dataset. Information about the datasets can be found below, both in terms of how you should treat each column (numeric vs.&nbsp;categorical) as well as at the links to the datasets below (click on the names of the datasets).</p>
+<p>You might notice that the data at the links has many more columns than the datasets you have been given or some slightly different data. Focus only on the columns that are in the .csv file provided to you for this assignment.</p>
+<section id="krill" class="level4">
+<h4 class="anchored" data-anchor-id="krill"><a href="https://www.bas.ac.uk/project/krillbase/#data">Krill</a></h4>
+<ul>
+<li>You will want to use the <code>Krill_per_1m2_log</code> column as your dependent variable. This is a log-transformed version of the <code>Krill_per_1m2</code> column. You don’t need to worry about <em>why</em> we transformed the data, but this column should be a bit easier to work with.</li>
+<li>The <code>Date</code>, <code>Year</code>, and <code>Month</code> columns should all be treated as <em>numeric</em> variables.</li>
+<li>While the <code>Station</code> column can <em>technically</em> be considered a categorical variable, please use the <code>Day_Night</code> column as your categorical variable for this assignment and for your research question.</li>
+</ul>
+</section>
+<section id="fur-seals" class="level4">
+<h4 class="anchored" data-anchor-id="fur-seals"><a href="https://ramadda.data.bas.ac.uk/repository/entry/show?entryid=bc6d802a-fce5-495d-b5e1-bb26f824847c">Fur Seals</a></h4>
+<ul>
+<li>If you choose to use the <code>Date</code> or <code>Year</code> column, treat them as <em>numeric</em> variables.</li>
+<li>On the other hand, if you use the <code>Month</code> column, treat it as a <em>categorical</em> variable.</li>
+</ul>
+</section>
+<section id="gentoo-penguins" class="level4">
+<h4 class="anchored" data-anchor-id="gentoo-penguins"><a href="https://ramadda.data.bas.ac.uk/repository/entry/show?entryid=1fd5bc8a-96b5-4f53-aa15-33e5330e7705">Gentoo Penguins</a></h4>
+<ul>
+<li>If you are using the <code>Year</code> column, treat it as a <em>numeric</em> variable.</li>
+<li>The dataset has a column for the previous year’s December temperature. Because counts of chicks took place in January or February (and nests were counted in October/November), the number of chicks is most likely to be related to the temperatures directly after chicks hatched (December of the previous year).</li>
+</ul>
+</section>
+<section id="chinstrap-penguins" class="level4">
+<h4 class="anchored" data-anchor-id="chinstrap-penguins"><a href="https://ramadda.data.bas.ac.uk/repository/entry/show?entryid=d784af69-c92b-444c-a12e-ee0361802cb1">Chinstrap Penguins</a></h4>
+<ul>
+<li>I do not recommend using the <code>MONTH</code> or <code>DAY</code> column.</li>
+<li>If you use the <code>YEAR</code> column, treat it as a <em>numeric</em> variable.</li>
+</ul>
+</section>
+</section>
+<section id="back-to-assignment-questions" class="level3">
+<h3 class="anchored" data-anchor-id="back-to-assignment-questions">Back to Assignment Questions</h3>
+<ol start="6" type="1">
+<li>Based on your own general knowledge, the information at the links above, and the additional information I’ve provided, list out the columns (only those in the .csv file) in your chosen dataset and give a brief description (just a phrase is fine) of what the data in each column represents. (3 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+<ol start="7" type="1">
+<li><p>For each of the columns in your dataset, identify whether the data points they contain are categorical or numeric. Be sure your answers align with the information I’ve provided for you above. (3 points)</p>
+<p>Many of your answers to subsequent questions will depend heavily on whether variables are categorical or numeric.</p>
+<p>Type out the name of the column and then the descriptor. For example:</p>
+<ul>
+<li>island_name: categorical</li>
+<li>island_size_km: numeric</li>
+</ul></li>
+</ol>
+<p><em>Answer</em>:</p>
+</section>
+</section>
+<section id="building-a-research-question-6-points" class="level2">
+<h2 class="anchored" data-anchor-id="building-a-research-question-6-points">Building a Research Question (6 points)</h2>
+<p>In order to write a successful research question, we need to identify our dependent variable and the independent variable that we think affects the dependent variable.</p>
+<ol start="8" type="1">
+<li>First, determine which variable is the <em>dependent</em> variable in your dataset (there is usually only one, but there might be two). It must be numeric. (2 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+<ol start="9" type="1">
+<li><p>Next, choose 1 independent variable from your dataset (each dataset has more than one from which to choose). (2 points)</p>
+<p>This should be a variable that you believe might affect the values of the dependent variable. It can be either categorical or numeric.</p></li>
+</ol>
+<p><em>Answer</em>:</p>
+<ol start="10" type="1">
+<li>Now, bring your dependent and independent variables together to form a research question based on the structure presented in class in Module 2 (also see Module 2 Assignment 3). (2 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+</section>
+<section id="summarizing-our-data-6-points" class="level2">
+<h2 class="anchored" data-anchor-id="summarizing-our-data-6-points">Summarizing Our Data (6 points)</h2>
+<p>Let’s get to know our data a little better.</p>
+<ol start="11" type="1">
+<li>Summarize your data by calculating at least 1 measure of central tendency and 1 measure of variability for your <em>dependent</em> variable using the <code>tidyverse</code> functions (you might need <code>na.rm = TRUE</code>!). (4 points)</li>
+</ol>
+<p>Pay close attention here! How you summarize will differ based on whether your <em>independent</em> variable is categorical or numeric (2 points):</p>
+<ul>
+<li>If your research question has a <em>categorical</em> independent variable, find the measure of central tendency and the measure of variability for the dependent variable in <em>each</em> individual category of the independent variable.</li>
+<li>If your research question has a <em>numeric</em> independent variable, find a measure of central tendency and the measure of variability for the independent variable in addition to the dependent variable</li>
+</ul>
+</section>
+<section id="data-visualization-18-points" class="level2">
+<h2 class="anchored" data-anchor-id="data-visualization-18-points">Data Visualization (18 points)</h2>
+<p>To continue our data exploration, we are going to plot our data.</p>
+<div class="line-block"><strong>IMPORTANT NOTES</strong>:<br>
+- At least ONE of the plots should include both your dependent and independent variable. Think critically about which plot that should be based on your variable types.<br>
+- Also, at least one plot will need to use a variable that is NOT in your research question.</div>
+<ol start="12" type="1">
+<li>Produce a histogram plot (just one, not multiple on the same plot) of the dependent variable. Write 1-2 sentences describing what information you can gather from the plot. (3 points)</li>
+</ol>
+<p><em>Answer:</em></p>
+<ol start="13" type="1">
+<li>Create a <em>multiple histogram</em> plot of your dependent variable and one other variable (this may or may not be your independent variable). Make sure we can see each histogram plot. (3 points)</li>
+</ol>
+<ol start="14" type="1">
+<li><p>Create a <em>box-and-whisker</em> plot which includes your dependent variable. Changing the color of the boxes is optional. Make sure to add points to the plot. (3 points)</p>
+<p><em>Hint: if your plot has <code>NA</code> values that you want to remove, you can optionally remove them from the dataset with the <code>filter</code> function and the argument <code>!is.na(column_name)</code>.</em></p></li>
+</ol>
+<ol start="15" type="1">
+<li><p>Create a <em>scatter plot</em> that includes your dependent variable. Write 1-2 sentences describing what information you can gather from plot. (3 points)</p>
+<p><em>Hint: if your plot has <code>NA</code> values that you want to remove, you can remove them from the dataset with the <code>filter</code> function and the argument <code>!is.na(column_name)</code>.</em></p></li>
+</ol>
+<ol start="16" type="1">
+<li>Identify which plot(s) from Questions 15-17 match up with your research question. How do you know it matches up correctly (based on categorical vs.&nbsp;numeric variables)? (3 point)</li>
+</ol>
+<p><em>Answer</em>:</p>
+<ol start="17" type="1">
+<li>In 2-3 sentences, interpret the plot(s) that you identified in the previous question. What does it tell you about your chosen research question? (3 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+</section>
+<section id="running-your-statistical-model-15-points" class="level2">
+<h2 class="anchored" data-anchor-id="running-your-statistical-model-15-points">Running Your Statistical Model (15 points)</h2>
+<p>In this course, we have covered 3 different statistical analyses: t-tests, ANOVAs, and linear regression.</p>
+<p>It is now time to decide how to apply these statistical analyses to your own research question!</p>
+<ol start="18" type="1">
+<li>Based on everything you know about your independent and dependent variables and the requirements for each of the statistical analyses we covered in the course, determine which statistical analysis you should perform to answer your question. In 1-2 sentences, explain why. (3 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+<ol start="19" type="1">
+<li><p>Perform the appropriate statistical analysis below. If necessary, add an additional line of code to print out the results. (3 points)</p>
+<p><em>Hint: if your dataset has <code>NA</code> values that you need to remove, you can remove them from the dataset with the <code>filter</code> function and the argument <code>!is.na(column_name)</code>.</em></p></li>
+</ol>
+<ol start="20" type="1">
+<li>If necessary, run a pairwise comparison. If a pairwise comparison is NOT necessary for your statistical analysis, explain why not. (3 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># space for code to run a pairwise comparison if needed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="21" type="1">
+<li>Interpret the results of your statistical analysis (including the pairwise comparison, if relevant). In your answer, include the p-value and if the result of your analysis is significant. (3 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+<ol start="22" type="1">
+<li>What do these results mean in the context of your research question? (3 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+</section>
+<section id="expanding-our-horizons-6-points" class="level2">
+<h2 class="anchored" data-anchor-id="expanding-our-horizons-6-points">Expanding Our Horizons (6 points)</h2>
+<ol start="23" type="1">
+<li>Spend some time thinking about the outcome of your research question. Is the outcome what you were expecting or not? Why or why not? What additional information would you like to have to add context to your results? Your answer should be 4-5 sentences. (3 points)</li>
+</ol>
+<p><em>Answer:</em></p>
+<ol start="24" type="1">
+<li>Think about your research subjects in the context of ecosystem services. What type of ecosystem services might the study of your research question fall under? (You might have to get a little creative here). Explain your rationale. (3 points)</li>
+</ol>
+<p><em>Answer</em>:</p>
+</section>
+<section id="literature-search-6-points" class="level2">
+<h2 class="anchored" data-anchor-id="literature-search-6-points">Literature Search (6 points)</h2>
+<p>When we ask a research question, we always want to find out what other people have already found out about that question to give us an idea of what outcome we might expect.</p>
+<p>In Module 5 Assignment 1, you were asked to find at least 3 articles that related to your research question.</p>
+<p>The articles you find don’t have to be <em>exactly</em> related but should be relevant, as you will be using them at the end of this assignment to help interpret your statistical output.</p>
+<ol start="25" type="1">
+<li>Write the citation for your first article. Then, in <em>your own words</em>, write a 1-2 sentence summary of what the article is about, based on the title and the abstract. (2 points)</li>
+</ol>
+<p><em>Article 1 Citation</em>:</p>
+<p><em>Article 1 Description</em>:</p>
+<ol start="26" type="1">
+<li>Do the same as above for the second article. (2 points)</li>
+</ol>
+<p><em>Article 2 Citation</em>:</p>
+<p><em>Article 2 Description</em>:</p>
+<ol start="27" type="1">
+<li>Do the same as above for the last article. (2 points)</li>
+</ol>
+<p><em>Article 3 Citation</em>:</p>
+<p><em>Article 3 Description</em>:</p>
+</section>
+<section id="communicating-your-results-6-points" class="level2">
+<h2 class="anchored" data-anchor-id="communicating-your-results-6-points">Communicating Your Results (6 points)</h2>
+<p>When researchers have come to some type of conclusion about a research question they have asked, we usually write up our findings in a scientific article to share our results with the scientific community and beyond.</p>
+<p>Just like the articles you found in the Literature Search section, most articles have an abstract that gives any potential reader some information about the topic of the research paper and the conclusions the researchers have drawn.</p>
+<p>Now that you have completed the process of coming up with a research question and finding some results, we want to communicate these results through writing an abstract. Feel free to look at your scientific articles for inspiration.</p>
+<ol start="28" type="1">
+<li>Your abstract should be structured in the following manner, with at least one sentence for each topic (6 sentence minimum):</li>
+</ol>
+<ul>
+<li>An opening sentence about the general topic of your question and/or dataset</li>
+<li>General information about your dataset</li>
+<li>The research question your have chosen to ask</li>
+<li>What your data summary <em>and</em> visualization shows you</li>
+<li>What statistical analysis you performed and its outcome</li>
+<li><strong>Your final interpretation of your research question</strong>: does your independent variable impact your dependent variable and, if so, in what way?</li>
+</ul>
+<p>Be sure you include information from at least 2 of your 3 articles from your literature search somewhere in your abstract! Use in-text citations (e.g., Golding &amp; Anderson, 2024; Bledsoe et al., 2024) to show where you do so.</p>
+<p><em>Abstract</em>:</p>
+<hr>
+</section>
+<section id="the-end" class="level2">
+<h2 class="anchored" data-anchor-id="the-end">The End!</h2>
+<p>Take a look back at everything you just did! You’ve come a <em>very</em> long way since the beginning of the semester and should be quite proud of that.</p>
+<p>Great work, and thanks for a great semester!</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>2026, University of Arizona &amp; Lewis &amp; Clark College</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://quarto.org/">
+<p>Made with Quarto</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
