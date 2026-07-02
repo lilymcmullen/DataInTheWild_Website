@@ -29,21 +29,21 @@ By the end of this module, students will be able to:
 
 ### Lessons
 
-| Lesson | QMD | Data Files | View PDF |
-|:----------------|:----------------|:--------------------|:----------------|
-| [5.1: Population Growth](module5_1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/module5_1.qmd) | [fish_pops.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/fish_pops.csv) | [Open](module5_1.qmd) |
-| [5.2: Sustainable Fishing](module5_2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/module5_2.qmd) | [fish_pops.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/fish_pops.csv) | [Open](module5_2.qmd) |
-| [5.3: Comparing Populations](module5_3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/module5_3.qmd) | [comparing_populations.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/comparing_populations.csv) | [Open](module5_3.qmd) |
+| Lesson | QMD | Data Files |
+|:---------------------|:---------------------|:--------------------------|
+| [5.1: Population Growth](module5_1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/module5_1.qmd) | [fish_pops.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/fish_pops.csv) |
+| [5.2: Sustainable Fishing](module5_2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/module5_2.qmd) | [fish_pops.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/fish_pops.csv) |
+| [5.3: Comparing Populations](module5_3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/module5_3.qmd) | [comparing_populations.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/comparing_populations.csv) |
 
-: {tbl-colwidths="\[40,15,30,15\]"}
+: {tbl-colwidths="\[45,20,35\]"}
 
 ### Assignments
 
-| Assignment | QMD | Data Files | View PDF |
-|:------------------|:----------------|:------------------|:----------------|
-| [M5A1: Literature Search and Abstract Writing](assignments/m5a1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a1.qmd) | None | [Open](assignments/m5a1.qmd) |
-| [M5A2: Choosing a Bay to Fish](assignments/m5a2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a2.qmd) | [fish_abund_2010-2024.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/fish_abund_2010-2024.csv) | [Open](assignments/m5a2.qmd) |
-| [M5A3: Comparing Populations](assignments/m5a3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a3.qmd) | [toothfish.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/toothfish.csv) | [Open](assignments/m5a3.qmd) |
+| Assignment | QMD | Data Files | Outputs |
+|:------------------|:-----------------|:------------------|:-----------------|
+| [M5A1: Literature Search and Abstract Writing](assignments/m5a1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a1.qmd) | None | None |
+| [M5A2: Choosing a Bay to Fish](assignments/m5a2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a2.qmd) | [fish_abund_2010-2024.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/fish_abund_2010-2024.csv) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a2_output.pdf) |
+| [M5A3: Comparing Populations](assignments/m5a3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a3.qmd) | [toothfish.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/data/toothfish.csv) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_5/assignments/m5a3_output.pdf) |
 
 : {tbl-colwidths="\[40,15,30,15\]"}
 

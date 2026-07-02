@@ -113,7 +113,7 @@ You'll need a free [GitHub account](https://github.com/join) to submit a request
 Once you have access, cloning it works the same way, just with the private repo's URL (you'll need to be signed in to GitHub with your collaborator account):
 
 ``` bash
-git clone https://github.com/lilymcmullen/datainthewild-instructor.git
+git clone https://github.com/BiodiversityDataScienceCorp/datainthewild-instructor.git
 ```
 
 ## Expected Outputs

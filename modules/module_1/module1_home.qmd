@@ -26,20 +26,20 @@ By the end of this module, students will be able to:
 
 ### Lessons
 
-| Lesson | QMD | Data Files | View PDF |
-|:---------------|:---------------|:---------------------|:-----------------|
-| [1.1: Introduction to R and RStudio](module1_1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/module1_1.qmd) | None | [Open](module1_1.qmd) |
-| [1.2: Intro to Coding in R](module1_2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/module1_2.qmd) | None | [Open](module1_2.qmd) |
-| [1.3: Introduction to the tidyverse](module1_3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/module1_3.qmd) | [global_temps.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/data/global_temps.csv) | [Open](module1_3.qmd) |
+| Lesson | QMD | Data Files |
+|:---------------------|:---------------------|:----------------------------|
+| [1.1: Introduction to R and RStudio](module1_1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/module1_1.qmd) | None |
+| [1.2: Intro to Coding in R](module1_2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/module1_2.qmd) | None |
+| [1.3: Introduction to the tidyverse](module1_3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/module1_3.qmd) | [global_temps.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/data/global_temps.csv) |
 
-: {tbl-colwidths="\[40,15,30,15\]"}
+: {tbl-colwidths="\[45,20,35\]"}
 
 ### Assignments
 
-| Assignment | QMD | Data Files | View PDF |
-|:-------------------|:---------------|:-------------------|:----------------|
-| [M1A2: Getting to Know Your Antarctic Home](assignments/m1a2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/assignments/m1a2.qmd) | [team_antarctica.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/data/team_antarctica.csv) | [Open](assignments/m1a2.qmd) |
-| [M1A3: Preparing the Station](assignments/m1a3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/assignments/m1a3.qmd) | [aggregated_station_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/data/aggregated_station_data.csv) | [Open](assignments/m1a3.qmd) |
+| Assignment | QMD | Data Files | Outputs |
+|:------------------|:----------------|:------------------|:----------------|
+| [M1A2: Getting to Know Your Antarctic Home](assignments/m1a2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/assignments/m1a2.qmd) | [team_antarctica.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/data/team_antarctica.csv) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/assignments/m1a2_output.pdf) |
+| [M1A3: Preparing the Station](assignments/m1a3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/assignments/m1a3.qmd) | [aggregated_station_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/data/aggregated_station_data.csv) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_1/assignments/m1a3_output.pdf) |
 
 : {tbl-colwidths="\[40,15,30,15\]"}
 

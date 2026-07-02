@@ -14,11 +14,13 @@ const COURSE_DATA = {
     ]
   },
   "modules/module_1/assignments/m1a2": {
+    hasOutputPdf: true,
     data: [
       { name: "team_antarctica.csv", url: "/modules/module_1/data/team_antarctica.csv" }
     ]
   },
   "modules/module_1/assignments/m1a3": {
+    hasOutputPdf: true,
     data: [
       { name: "aggregated_station_data.csv", url: "/modules/module_1/data/aggregated_station_data.csv" }
     ]
@@ -50,11 +52,13 @@ const COURSE_DATA = {
     ]
   },
   "modules/module_2/assignments/m2a1": {
+    hasOutputPdf: true,
     data: [
       { name: "fish_sick_data.csv", url: "/modules/module_2/data/fish_sick_data.csv" }
     ]
   },
   "modules/module_2/assignments/m2a2": {
+    hasOutputPdf: true,
     data: [
       { name: "tilapia_growth.csv", url: "/modules/module_2/data/tilapia_growth.csv" }
     ]
@@ -86,11 +90,13 @@ const COURSE_DATA = {
     ]
   },
   "modules/module_3/assignments/m3a1": {
+    hasOutputPdf: true,
     data: [
       { name: "wind_turbines.csv", url: "/modules/module_3/data/wind_turbines.csv" }
     ]
   },
   "modules/module_3/assignments/m3a2": {
+    hasOutputPdf: true,
     data: [
       { name: "fish.csv", url: "/modules/module_3/data/fish.csv" },
       { name: "seals.csv", url: "/modules/module_3/data/seals.csv" }
@@ -127,6 +133,7 @@ const COURSE_DATA = {
     ]
   },
   "modules/module_4/assignments/m4a1": {
+    hasOutputPdf: true,
     data: [
       { name: "hairgrass_data.csv", url: "/modules/module_4/data/hairgrass_data.csv" }
     ]
@@ -137,11 +144,13 @@ const COURSE_DATA = {
     ]
   },
   "modules/module_4/assignments/m4a3": {
+    hasOutputPdf: true,
     data: [
       { name: "nonvascular_plants.csv", url: "/modules/module_4/data/nonvascular_plants.csv" }
     ]
   },
   "modules/module_4/assignments/m4a4": {
+    hasOutputPdf: true,
     data: [] // uses palmerpenguins R package
   },
 
@@ -166,11 +175,13 @@ const COURSE_DATA = {
     data: []
   },
   "modules/module_5/assignments/m5a2": {
+    hasOutputPdf: true,
     data: [
       { name: "fish_abund_2010-2024.csv", url: "/modules/module_5/data/fish_abund_2010-2024.csv" }
     ]
   },
   "modules/module_5/assignments/m5a3": {
+    hasOutputPdf: true,
     data: [
       { name: "toothfish.csv", url: "/modules/module_5/data/toothfish.csv" }
     ]

@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -439,15 +474,21 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#instructor-resources" id="toc-instructor-resources" class="nav-link active" data-scroll-target="#instructor-resources">Instructor Resources</a>
   <ul class="collapse">
-  <li><a href="#using-this-site-as-an-instructor" id="toc-using-this-site-as-an-instructor" class="nav-link" data-scroll-target="#using-this-site-as-an-instructor">Using This Site as an Instructor</a></li>
-  <li><a href="#instructor-view-reveals" id="toc-instructor-view-reveals" class="nav-link" data-scroll-target="#instructor-view-reveals">Instructor View reveals…</a></li>
+  <li><a href="#student-instructor-view" id="toc-student-instructor-view" class="nav-link" data-scroll-target="#student-instructor-view">Student / Instructor view</a></li>
+  <li><a href="#instructor-view-reveals-hidden-text-and-code" id="toc-instructor-view-reveals-hidden-text-and-code" class="nav-link" data-scroll-target="#instructor-view-reveals-hidden-text-and-code">Instructor View reveals hidden text and code!</a></li>
+  <li><a href="#downloading-from-this-site" id="toc-downloading-from-this-site" class="nav-link" data-scroll-target="#downloading-from-this-site">Downloading from this site</a></li>
+  <li><a href="#assignment-file-types" id="toc-assignment-file-types" class="nav-link" data-scroll-target="#assignment-file-types">Assignment File Types</a></li>
   <li><a href="#r-rstudio-and-posit-cloud" id="toc-r-rstudio-and-posit-cloud" class="nav-link" data-scroll-target="#r-rstudio-and-posit-cloud">R, RStudio, and Posit Cloud</a>
   <ul class="collapse">
   <li><a href="#setting-up-posit-cloud-for-your-class" id="toc-setting-up-posit-cloud-for-your-class" class="nav-link" data-scroll-target="#setting-up-posit-cloud-for-your-class">Setting Up Posit Cloud for Your Class</a></li>
   </ul></li>
-  <li><a href="#access-course-files" id="toc-access-course-files" class="nav-link" data-scroll-target="#access-course-files">Access Course Files</a></li>
-  <li><a href="#for-instructors-assignment-keys-the-final-project" id="toc-for-instructors-assignment-keys-the-final-project" class="nav-link" data-scroll-target="#for-instructors-assignment-keys-the-final-project">For Instructors: Assignment Keys &amp; the Final Project</a></li>
+  <li><a href="#accessing-the-course-materials" id="toc-accessing-the-course-materials" class="nav-link" data-scroll-target="#accessing-the-course-materials">Accessing the Course Materials</a>
+  <ul class="collapse">
+  <li><a href="#the-public-repository" id="toc-the-public-repository" class="nav-link" data-scroll-target="#the-public-repository">The Public Repository</a></li>
+  <li><a href="#the-private-instructor-repository" id="toc-the-private-instructor-repository" class="nav-link" data-scroll-target="#the-private-instructor-repository">The Private Instructor Repository</a></li>
+  </ul></li>
   <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
+  <li><a href="#adapting-this-site" id="toc-adapting-this-site" class="nav-link" data-scroll-target="#adapting-this-site">Adapting This Site</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -476,19 +517,62 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="instructor-resources" class="level1">
 <h1>Instructor Resources</h1>
-<p>This page is for instructors who are interested in teaching with, adapting, or learning more about <em>Data in the Wild</em>. It covers how to navigate the site as an instructor, how to set up Posit Cloud for your class, and how to access source files and answer keys.</p>
-<section id="using-this-site-as-an-instructor" class="level2">
-<h2 class="anchored" data-anchor-id="using-this-site-as-an-instructor">Using This Site as an Instructor</h2>
-<p>The lesson pages on this site have two modes: <strong>Student View</strong> and <strong>Instructor View</strong>. Student View is the default, coding challenge answers and instructor notes are hidden. Instructor View reveals both!</p>
-<p>Look for the <strong>View: Student</strong> | <strong>Instructor</strong> toggle in the upper-right sidebar on any lesson page (and this page!).</p>
+<p>This page is for instructors who are interested in teaching with, adapting, or learning more about <em>Data in the Wild</em>. It covers how to navigate the site as an instructor, how the course files are organized, how to set up Posit Cloud for your class, and how to get access to answer keys.</p>
+<section id="student-instructor-view" class="level2">
+<h2 class="anchored" data-anchor-id="student-instructor-view">Student / Instructor view</h2>
+<p>The lesson pages on this site have two modes: <strong>Student View</strong> and <strong>Instructor View</strong>.</p>
+<p><strong>Student View</strong> is the default.</p>
+<p><strong>Instructor View</strong> reveals answers and lecture notes.</p>
+<p>Look for the <strong>View: Student | Instructor</strong> toggle in the upper-right sidebar on any lesson page (and this page!).</p>
 </section>
-<section id="instructor-view-reveals" class="level2 instructor-only">
-<h2 class="anchored" data-anchor-id="instructor-view-reveals">Instructor View reveals…</h2>
+<section id="instructor-view-reveals-hidden-text-and-code" class="level2 instructor-only">
+<h2 class="anchored" data-anchor-id="instructor-view-reveals-hidden-text-and-code">Instructor View reveals hidden text and code!</h2>
+</section>
+<section id="downloading-from-this-site" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-from-this-site">Downloading from this site</h2>
+<p>Every lesson and assignment page has a <strong>Downloads</strong> block in the right sidebar.</p>
 <ul>
-<li><strong>Answers</strong> to all in-class coding challenges, shown after each prompt</li>
-<li><strong>Instructor notes</strong> with suggested talking points, teaching tips</li>
+<li><p><strong>Download source (.qmd)</strong>: the raw Quarto file behind the page, useful if you want to open it directly in RStudio or Posit Cloud</p></li>
+<li><p><strong>Download data (.csv):</strong> any dataset the page uses, pulled from GitHub.</p></li>
+<li><p><strong>View expected output (PDF)</strong>: appears only on assignments that have one (see below).</p></li>
+<li><p><strong>Save as PDF</strong>: prints whatever page you’re currently looking at (lesson or assignment, in Student or Instructor view).</p></li>
 </ul>
-<p>You can also use the <strong>Download PDF</strong> button (also in the right sidebar) to print either version.</p>
+</section>
+<section id="assignment-file-types" class="level2">
+<h2 class="anchored" data-anchor-id="assignment-file-types">Assignment File Types</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File name</th>
+<th>Contains</th>
+<th>Where it lives</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>mNaN.qmd</code></td>
+<td>Assignment</td>
+<td>Public repo</td>
+</tr>
+<tr class="even">
+<td><code>mNaN_key.qmd</code></td>
+<td>Assignment answer key</td>
+<td>Private instructor repo only</td>
+</tr>
+<tr class="odd">
+<td><code>mNaN_output.pdf</code></td>
+<td>Expected outputs for the assignment, provided to students</td>
+<td>Public repo, for assignments where one exists</td>
+</tr>
+</tbody>
+</table>
+<p>The expected-output PDFs are intentionally public: they let students check their own results without seeing the code or interpretation that produced them (more on why below).</p>
+<p>The answer keys are the only place the actual code solution lives, which is why those stay in the private repo.</p>
 </section>
 <section id="r-rstudio-and-posit-cloud" class="level2">
 <h2 class="anchored" data-anchor-id="r-rstudio-and-posit-cloud">R, RStudio, and Posit Cloud</h2>
@@ -505,7 +589,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>1. Create your instructor workspace</strong></p>
 <p>Sign in to <a href="https://posit.cloud">Posit Cloud</a> and create a new workspace. This will be the shared space your students join.</p>
 <p><strong>2. Set up the base project</strong></p>
-<p>Inside your workspace, create a new project. Add the course modules from Github[].</p>
+<p>Inside your workspace, create a new project and add the course modules by cloning them from <a href="https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website">the GitHub repo</a> (see below for the clone command).</p>
 <p><strong>3. Invite students to the workspace</strong></p>
 <p>In your workspace settings, go to <strong>Members</strong> and share the join link with your students. Students will need to create a free Posit Cloud account if they don’t have one. Lesson 1.1 gives students time to do this!</p>
 <p><strong>4. Students copy the project</strong></p>
@@ -525,26 +609,24 @@ Note
 </div>
 </section>
 </section>
-<section id="access-course-files" class="level2">
-<h2 class="anchored" data-anchor-id="access-course-files">Access Course Files</h2>
-<p>The [GitHub](<a href="https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website" class="uri">https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website</a>) contains:</p>
-<ul>
-<li>All lesson <code>.qmd</code> files (instructor and student versions)</li>
-<li>All assignment <code>.qmd</code> files (student versions)</li>
-<li>All datasets (<code>.csv</code>) used in lessons and assignments</li>
-<li>Expected outputs (<code>.pdf</code>) for assignments that include them</li>
-</ul>
-<p>This is the repo to clone if you want to run or adapt the course. You are welcome to fork or adapt any of these materials (under a certain license??)</p>
+<section id="accessing-the-course-materials" class="level2">
+<h2 class="anchored" data-anchor-id="accessing-the-course-materials">Accessing the Course Materials</h2>
+<section id="the-public-repository" class="level3">
+<h3 class="anchored" data-anchor-id="the-public-repository">The Public Repository</h3>
+<p>The <a href="https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website">public GitHub repository</a> contains everything on this site: all lesson <code>.qmd</code> files (both Student and Instructor view content), all assignment <code>.qmd</code> files, all datasets, and the expected-output PDFs described above. This is the repo to clone if you want to run or adapt the course yourself.</p>
+<p>To clone it:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website.git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Full setup and local-build instructions (required R packages, Quarto install, previewing the site) are in the repo’s <a href="https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website/blob/main/README.md">README</a>.</p>
+<p>Materials here are openly available under a <a href="https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website/blob/main/LICENSE">BSD 2-Clause License</a> and you’re welcome to fork or adapt them for your own course.</p>
 </section>
-<section id="for-instructors-assignment-keys-the-final-project" class="level2">
-<h2 class="anchored" data-anchor-id="for-instructors-assignment-keys-the-final-project">For Instructors: Assignment Keys &amp; the Final Project</h2>
-<p>The private repository contains everything in the course repo plus:</p>
+<section id="the-private-instructor-repository" class="level3">
+<h3 class="anchored" data-anchor-id="the-private-instructor-repository">The Private Instructor Repository</h3>
+<p>The private repository contains everything in the public repo, plus:</p>
 <ul>
-<li>Answer keys for all assignments</li>
-<li>Final Project assignment, rubric, and key</li>
+<li>Answer keys (<code>_key.qmd</code>) for all assignments</li>
+<li>The Final Project assignment</li>
 </ul>
-<p>To request access, open an issue on the public course repository and we will add you as a collaborator. We review requests manually and typically respond within a few business days.</p>
-<p>Link here **</p>
+<p>To request access, <a href="https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website/issues/new">open an issue on the public repository</a> letting us know you’d like to use the course, and we’ll add you as a collaborator on the private repo. We review requests manually and typically respond within a few business days.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -555,20 +637,22 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>You will need a free <a href="https://github.com/join">GitHub account</a> to submit a request and access the private repository.</p>
+<p>You’ll need a free <a href="https://github.com/join">GitHub account</a> to submit a request and to access the private repository once you’re added.</p>
 </div>
 </div>
+<p>Once you have access, cloning it works the same way, just with the private repo’s URL (you’ll need to be signed in to GitHub with your collaborator account):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/BiodiversityDataScienceCorp/datainthewild-instructor.git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
 </section>
 <section id="expected-outputs" class="level2">
 <h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
 <p>Some assignments include expected outputs: the tables, plots, or values a correct solution should produce. These are provided for students to reference while completing their assignments.</p>
-<p>This was a deliberate design choice. Data science and coding problems often have more than one path to the correct answer. Showing students what a correct answer looks like without showing how to get there preserves that open-ended problem-solving while reducing unnecessary point loss.</p>
-<p>The actual graded work, the code that produces those outputs, is what appears in the answer keys in the private repository.</p>
-<p><strong>Website source</strong>:</p>
-<blockquote class="blockquote">
-<p>Quarto site<a href="https://github.com/BiodiversityDataScienceCorp">[DataInTheWild-Website placeholder]</a></p>
-</blockquote>
-<p>Contains <code>_quarto.yml</code>, <code>styles.scss</code>, scripts, images, and all non-lesson pages. Fork this if you want to adapt your own website for a course!</p>
+<p>This was a deliberate design choice. Data science and coding problems often have more than one valid path to the correct answer. Showing students what a correct answer <em>looks like</em>, without showing the code that produced it, preserves that open-ended problem-solving while reducing unnecessary point loss from small formatting differences.</p>
+<p>The actual graded work, the code that produces those outputs, lives in the answer keys in the private repository.</p>
+</section>
+<section id="adapting-this-site" class="level2">
+<h2 class="anchored" data-anchor-id="adapting-this-site">Adapting This Site</h2>
+<p>If you want to build your own version of this website, feel free to use this page’s <a href="https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website">public repository</a> as a reference. Fork it as a starting point for your own course site.</p>
 
 
 </section>

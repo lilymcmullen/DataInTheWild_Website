@@ -25,20 +25,20 @@ By the end of this module, students will be able to:
 
 ### Lessons
 
-| Lesson | QMD | Data Files | View PDF |
-|:---------------|:---------------|:---------------------|:-----------------|
-| [3.1: Intro to Linear Regression](module3_1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/module3_1.qmd) | [collar_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/collar_data.csv) | [Open](module3_1.qmd) |
-| [3.2: More Linear Regression](module3_2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/module3_2.qmd) | [collar_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/collar_data.csv) | [Open](module3_2.qmd) |
-| [3.3: ANOVA and Comparisons](module3_3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/module3_3.qmd) | [more_collars.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/more_collars.csv) | [Open](module3_3.qmd) |
+| Lesson | QMD | Data Files |
+|:---------------------|:---------------------|:----------------------------|
+| [3.1: Intro to Linear Regression](module3_1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/module3_1.qmd) | [collar_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/collar_data.csv) |
+| [3.2: More Linear Regression](module3_2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/module3_2.qmd) | [collar_data.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/collar_data.csv) |
+| [3.3: ANOVA and Comparisons](module3_3.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/module3_3.qmd) | [more_collars.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/more_collars.csv) |
 
-: {tbl-colwidths="\[40,15,30,15\]"}
+: {tbl-colwidths="\[45,20,35\]"}
 
 ### Assignments
 
-| Assignment | QMD | Data Files | View PDF |
-|:-------------------|:---------------|:-------------------|:----------------|
-| [M3A1: Wind Turbine Analysis](assignments/m3a1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/assignments/m3a1.qmd) | [wind_turbines.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/wind_turbines.csv) | [Open](assignments/m3a1.qmd) |
-| [M3A2: Comparing Fish and Seal Populations](assignments/m3a2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/assignments/m3a2.qmd) | [fish.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/fish.csv), [seals.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/seals.csv) | [Open](assignments/m3a2.qmd) |
+| Assignment | QMD | Data Files | Outputs |
+|:------------------|:----------------|:------------------|:----------------|
+| [M3A1: Wind Turbine Analysis](assignments/m3a1.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/assignments/m3a1.qmd) | [wind_turbines.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/wind_turbines.csv) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/assignments/m3a1_output.pdf) |
+| [M3A2: Comparing Fish and Seal Populations](assignments/m3a2.qmd) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/assignments/m3a2.qmd) | [fish.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/fish.csv), [seals.csv](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/data/seals.csv) | [Download](https://raw.githubusercontent.com/BiodiversityDataScienceCorp/DataInTheWild_Website/refs/heads/main/modules/module_3/assignments/m3a2_output.pdf) |
 
 : {tbl-colwidths="\[40,15,30,15\]"}
 
