@@ -1,6 +1,6 @@
 ---
 title: "Module 3, Assignment 2: Comparing Multiple Means"
-author: "Lily McMullen"
+author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:
   eval: false

@@ -1,6 +1,6 @@
 ---
 title: "Module 1, Assignment 3: Getting to Know Your Home"
-author: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:
   eval: false

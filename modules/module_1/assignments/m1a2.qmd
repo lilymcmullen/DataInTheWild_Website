@@ -1,6 +1,6 @@
 ---
 title: "Module 1, Assignment 2: Getting to Know the Team"
-author: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:
   eval: false

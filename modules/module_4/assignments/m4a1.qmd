@@ -1,5 +1,5 @@
 ---
-title: "Module 4 Assignment 1"
+title: "Module 4 Assignment 1: Phosphorus and Hairgrass"
 author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:

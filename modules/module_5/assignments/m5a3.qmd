@@ -1,6 +1,6 @@
 ---
 title: "Module 5, Assignment 3: Comparing Populations"
-author: "Ellen Bledsoe"
+author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:
   eval: false

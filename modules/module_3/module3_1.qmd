@@ -1,5 +1,5 @@
 ---
-title: '3.1: Leopard Seals'
+title: "3.1: Leopard Seals"
 author: "Ellen Bledsoe, Lily McMullen"
 format:
   html:

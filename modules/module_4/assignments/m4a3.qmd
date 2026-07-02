@@ -1,5 +1,5 @@
 ---
-title: "Module 4 Assignment 3"
+title: "Module 4 Assignment 3: Plant Cover and Penguin Density"
 author: "Ellen Bledsoe, Lily McMullen"
 format: html
 execute:
