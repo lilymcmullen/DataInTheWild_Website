@@ -50,7 +50,13 @@
       );
     });
 
-    // 3. Save as PDF (prints current page)
+    // 3. Expected output PDF (only if this page has one)
+    if (pageData.hasOutputPdf) {
+      const pdfName = baseName.split("/").pop() + "_output.pdf";
+      addButton("View expected output (PDF)", () => window.open(pdfName, "_blank"));
+    }
+
+    // 4. Save as PDF (prints current page)
     addButton("Save as PDF", () => window.print());
 
     // placement

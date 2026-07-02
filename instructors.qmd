@@ -7,22 +7,45 @@ format:
 
 # Instructor Resources
 
-This page is for instructors who are interested in teaching with, adapting, or learning more about *Data in the Wild*. It covers how to navigate the site as an instructor, how to set up Posit Cloud for your class, and how to access source files and answer keys.
+This page is for instructors who are interested in teaching with, adapting, or learning more about *Data in the Wild*. It covers how to navigate the site as an instructor, how the course files are organized, how to set up Posit Cloud for your class, and how to get access to answer keys.
 
-## Using This Site as an Instructor
+## Student / Instructor view
 
-The lesson pages on this site have two modes: **Student View** and **Instructor View**. Student View is the default, coding challenge answers and instructor notes are hidden. Instructor View reveals both!
+The lesson pages on this site have two modes: **Student View** and **Instructor View**.
 
-Look for the **View: Student** \| **Instructor** toggle in the upper-right sidebar on any lesson page (and this page!).
+**Student View** is the default.
+
+**Instructor View** reveals answers and lecture notes.
+
+Look for the **View: Student \| Instructor** toggle in the upper-right sidebar on any lesson page (and this page!).
 
 ::: instructor-only
-## Instructor View reveals...
-
--   **Answers** to all in-class coding challenges, shown after each prompt
--   **Instructor notes** with suggested talking points, teaching tips
-
-You can also use the **Download PDF** button (also in the right sidebar) to print either version.
+## Instructor View reveals hidden text and code!
 :::
+
+## Downloading from this site
+
+Every lesson and assignment page has a **Downloads** block in the right sidebar.
+
+-   **Download source (.qmd)**: the raw Quarto file behind the page, useful if you want to open it directly in RStudio or Posit Cloud
+
+-   **Download data (.csv):** any dataset the page uses, pulled from GitHub.
+
+-   **View expected output (PDF)**: appears only on assignments that have one (see below).
+
+-   **Save as PDF**: prints whatever page you're currently looking at (lesson or assignment, in Student or Instructor view).
+
+## Assignment File Types
+
+| File name | Contains | Where it lives |
+|------------------------|------------------------|------------------------|
+| `mNaN.qmd` | Assignment | Public repo |
+| `mNaN_key.qmd` | Assignment answer key | Private instructor repo only |
+| `mNaN_output.pdf` | Expected outputs for the assignment, provided to students | Public repo, for assignments where one exists |
+
+The expected-output PDFs are intentionally public: they let students check their own results without seeing the code or interpretation that produced them (more on why below).
+
+The answer keys are the only place the actual code solution lives, which is why those stay in the private repo.
 
 ## R, RStudio, and Posit Cloud
 
@@ -44,7 +67,7 @@ Sign in to [Posit Cloud](https://posit.cloud) and create a new workspace. This w
 
 **2. Set up the base project**
 
-Inside your workspace, create a new project. Add the course modules from Github\[\].
+Inside your workspace, create a new project and add the course modules by cloning them from [the GitHub repo](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website) (see below for the clone command).
 
 **3. Invite students to the workspace**
 
@@ -58,42 +81,49 @@ Once in the workspace, students can see your base project but cannot edit it dir
 The free tier of Posit Cloud has limits on compute hours per month. For a full-semester course with active coding, consider whether your institution qualifies for an academic plan, or check current pricing at [posit.cloud/plans](https://posit.cloud/plans).
 :::
 
-## Access Course Files
+## Accessing the Course Materials
 
-The \[GitHub\](<https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website>) contains:
+### The Public Repository
 
--   All lesson `.qmd` files (instructor and student versions)
--   All assignment `.qmd` files (student versions)
--   All datasets (`.csv`) used in lessons and assignments
--   Expected outputs (`.pdf`) for assignments that include them
+The [public GitHub repository](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website) contains everything on this site: all lesson `.qmd` files (both Student and Instructor view content), all assignment `.qmd` files, all datasets, and the expected-output PDFs described above. This is the repo to clone if you want to run or adapt the course yourself.
 
-This is the repo to clone if you want to run or adapt the course. You are welcome to fork or adapt any of these materials (under a certain license??)
+To clone it:
 
-## For Instructors: Assignment Keys & the Final Project
+``` bash
+git clone https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website.git
+```
 
-The private repository contains everything in the course repo plus:
+Full setup and local-build instructions (required R packages, Quarto install, previewing the site) are in the repo's [README](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website/blob/main/README.md).
 
--   Answer keys for all assignments
--   Final Project assignment, rubric, and key
+Materials here are openly available under a [BSD 2-Clause License](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website/blob/main/LICENSE) and you're welcome to fork or adapt them for your own course.
 
-To request access, open an issue on the public course repository and we will add you as a collaborator. We review requests manually and typically respond within a few business days.
+### The Private Instructor Repository
 
-Link here \*\*
+The private repository contains everything in the public repo, plus:
+
+-   Answer keys (`_key.qmd`) for all assignments
+-   The Final Project assignment
+
+To request access, [open an issue on the public repository](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website/issues/new) letting us know you'd like to use the course, and we'll add you as a collaborator on the private repo. We review requests manually and typically respond within a few business days.
 
 ::: callout-note
-You will need a free [GitHub account](https://github.com/join) to submit a request and access the private repository.
+You'll need a free [GitHub account](https://github.com/join) to submit a request and to access the private repository once you're added.
 :::
+
+Once you have access, cloning it works the same way, just with the private repo's URL (you'll need to be signed in to GitHub with your collaborator account):
+
+``` bash
+git clone https://github.com/lilymcmullen/datainthewild-instructor.git
+```
 
 ## Expected Outputs
 
 Some assignments include expected outputs: the tables, plots, or values a correct solution should produce. These are provided for students to reference while completing their assignments.
 
-This was a deliberate design choice. Data science and coding problems often have more than one path to the correct answer. Showing students what a correct answer looks like without showing how to get there preserves that open-ended problem-solving while reducing unnecessary point loss.
+This was a deliberate design choice. Data science and coding problems often have more than one valid path to the correct answer. Showing students what a correct answer *looks like*, without showing the code that produced it, preserves that open-ended problem-solving while reducing unnecessary point loss from small formatting differences.
 
-The actual graded work, the code that produces those outputs, is what appears in the answer keys in the private repository.
+The actual graded work, the code that produces those outputs, lives in the answer keys in the private repository.
 
-**Website source**:
+## Adapting This Site
 
-> Quarto site[\[DataInTheWild-Website placeholder\]](https://github.com/BiodiversityDataScienceCorp)
-
-Contains `_quarto.yml`, `styles.scss`, scripts, images, and all non-lesson pages. Fork this if you want to adapt your own website for a course!
+If you want to build your own version of this website, feel free to use this page's [public repository](https://github.com/BiodiversityDataScienceCorp/DataInTheWild_Website) as a reference. Fork it as a starting point for your own course site.

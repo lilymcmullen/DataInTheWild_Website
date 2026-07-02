@@ -16,7 +16,7 @@ This is meant to help you prepare for the final "project" (really just an elonga
 
 I'm expecting you to be able to filter, summarize, and wrangle the data in ways you need, choose the appropriate visualization, choose the appropriate analysis, and correctly interpret the analysis for the question I've asked you.
 
-![](/modules/module_4/assets/lter_penguins.png){fig-align="center"}
+![](../assets/lter_penguins.png){fig-align="center"}
 
 Some important notes:
 
